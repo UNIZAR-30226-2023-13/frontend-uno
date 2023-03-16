@@ -12,10 +12,6 @@ const handleSubmit = (e) => {
 export const Login = () => {
     return (
         <form onSubmit={handleSubmit}>
-            <Img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/UNO_Logo.svg/640px-UNO_Logo.svg.png"></Img>
-            <br></br>
-            <br></br>
-            <br></br>
             <Label for="user">Usuario</Label>
             <br></br>
             <Input type="user" id="user" name="user"></Input>

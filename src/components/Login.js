@@ -1,8 +1,6 @@
 import React from "react";
 import { Button } from "./Button";
-import { Img } from "./Img";
-import { Input } from "./Input";
-import { Label } from "./Label";
+import { StyledTextField } from "./StyledTextField";
 
 const handleSubmit = (e) => {
     e.preventDefault()
@@ -11,24 +9,24 @@ const handleSubmit = (e) => {
 
 export const Login = () => {
     return (
-        <form onSubmit={handleSubmit}>
-            <Label for="user">Usuario</Label>
-            <br></br>
-            <Input type="user" id="user" name="user"></Input>
-            <br></br>
-            <br></br>
-            <br></br>
-            <Label for="password">Contraseña</Label>
-            <br></br>
-            <Input type="password" id="password" name="password"></Input>
-            <br></br>
-            <br></br>
-            <br></br>
-            <Button type="submit">Entrar</Button>
-            <br></br>
-            <br></br>
-            <br></br>
-            <Button type="submit">¿No tienes cuenta?</Button>
+         <>
+            <h1>Iniciar sesión</h1>
+            <form onSubmit={handleSubmit}>
+                <div className="userInputHolder">
+                    <StyledTextField type="user" label="Nombre de usuario" variant="outlined"> </StyledTextField> 
+                </div>
+                <div className="passwordInputHolder">
+                    <StyledTextField type="password" label="Contraseña" variant="outlined" />
+                </div>
+            <div className="buttonHolder">
+                <div className="entrarHolder">
+                    <Button type="submit">Entrar</Button>
+                </div>
+                <div className="noHayCuentaHolder">
+                     <Button type="submit">¿No tienes cuenta?</Button>
+                </div>
+            </div>
         </form>
+        </>
     )
 }

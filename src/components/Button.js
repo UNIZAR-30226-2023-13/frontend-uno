@@ -9,18 +9,18 @@ export const Button = styled.button`
     --colorShadeE: rgb(255, 240, 0);
     @import 
     url("https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700");
-    position: relative;
     display: inline-block;
     cursor: pointer;
     outline: none;
     border: 0;
-    vertical-align: middle;
+    padding: 50px;
     text-decoration: none;
     font-size: 1.5rem;
     color: var(--colorShadeA);
     font-weight: 700;
     font-family: "OpenSans", sans-serif;
     padding: 1em 2em;
+    max-height: 100px;
     border: 2px solid var(--colorShadeA);
     border-radius: 1em;
     background: var(--colorShadeE);
@@ -55,4 +55,8 @@ export const Button = styled.button`
         transform: translate3d(0, 0, -1em);
         box-shadow: 0 0 0 2px var(--colorShadeB), 0 0.25em 0 0 var(--colorShadeB);
     }
+`
+
+export const LongButton = styled(Button)`
+    width: 400px;
 `

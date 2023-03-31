@@ -5,53 +5,133 @@
   flex-direction: row;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.auth-form-container {
-  width: 60%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 1rem 1rem 2rem 2rem;
-}
 .column1{
   background-color: #140f2d;
   width: 40%; 
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 25vh;
+  padding-top: 30vh;
 }
 
+.column2Login {
+  color: white;
+  background-color: #ec1c24;
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 10%;
+}
+
+.column2Registro{
+  color: white;
+  background-color: #ec1c24;
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 8%;
+}
+
+.dentroRegistro{
+  border: 2px solid white;
+  border-radius: 10px;
+  padding: 1.5rem 3rem 4rem 3rem;
+}
+
+/*{ Mensaje Pop Up del Registro}*/
+.buttonHolder{
+  text-align: center;
+}
+
+/*{ Password del Login }*/
+.passwordInputHolder{
+  padding-top: 30px;
+  padding-bottom: 10px;
+}
+
+/*{ Botón entrar del Login }*/
+.entrarHolder{
+  padding-top: 50px;
+  padding-bottom: 30px;
+}
+
+/*{ Usuario del Registro }*/
+.usernameInputHolder{
+  padding-bottom: 10px;
+}
+
+/*{ Email del Registro }*/
+.emailInputHolder{
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+/*{ Contraseña del Registro }*/
+.password2InputHolder{
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+/*{ Confirmar contraseña del Registro }*/
+.confirmPasswordInputHolder{
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+/*{ Mensaje crear del Registro}*/
+.crearHolder{
+  padding-top: 30px;
+}
+
+/*{ Mensaje crear del Registro}*/
+.creacionCuenta{
+  text-align: center;
+}
+
+/*{ Mensaje cerrar Pop Up del Registro}*/
+.botonCerrar{
+  padding-top: 50px;
+}
+
+/*{ Mensaje Pop Up del Registro}*/
+.textoCreacionCuenta{
+  padding-top: 30px;
+}
+
+.amigos{
+  min-width: 100vw;
+  display: grid;
+  grid-template-columns: 1;
+  grid-gap: 0px;
+  grid-template-rows: 2;
+}
+
+.fila1{
+  height: 20vh;
+  grid-row: 1/2;
+  background-color: aqua;
+  display: flex;
+}
+
+.fila2{
+  height: 80vh;
+  grid-row: 2 / 2;
+  background-color: blueviolet;
+}
+
+.divAmigo{
+  border: 2px solid white;
+  border-radius: 10px;
+  display: flex;
+  float:left;
+}
+
+.centerButton{  
+  margin-left: 20rem;
+}
+
+.rightButton{
+  margin-left: 380px;
+}

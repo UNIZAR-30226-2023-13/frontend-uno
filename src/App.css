@@ -85,8 +85,8 @@
   padding-top: 30px;
 }
 
-/*{ Mensaje crear del Registro}*/
-.creacionCuenta{
+/*{ Popup}*/
+.popup{
   text-align: center;
 }
 
@@ -95,11 +95,12 @@
   padding-top: 50px;
 }
 
-/*{ Mensaje Pop Up del Registro}*/
-.textoCreacionCuenta{
+/*{ Mensaje Pop Up}*/
+.textoPopup{
   padding-top: 30px;
 }
 
+/*{ Composicion div de pantalla amigos}*/
 .amigos{
   min-width: 100vw;
   display: grid;
@@ -108,30 +109,207 @@
   grid-template-rows: 2;
 }
 
+/*{ Header pantalla amigos}*/
 .fila1{
   height: 20vh;
   grid-row: 1/2;
-  background-color: aqua;
+  background-color: #a0181d;
   display: flex;
 }
 
+/*{ Resto de pantalla amigos}*/
 .fila2{
   height: 80vh;
   grid-row: 2 / 2;
-  background-color: blueviolet;
+  background-color: #ec1c24;
 }
 
+/*{ Componente amigo de la lista de amigos}*/
 .divAmigo{
-  border: 2px solid white;
+  border: 2px solid black;
   border-radius: 10px;
   display: flex;
   float:left;
+  background-color: white;
+  margin-top: 2em;
+  margin-left: 2em;
+  padding-top: 2em;
+  padding-bottom: 2em;
+  padding-right: max(1.2em, 2%);
+  width: 84em;
 }
 
-.centerButton{  
-  margin-left: 20rem;
+/*{ Boton flecha atrás pantalla amigos}*/
+.leftButton{
+  margin-left: 0.8em;
+  margin-top: 0.5em;
 }
 
+/*{ Boton apartado amigos}*/
+.buttonAmigos{  
+  margin-left: 9em;
+  margin-top: 1em;
+}
+
+/*{ Boton apartado invitaciones}*/
+.buttonInvitaciones{
+  margin-left: 3em;
+  margin-top: 1em;
+}
+
+/*{ Boton añadir amigo pantalla amigos}*/
 .rightButton{
-  margin-left: 380px;
+  margin-left: 7em;
+  margin-top: 0.5em;
+}
+
+/*{ Texto donde colocar el nombre de usuario}*/
+.nombreUsuario{
+  padding-right: 6.5em;
+  font-size: 2em;
+}
+
+/*{ Texto donde colocar si está conectado o desconectado}*/
+.estadoUsuario{
+  font-size: 2em;
+  padding-right: 2em;
+  color: green;
+}
+
+/*{ Boton para invitar a amigos}*/
+.botonInvitar{
+  padding-left: 2em;
+}
+
+.botonEliminar{
+  padding-left: 3em;
+}
+
+.nombreUsuarioDesconectado{
+  padding-right: 10em;
+  font-size: 1.3em;
+}
+
+.estadoUsuarioDesconectado{
+  padding-right: 0.5em;
+  font-size: 1.4em;
+  color: red;
+}
+
+.dosBotones{
+  display: flex;
+  float: left;
+  padding-top: 3em;
+}
+
+.botonConfirmar{
+  padding-left: 4em;
+}
+
+.invitacionRecibida{
+  font-size: 2em;
+}
+
+.nombreUsuarioInvitacion{
+  padding-right: 5em;
+  font-size: 2em;
+}
+
+.fila2AnadirAmigo{
+  text-align: center;
+  margin-bottom: 30em;
+}
+
+/*{ Composicion div de pantalla personalizar}*/
+.personalizar{
+  min-width: 100vw;
+  display: grid;
+  grid-template-columns: 1;
+  grid-gap: 0px;
+  grid-template-rows: 2;
+}
+
+.leftButton2{
+  margin-left: 3em;
+  margin-top: 1em;
+}
+
+.seccionPersonalizar{
+  padding-top: 2em;
+  padding-left: 26em;
+}
+
+.rightButton2{
+  margin-left: 25em;
+  margin-top: 1.5em;
+}
+
+.fotosPersonalizar{
+  display: flex;
+}
+
+.fotoTablero{
+  margin-top: 6em;
+  padding-left: 20em;
+}
+
+.fotoBaraja{
+  margin-top: 6em;
+  padding-left: 10em;
+}
+
+.botonesPersonalizar{
+  display: flex;
+}
+
+.botonTablero{
+  margin-left: 24em;
+}
+
+.botonBaraja{
+  margin-left: 19em;
+}
+
+.sliderP{
+  margin-left: 8em;
+}
+
+.slider {
+    
+    display: flex;
+    
+    align-items: center;
+    width: 90%;
+    height: 60vh;
+  
+    scroll-snap-type: x mandatory;
+  
+    overflow-x: scroll;
+    overflow-y: hidden;
+}
+
+.slider .sliderCP {
+  flex: 0 0 100%;
+  width: 100%;
+  object-fit: cover;
+  
+  scroll-snap-align: center;
+}
+
+.slider  {
+  flex: 0 0 100%;
+  width: 100%;
+  object-fit: cover;
+  
+  scroll-snap-align: center;
+}
+
+.rightButton3{
+  margin-top: 1em;
+  padding-left: 4em;
+}
+
+.botonSlider{
+  padding-top: 1em;
+  padding-left: 3em;
 }

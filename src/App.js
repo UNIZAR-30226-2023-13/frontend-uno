@@ -5,6 +5,7 @@ import { Login } from './components/Login';
 import { Img } from './components/Img';
 import { Registro } from './components/Registro';
 import { Amigos } from './components/Amigos';
+import { Personalizar } from './components/Personalizar';
 
 function App() {
   return (
@@ -19,7 +20,7 @@ function App() {
           </div>
         </div>
       */}
-      <Amigos></Amigos>
+      <Personalizar nivel="12"></Personalizar>
     </div>
   );
 }

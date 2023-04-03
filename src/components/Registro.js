@@ -42,7 +42,7 @@ export const Registro = () => {
     }
 
 
-    const [abierto, setAbierto] = React.useState(false);
+    const [abierto, setAbierto] = useState(false);
     const [textoModal,setTextoModal] = useState('');
     const handleOpen = () => setAbierto(true);
     const handleClose = () => setAbierto(false);
@@ -73,8 +73,8 @@ export const Registro = () => {
                             aria-describedby="modal-modal-description"
                         >
                             <Box sx={estilo}>
-                                <div className ="creacionCuenta">
-                                    <div className = "textoCreacionCuenta">
+                                <div className ="popup">
+                                    <div className = "textoPopup">
                                         <Typography id="modal-modal-title" variant="h6" component="h2">
                                             {textoModal}
                                         </Typography>

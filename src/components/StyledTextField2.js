@@ -1,8 +1,8 @@
 import { TextField } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
-export const StyledTextField = styled(TextField)`
-  width: 400px;
+export const StyledTextField2 = styled(TextField)`
+  width: 700px;
   & .MuiFormLabel-root {
     color: white;
   }

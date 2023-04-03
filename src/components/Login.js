@@ -4,7 +4,6 @@ import { StyledTextField } from "./StyledTextField";
 
 const handleSubmit = (e) => {
     e.preventDefault()
-
 }
 
 export const Login = () => {

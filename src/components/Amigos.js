@@ -3,7 +3,7 @@ import { AmigoConectado } from "./AmigoConectado"
 import { AmigoDesconectado } from "./AmigoDesconectado"
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
-import React, { useState } from "react";
+import {React, useEffect, useState } from "react";
 import { Invitacion } from "./Invitacion";
 import { TextField } from "@mui/material";
 import { StyledTextField } from "./StyledTextField";
@@ -11,6 +11,7 @@ import { StyledTextField2 } from "./StyledTextField2";
 
 export const Amigos = () => {
 
+    const [listaAmigos,setListaAmigos] = useState([]);
     const [amigosPulsado, setAmigosPulsado] = useState(true);
     const [invitacionesPulsado, setInvitacionesPulsado] = useState(false);
     const [anadirAmigoPulsado, setAnadirAmigoPulsado] = useState(false);
@@ -30,6 +31,34 @@ export const Amigos = () => {
         setInvitacionesPulsado(false);
         setAnadirAmigoPulsado(true);
     }
+
+    useEffect(() => {
+        // Descubrir quien soy
+        
+        fetch("http://localhost:8000/login/quien-soy",{
+            method:'GET',
+            mode:'cors',
+            credentials: "include",
+        }).then(response => response.json())
+        .then(data => console.log(data));
+        
+
+
+        
+        fetch("http://localhost:8000/amigos",{
+            method:'GET',
+            mode:'cors',
+            credentials: "include",
+        })
+        .then(response => response.json())
+            // 4. Setting *dogImage* to the image url that we received from the response above
+        .then(data => {
+            setListaAmigos(data)
+            console.log(data)
+        })
+        
+    },[])
+
 
     if(amigosPulsado) {
         return (
@@ -53,9 +82,17 @@ export const Amigos = () => {
                     </div>
                 </div>
                 <div className="fila2">
-                    <AmigoConectado username="paco" estado="Conectado"></AmigoConectado>
-                    <AmigoConectado username="pepe" estado="Conectado"></AmigoConectado>
-                    <AmigoDesconectado></AmigoDesconectado>
+                    {listaAmigos.map(a => {
+                        return (
+                            <AmigoConectado username={a.username} estado="Conectado"></AmigoConectado>
+                            )
+                    })}
+                    {/*
+                        <AmigoConectado username="paco" estado="Conectado"></AmigoConectado>
+                        <AmigoConectado username="pepe" estado="Conectado"></AmigoConectado>
+                        <AmigoDesconectado></AmigoDesconectado>
+                    */}
+                    
                 </div>
             </div>
         )

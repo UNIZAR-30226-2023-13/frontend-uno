@@ -4,6 +4,7 @@ import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
 import { StyledTextField } from "./StyledTextField";
 import { Box } from "@mui/material";
+import { Login } from "./Login";
 
 
 const estilo = {
@@ -32,6 +33,7 @@ export const Registro = () => {
         if (password === confirmPassword && password!==''){
             setTextoModal('Cuenta creada correctamente')
             setAbierto(true)   
+            setCuentaCreada(true);
         }
         // Si los datos son coherentes
         else{
@@ -41,13 +43,14 @@ export const Registro = () => {
         }
     }
 
-
+    const [cuentaCreada, setCuentaCreada] = useState(false);
     const [abierto, setAbierto] = useState(false);
     const [textoModal,setTextoModal] = useState('');
     const handleOpen = () => setAbierto(true);
     const handleClose = () => setAbierto(false);
 
-    return (
+    if(!cuentaCreada){
+        return (
         <>
             <h1>Crear cuenta</h1>
             <form onSubmit={handleSubmit}>
@@ -89,5 +92,12 @@ export const Registro = () => {
                 </div>
             </form>
             </>
-    )
+        )
+    }
+    else{
+        return (
+            <Login></Login>
+        )
+    }
+    
 }

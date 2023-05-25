@@ -8,9 +8,12 @@ import { Invitacion } from "./Invitacion";
 import { TextField } from "@mui/material";
 import { StyledTextField } from "./StyledTextField";
 import { StyledTextField2 } from "./StyledTextField2";
+import { Inicio } from "./Inicio";
+import { useGlobalState } from "./GlobalState";
 
 export const Amigos = () => {
-
+    
+    const [globalState, setGlobalState] = useGlobalState();
     const [listaAmigos,setListaAmigos] = useState([]);
     const [amigosPulsado, setAmigosPulsado] = useState(true);
     const [invitacionesPulsado, setInvitacionesPulsado] = useState(false);
@@ -65,7 +68,7 @@ export const Amigos = () => {
             <div className="amigos">
                 <div className="fila1">
                     <div className="leftButton">
-                        <Button>
+                        <Button onClick={()=> setGlobalState(<Inicio></Inicio>)}>
                             <ArrowBackIcon sx={{ fontSize:50 }}></ArrowBackIcon>
                         </Button>
                     </div>
@@ -102,7 +105,7 @@ export const Amigos = () => {
             <div className="amigos">
                 <div className="fila1">
                     <div className="leftButton">
-                        <Button>
+                        <Button onClick={()=> setGlobalState(<Inicio></Inicio>)}>
                             <ArrowBackIcon sx={{ fontSize:50 }}></ArrowBackIcon>
                         </Button>
                     </div>
@@ -129,7 +132,7 @@ export const Amigos = () => {
             <div className="amigos">
                 <div className="fila1">
                     <div className="leftButton">
-                        <Button>
+                        <Button onClick={()=> setGlobalState(<Inicio></Inicio>)}>
                             <ArrowBackIcon sx={{ fontSize:50 }}></ArrowBackIcon>
                         </Button>
                     </div>

@@ -6,25 +6,18 @@ import { Img } from './components/Img';
 import { Registro } from './components/Registro';
 import { Amigos } from './components/Amigos';
 import { Personalizar } from './components/Personalizar';
+import { useState } from 'react';
+import { Inicio } from './components/Inicio';
+import { Formato } from './components/Formato';
+import { useGlobalState } from './components/GlobalState';
 
 function App() {
+  const [ globalState, setGlobalState ] = useGlobalState(
+    <Formato></Formato>
+  )
+
   return (
-    <div className="App">
-        {/*}
-        <div className='column1'>
-          <Img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/UNO_Logo.svg/640px-UNO_Logo.svg.png"></Img>
-        </div>
-        <div className='column2Login'>
-          <div className='dentroRegistro'>
-            <Login/>
-          </div>
-        </div>
-      */}
-      {// <Personalizar nivel="12"></Personalizar> 
-        
-      }
-      <Amigos></Amigos>
-    </div>
+    globalState
   );
 }
 

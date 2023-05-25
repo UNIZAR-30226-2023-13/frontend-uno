@@ -33,8 +33,6 @@ export const AmigoConectado = (props) => {
         }
     }
 
-    
-
     const handleOpenInvitar = () => setAbiertoInvitar(true);
     const handleCloseInvitar = () => setAbiertoInvitar(false);
     const handleOpenEliminar = () => setAbiertoEliminar(true);

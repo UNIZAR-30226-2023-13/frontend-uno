@@ -11,9 +11,12 @@ import { StyledTextField2 } from "./StyledTextField2";
 import { Img2 } from "./Img";
 import { SliderTablero } from "./SliderTablero";
 import { SliderBaraja } from "./SliderBaraja";
+import { useGlobalState } from "./GlobalState";
+import { Inicio } from "./Inicio";
 
 export const Personalizar = (props) => {
 
+    const [globalState, setGlobalState] = useGlobalState();
     const [tableroPulsado, setTableroPulsado] = useState(false);
     const [barajaPulsado, setBarajaPulsado] = useState(false);
     const [atrasPulsado, setAtrasPulsado] = useState(false);
@@ -32,7 +35,7 @@ export const Personalizar = (props) => {
             <div className="personalizar">
                 <div className="fila1">
                     <div className="leftButton2">
-                        <Button>
+                        <Button onClick={()=> setGlobalState(<Inicio></Inicio>)}>
                             <ArrowBackIcon sx={{ fontSize:50 }}></ArrowBackIcon>
                         </Button>
                     </div>
@@ -69,7 +72,7 @@ export const Personalizar = (props) => {
             <div className="personalizar">
                 <div className="fila1">
                     <div className="leftButton">
-                        <Button>
+                        <Button onClick={()=> setTableroPulsado(false)}>
                             <ArrowBackIcon sx={{ fontSize:50 }}></ArrowBackIcon>
                         </Button>
                     </div>
@@ -94,7 +97,7 @@ export const Personalizar = (props) => {
             <div className="personalizar">
                 <div className="fila1">
                     <div className="leftButton">
-                        <Button>
+                        <Button onClick={()=> setBarajaPulsado(false)}>
                             <ArrowBackIcon sx={{ fontSize:50 }}></ArrowBackIcon>
                         </Button>
                     </div>

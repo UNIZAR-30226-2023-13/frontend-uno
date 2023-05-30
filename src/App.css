@@ -1,8 +1,9 @@
+*{
+  transition: background-image 0.1s linear;
+}
+
 .App {
-  background-color: #d72638;
   min-height: 100vh;
-  display: flex;
-  flex-direction: row;
 }
 
 .column1{

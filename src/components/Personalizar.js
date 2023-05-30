@@ -1,120 +1,85 @@
-import { Button, LongButton } from "./Button";
-import { AmigoConectado } from "./AmigoConectado"
-import { AmigoDesconectado } from "./AmigoDesconectado"
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
-import React, { useState } from "react";
-import { Invitacion } from "./Invitacion";
-import { TextField } from "@mui/material";
-import { StyledTextField } from "./StyledTextField";
-import { StyledTextField2 } from "./StyledTextField2";
-import { Img2 } from "./Img";
-import { SliderTablero } from "./SliderTablero";
-import { SliderBaraja } from "./SliderBaraja";
-import { useGlobalState } from "./GlobalState";
-import { Inicio } from "./Inicio";
+import {
+  Box,
+  Center,
+  useColorModeValue,
+  Heading,
+  Text,
+  Stack,
+  Image,
+  Button,
+  VStack,
+} from '@chakra-ui/react';
 
-export const Personalizar = (props) => {
+const IMAGE = 'https://images.unsplash.com/photo-1518051870910-a46e30d9db16?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1350&q=80';
 
-    const [globalState, setGlobalState] = useGlobalState();
-    const [tableroPulsado, setTableroPulsado] = useState(false);
-    const [barajaPulsado, setBarajaPulsado] = useState(false);
-    const [atrasPulsado, setAtrasPulsado] = useState(false);
+function ProductSimple({ objModificar, imagen, accionBoton }) {
+  return (
+    <Center py={12}>
+      <Box
+        role="group"
+        p={6}
+        maxW="330px"
+        w="full"
+        bg={useColorModeValue('white', 'gray.800')}
+        boxShadow="2xl"
+        rounded="lg"
+        pos="relative"
+        zIndex={1}
+      >
+        <Box
+          rounded="lg"
+          mt={-12}
+          pos="relative"
+          height="230px"
+          _after={{
+            transition: 'all .3s ease',
+            content: '""',
+            w: 'full',
+            h: 'full',
+            pos: 'absolute',
+            top: 5,
+            left: 0,
+            backgroundImage: `url(${imagen})`,
+            filter: 'blur(15px)',
+            zIndex: -1,
+          }}
+          _groupHover={{
+            _after: {
+              filter: 'blur(20px)',
+            },
+          }}
+        >
+          <Image
+            rounded="lg"
+            height={230}
+            width={282}
+            objectFit="cover"
+            src={imagen}
+          />
+        </Box>
+        <Stack pt={10} gap={4} align="center">
+          <Heading fontSize="2xl" fontFamily="body" fontWeight={500}>
+            {objModificar}
+          </Heading>
+          <Button onClick={accionBoton}>
+            Personalizar
+            {objModificar.toLowerCase()}
+          </Button>
+        </Stack>
+      </Box>
+    </Center>
+  );
+}
 
-    const abrirTablero = () => {
-        setBarajaPulsado(false);
-        setTableroPulsado(true);
-    }
-    const abrirBaraja = () => {
-        setBarajaPulsado(true);
-        setTableroPulsado(false);
-    }
-
-    if(!tableroPulsado && !barajaPulsado){
-        return (
-            <div className="personalizar">
-                <div className="fila1">
-                    <div className="leftButton2">
-                        <Button onClick={()=> setGlobalState(<Inicio></Inicio>)}>
-                            <ArrowBackIcon sx={{ fontSize:50 }}></ArrowBackIcon>
-                        </Button>
-                    </div>
-                    <div className="seccionPersonalizar">
-                        <h1>Personalizar</h1>
-                    </div>
-                    <div className="rightButton2">
-                        <Button>Nivel {props.nivel}</Button>
-                    </div>
-                </div>
-                <div className="fila2">
-                    <div className="fotosPersonalizar">
-                        <div className="fotoTablero">
-                            <Img2 src="https://img.freepik.com/vector-premium/diseno-fondo-tablero-ajedrez_36244-122.jpg?w=2000"></Img2>
-                        </div>
-                        <div className="fotoBaraja">
-                            <Img2 src="https://todoaplazo.com/images/products/be4779f2-d205-4d08-b9f2-7d4f36d540fa-uno2.png"></Img2>
-                        </div>
-                    </div>
-                    <div className="botonesPersonalizar">
-                        <div className="botonTablero">
-                            <Button onClick={abrirTablero}>Tablero</Button>
-                        </div>
-                        <div className="botonBaraja">
-                            <Button onClick={abrirBaraja}>Baraja</Button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        )
-    }
-    else if(tableroPulsado) {
-        return (
-            <div className="personalizar">
-                <div className="fila1">
-                    <div className="leftButton">
-                        <Button onClick={()=> setTableroPulsado(false)}>
-                            <ArrowBackIcon sx={{ fontSize:50 }}></ArrowBackIcon>
-                        </Button>
-                    </div>
-                    <div className="buttonAmigos">
-                        <LongButton onClick={abrirTablero}>Tablero</LongButton>
-                    </div>
-                    <div className="buttonInvitaciones">
-                        <LongButton onClick={abrirBaraja}>Baraja</LongButton>
-                    </div>
-                    <div className="rightButton3">
-                        <Button>Nivel {props.nivel}</Button>
-                    </div>
-                </div>
-                <div className="fila2">
-                    <SliderTablero></SliderTablero>
-                </div>
-            </div>
-        )
-    }
-    else if(barajaPulsado){
-        return (
-            <div className="personalizar">
-                <div className="fila1">
-                    <div className="leftButton">
-                        <Button onClick={()=> setBarajaPulsado(false)}>
-                            <ArrowBackIcon sx={{ fontSize:50 }}></ArrowBackIcon>
-                        </Button>
-                    </div>
-                    <div className="buttonAmigos">
-                        <LongButton onClick={abrirTablero}>Tablero</LongButton>
-                    </div>
-                    <div className="buttonInvitaciones">
-                        <LongButton onClick={abrirBaraja}>Baraja</LongButton>
-                    </div>
-                    <div className="rightButton3">
-                        <Button>Nivel {props.nivel}</Button>
-                    </div>
-                </div>
-                <div className="fila2">
-                    <SliderBaraja></SliderBaraja>
-                </div>
-            </div>
-        )
-    }
+export default function PersonalizarBonito({ setterPaginaActual }) {
+  return (
+    <VStack minH="100%" bgColor="gray.100">
+      <Text pt="1em" fontSize="4xl">Personalizar</Text>
+      <Text pt="1em" fontSize="xl">Aquí podrás cambiar el estilo a tu tablero y a tu baraja</Text>
+      <Stack direction={['column', 'row']} gap="5em">
+        <ProductSimple objModificar="Tablero" imagen={IMAGE} accionBoton={() => { setterPaginaActual('personalizarTablero'); }} />
+        <ProductSimple objModificar="Baraja" imagen={IMAGE} accionBoton={() => { setterPaginaActual('personalizarBaraja'); }} />
+      </Stack>
+    </VStack>
+  );
 }

@@ -1,103 +1,186 @@
-import React, { useState } from "react";
-import { Button, LongButton } from "./Button";
-import Modal from '@mui/material/Modal';
-import Typography from '@mui/material/Typography';
-import { StyledTextField } from "./StyledTextField";
-import { Box } from "@mui/material";
-import { Login } from "./Login";
+import {
+  Flex,
+  Box,
+  FormControl,
+  FormLabel,
+  Input,
+  InputGroup,
+  InputRightElement,
+  Stack,
+  Button,
+  Heading,
+  Text,
+  useColorModeValue,
+  Link,
+  FormErrorMessage,
+  AlertDialog,
+  AlertDialogOverlay,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogBody,
+  AlertDialogFooter,
+  useDisclosure,
+} from '@chakra-ui/react';
+import { useState, useRef } from 'react';
+import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
+import { useGlobalState } from './GlobalState';
+import LoginBonito from './Login';
+import Foto from '../images/blurry-gradient-haikei-2.svg';
 
+export function Registro() {
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [globalState, setGlobalState] = useGlobalState();
+  const [contrasenasDistintas, setContrasenasDistintas] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const cancelRef = useRef();
 
-const estilo = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 500,
-    height: 200,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-};
-
-export const Registro = () => {
-
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        const nombre = e.target.user.value
-        const email = e.target.email.value
-        const password = e.target.password.value
-        const confirmPassword = e.target.confirmPassword.value
-        console.log(nombre)
-        // Si los datos no son coherentes
-        if (password === confirmPassword && password!==''){
-            setTextoModal('Cuenta creada correctamente')
-            setAbierto(true)   
-            setCuentaCreada(true);
-        }
-        // Si los datos son coherentes
-        else{
-            // Llamada a la API
-            setTextoModal('Las contraseñas no coinciden')
-            setAbierto(true)           
-        }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const nombre = e.target.user.value;
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    const confirmPassword = e.target.confirmPassword.value;
+    // Si los datos son coherentes
+    if (password === confirmPassword) {
+      // Llamada a la API
+      setContrasenasDistintas(false);
+      onOpen(true);
     }
+    // Si los datos no son coherentes
+    else {
+      setContrasenasDistintas(true);
+    }
+  };
 
-    const [cuentaCreada, setCuentaCreada] = useState(false);
-    const [abierto, setAbierto] = useState(false);
-    const [textoModal,setTextoModal] = useState('');
-    const handleOpen = () => setAbierto(true);
-    const handleClose = () => setAbierto(false);
+  return (
+    <>
+      <AlertDialog
+        isCentered
+        isOpen={isOpen}
+        leastDestructiveRef={cancelRef}
+        onClose={onClose}
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize="lg" fontWeight="bold">
+              Cuenta creada correctamente
+            </AlertDialogHeader>
 
-    if(!cuentaCreada){
-        return (
-        <>
-            <h1>Crear cuenta</h1>
+            <AlertDialogBody>
+              Inicia sesión para empezar a jugar al UNO
+            </AlertDialogBody>
+
+            <AlertDialogFooter>
+              <Flex align="center">
+                <Button
+                  align="center"
+                  colorScheme="blue"
+                  onClick={() => {
+                    onClose();
+                    setGlobalState(<LoginBonito />);
+                  }}
+                  ml={3}
+                >
+                  OK
+                </Button>
+              </Flex>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
+      <Flex
+        minH="100vh"
+        align="center"
+        justify="center"
+        backgroundColor="#ccebff"
+        style={{
+          backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'52\' height=\'26\' viewBox=\'0 0 52 26\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%2387c5ff\' fill-opacity=\'0.14\'%3E%3Cpath d=\'M10 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4v2c-3.314 0-6-2.686-6-6 0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6zm25.464-1.95l8.486 8.486-1.414 1.414-8.486-8.486 1.414-1.414z\' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E")',
+        }}
+        bgSize="10%"
+      >
+        <Stack spacing={8} mx="auto" maxW="lg" py={12} px={6}>
+          <Stack align="center">
+            <Heading fontSize="4xl" textAlign="center">
+              Crear cuenta
+            </Heading>
+            <Text fontSize="lg" color="gray.600">
+              ¡Empieza a disfrutar del juego de cartas más popular!
+            </Text>
+          </Stack>
+          <Box
+            rounded="lg"
+            bg={useColorModeValue('white', 'gray.700')}
+            boxShadow="lg"
+            p={8}
+          >
             <form onSubmit={handleSubmit}>
-                <div className="usernameInputHolder">
-                    <StyledTextField id='user' type="user" label="Nombre de usuario" variant="outlined"> </StyledTextField> 
-                </div>
-                <div className="emailInputHolder">
-                    <StyledTextField id='email' type="email" label="Correo electrónico" variant="outlined" />
-                </div>
-                <div className="password2InputHolder">
-                    <StyledTextField id='password' type="password" label="Contraseña" variant="outlined" />
-                </div>
-                <div className="confirmPasswordInputHolder">
-                    <StyledTextField id='confirmPassword' type="password" label="Confirmar contraseña" variant="outlined" />
-                </div>
-                <div className="buttonHolder">
-                    <div className="crearHolder">
-                        <LongButton type='submit'>Crear</LongButton>
-                        <Modal 
-                            open={abierto}
-                            onClose={handleClose}
-                            aria-labelledby="modal-modal-title"
-                            aria-describedby="modal-modal-description"
-                        >
-                            <Box sx={estilo}>
-                                <div className ="popup">
-                                    <div className = "textoPopup">
-                                        <Typography id="modal-modal-title" variant="h6" component="h2">
-                                            {textoModal}
-                                        </Typography>
-                                    </div>
-                                    <div className="botonCerrar">
-                                        <Button onClick={handleClose}>Cerrar</Button>
-                                    </div>
-                                </div>
-                            </Box>
-                        </Modal>
-                    </div>
-                </div>
+              <Stack spacing={4}>
+                <Box>
+                  <FormControl id="user" isRequired>
+                    <FormLabel>Nombre de usuario</FormLabel>
+                    <Input type="text" />
+                  </FormControl>
+                </Box>
+                <FormControl id="email" isRequired>
+                  <FormLabel>Correo electrónico</FormLabel>
+                  <Input type="email" />
+                </FormControl>
+                <FormControl id="password" isRequired>
+                  <FormLabel>Contraseña</FormLabel>
+                  <InputGroup>
+                    <Input type={showPassword ? 'text' : 'password'} />
+                    <InputRightElement h="full">
+                      <Button
+                        variant="ghost"
+                        onClick={() => setShowPassword((showPassword) => !showPassword)}
+                      >
+                        {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                      </Button>
+                    </InputRightElement>
+                  </InputGroup>
+                </FormControl>
+                <FormControl id="confirmPassword" isRequired isInvalid={contrasenasDistintas}>
+                  <FormLabel>Confirmar contraseña</FormLabel>
+                  <InputGroup>
+                    <Input type={showConfirmPassword ? 'text' : 'password'} />
+                    <InputRightElement h="full">
+                      <Button
+                        variant="ghost"
+                        onClick={() => setShowConfirmPassword((showConfirmPassword) => !showConfirmPassword)}
+                      >
+                        {showConfirmPassword ? <ViewIcon /> : <ViewOffIcon />}
+                      </Button>
+                    </InputRightElement>
+                  </InputGroup>
+                  {!contrasenasDistintas ? (<></>) : (<FormErrorMessage>Contraseñas no coinciden.</FormErrorMessage>)}
+                </FormControl>
+                <Stack spacing={10} pt={2}>
+                  <Button
+                    type="submit"
+                    loadingText="Submitting"
+                    size="lg"
+                    bg="blue.400"
+                    color="white"
+                    _hover={{
+                      bg: 'blue.500',
+                    }}
+                  >
+                    Crear cuenta
+                  </Button>
+                </Stack>
+                <Stack pt={6}>
+                  <Text align="center">
+                    ¿Ya tienes una cuenta?
+                    {' '}
+                    <Link onClick={() => setGlobalState(<LoginBonito />)} color="blue.400">Inicia sesión</Link>
+                  </Text>
+                </Stack>
+              </Stack>
             </form>
-            </>
-        )
-    }
-    else{
-        return (
-            <Login></Login>
-        )
-    }
-    
+          </Box>
+        </Stack>
+      </Flex>
+    </>
+  );
 }

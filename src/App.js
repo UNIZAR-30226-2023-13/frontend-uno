@@ -1,23 +1,27 @@
-
 import './App.css';
-import './App.css';
-import { Login } from './components/Login';
-import { Img } from './components/Img';
-import { Registro } from './components/Registro';
-import { Amigos } from './components/Amigos';
-import { Personalizar } from './components/Personalizar';
-import { useState } from 'react';
-import { Inicio } from './components/Inicio';
-import { Formato } from './components/Formato';
+import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import { useGlobalState } from './components/GlobalState';
+import Login from './components/Login';
+
+// 2. Extend the theme to include custom colors, fonts, etc
+const colors = {
+  brand: {
+    900: '#1a365d',
+    800: '#153e75',
+    700: '#2a69ac',
+  },
+};
+const theme = extendTheme({ colors });
 
 function App() {
-  const [ globalState, setGlobalState ] = useGlobalState(
-    <Formato></Formato>
-  )
+  const [globalState, setGlobalState] = useGlobalState(
+    <Login />,
+  );
 
   return (
-    globalState
+    <ChakraProvider theme={theme}>
+      {globalState}
+    </ChakraProvider>
   );
 }
 

@@ -1,59 +1,78 @@
-import React, { useState } from "react";
-import { LongButton } from "./Button";
-import { StyledTextField } from "./StyledTextField";
-import { Registro } from "./Registro";
-import { useGlobalState } from "./GlobalState";
-import { Login } from "./Login";
-import { Personalizar } from "./Personalizar";
-import { Amigos } from "./Amigos";
-import { Formato } from "./Formato";
+import {
+  Button,
+  useDisclosure,
+} from '@chakra-ui/react';
+import {
+  AiOutlineMenu,
+} from 'react-icons/ai';
+import React, { useState } from 'react';
+import Login from './Login';
+import { useGlobalState } from './GlobalState';
+import { Barra } from './Barra';
+import Personalizar from './Personalizar';
+import { PersonalizarTablero } from './PersonalizarTablero';
+import Juego from './Juego';
+import { PersonalizarBaraja } from './PersonalizarBaraja';
+import { Amigos } from './Amigos';
+import { Perfil } from './Perfil';
+import { Historial } from './Historial';
+import { EmpezarPartida } from './EmpezarPartida';
 
-export const Inicio = () => {
-    const [globalState, setGlobalState] = useGlobalState();
+export function Inicio() {
+  const [paginaActual, setPaginaActual] = useState('inicio');
+  const [globalState, setGlobalState] = useGlobalState();
+  switch (paginaActual) {
+    case 'inicio':
+      return (
+        <>
+          <Barra setterPaginaActual={setPaginaActual} paginaActual={paginaActual} />
+          <EmpezarPartida puntos={893} />
+        </>
+      );
+    case 'personalizar':
+      return (
+        <div minHeight="100%">
+          <Barra setterPaginaActual={setPaginaActual} paginaActual={paginaActual} />
+          <Personalizar setterPaginaActual={setPaginaActual} />
+        </div>
+      );
+    case 'personalizarTablero':
+      return (
+        <>
+          <Barra setterPaginaActual={setPaginaActual} paginaActual={paginaActual} />
+          <PersonalizarTablero />
+        </>
+      );
+    case 'personalizarBaraja':
+      return (
+        <>
+          <Barra setterPaginaActual={setPaginaActual} paginaActual={paginaActual} />
+          <PersonalizarBaraja />
+        </>
+      );
+    case 'amigos':
+      return (
+        <>
+          <Barra setterPaginaActual={setPaginaActual} paginaActual={paginaActual} />
+          <Amigos />
+        </>
+      );
+    case 'perfil':
+      return (
+        <>
+          <Barra setterPaginaActual={setPaginaActual} paginaActual={paginaActual} />
+          <Perfil nombre_usuario="pepe" />
+        </>
+      );
+    case 'historial':
+      return (
+        <>
+          <Barra setterPaginaActual={setPaginaActual} paginaActual={paginaActual} />
+          <Historial />
+        </>
+      );
 
-    const [noTienesCuentaPulsado, setNoTienesCuentaPulsado] = useState(false);
-
-    const [error,setError] = useState({
-        existe: false,
-        mensaje: ""
-    })
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const username = e.target.username.value;
-        const password = e.target.password.value;
-        const res = await fetch('http://localhost:8000/login',{
-            method:'POST',
-            mode:'cors',
-            credentials: "include",
-            body: new URLSearchParams({
-                'username': username,
-                'password': password,
-            })
-        })
-        console.log(res)
-        if(res.status===401){
-            setError({
-                existe:true,
-                mensaje:"Usuario y contraseña incorrecta"
-            })
-        }
-        else if(res.status===200){
-            // No se, redirect a la pagina principal
-            setError({
-                existe:false,
-                mensaje:""
-            })
-
-        }
-    }
-    
-    return (
-    <>
-        <LongButton>Jugar Partida</LongButton>
-        <LongButton onClick={() => setGlobalState(<Personalizar/>)}>Personalizar</LongButton>
-        <LongButton onClick={() => setGlobalState(<Amigos/>)}>Amigos</LongButton>
-        <LongButton onClick={() => setGlobalState(<Formato/>)}>Salir</LongButton>
-    </>
-    )
+    default:
+      break;
+  }
 }

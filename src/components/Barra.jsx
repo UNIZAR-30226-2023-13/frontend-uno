@@ -19,7 +19,7 @@ import {
     AiOutlineMenu,
 } from "react-icons/ai";
 import React from "react";
-import LoginBonito from "./Login";
+import Login from "./Login";
 import { useGlobalState } from "./GlobalState";
 import Cookies from "js-cookie";
 
@@ -133,7 +133,7 @@ export function Barra({ setterPaginaActual, paginaActual }) {
                         onClick={() => {
                             console.log("cerrar sesión");
                             // llamada a la API para cerrar sesion
-                            setGlobalState(<LoginBonito />);
+                            setGlobalState(<Login />);
                         }}
                     >
             Cerrar sesión

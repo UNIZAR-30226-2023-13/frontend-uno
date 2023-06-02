@@ -30,13 +30,10 @@ export default function Login() {
         };
 
         fetch("http://localhost:8000/login", requestOptions)
-            .then(response => response.text())
-            .then(result => {
-                if (result.status() === 200){
+            .then(response => {
+                if (response.status === 200){
                     setGlobalState(<Inicio/>);
                 }
-                
-                console.log(result);
             })
             .catch(error => console.log("error", error));
     };

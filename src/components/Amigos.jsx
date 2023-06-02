@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     VStack,
     StackDivider,
@@ -24,10 +24,55 @@ import { CartaInvitacion } from "./CartaInvitacion";
 import { CartaSocial } from "./CartaSocial";
 
 export function Amigos() {
+
+    const verAmigos = async () => {
+
+        var requestOptions = {
+            method: "GET",
+            redirect: "follow"
+        };
+
+        fetch("http://localhost:8000/amigos", requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log("error", error));
+    };
+
+    const verInvitaciones = async () => {
+        var requestOptions = {
+            method: "GET",
+            redirect: "follow"
+        };
+
+        fetch("http://localhost:8000/amigos/invitaciones", requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log("error", error));
+    };
+
+    const handleEnviarInvitacion = async () => {
+        var requestOptions = {
+            method: "POST",
+            redirect: "follow"
+        };
+
+        fetch("http://localhost:8000/amigos/enviar_invitacion", requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log("error", error));
+    };
+
+
+    useEffect(()=>{
+        verAmigos();
+        verInvitaciones();
+    });
+
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     const initialRef = React.useRef(null);
     const finalRef = React.useRef(null);
+    const [,setUsuarioAInvitar] = useState("");
 
     const [invitaciones, setInvitaciones] = useState([
         {
@@ -109,29 +154,34 @@ export function Amigos() {
                     <ModalCloseButton />
                     <ModalBody pb={6}>
                         <FormControl>
-                            <FormLabel fontSize="2xl">
-                                Enviar solicitud a un nuevo usuario
-                            </FormLabel>
-                            <InputGroup size="md">
-                                <Input
-                                    pr="4.5rem"
-                                    ref={initialRef}
-                                    fontSize="xl"
-                                    placeholder="Username del usuario a invitar"
-                                />
-                                <InputRightElement px="3rem" width="4.5rem">
-                                    <Button
-                                        colorScheme="blue"
-                                        px="3rem"
-                                        rightIcon={<FaPaperPlane />}
-                                    >
-                                        Enviar
-                                    </Button>
-                                </InputRightElement>
-                            </InputGroup>
+                            <form onSubmit={handleEnviarInvitacion}>
+                                <FormLabel fontSize="2xl">
+                                    Enviar solicitud a un nuevo usuario
+                                </FormLabel>
+                                <InputGroup size="md">
+                                    <Input
+                                        pr="4.5rem"
+                                        ref={initialRef}
+                                        fontSize="xl"
+                                        placeholder="Username del usuario a invitar"
+                                        onChange={(e)=>setUsuarioAInvitar(e.target.value)}
+                                    />
+                                    <InputRightElement px="3rem" width="4.5rem">
+                                        <Button
+                                            colorScheme="blue"
+                                            px="3rem"
+                                            rightIcon={<FaPaperPlane />}
+                                            type="submit" 
+                                            loadingText="Submitting"
+                                        >
+                                            Enviar
+                                        </Button>
+                                    </InputRightElement>
+                                </InputGroup>
+                            </form>
                         </FormControl>
                         <FormLabel fontSize="2xl" pt="1em">
-              Invitaciones recibidas
+                            Invitaciones recibidas
                         </FormLabel>
                         {invitaciones.map((invitacion) => (
                             <CartaInvitacion

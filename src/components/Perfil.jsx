@@ -26,7 +26,7 @@ import { ViewOffIcon } from "@chakra-ui/icons";
 import { useGlobalState } from "./GlobalState";
 import Login from "./Login";
 
-export function Perfil({}) {
+export function Perfil() {
     const [,setGlobalState] = useGlobalState();
     const [nombre_usuario, setNombreUsuario] = useState("Nuevo nombre usuario");
     const [email,setEmail] = useState("");

@@ -21,8 +21,8 @@ export function CartaSocial({ nombre, conectado, nivel }) {
                     <Text fontSize="2xl" fontWeight="bold">
                         {nombre}
                     </Text>
-                    <Badge colorScheme={(conectado === "Conectado") ? "green" : "red"}>
-                        {conectado}
+                    <Badge colorScheme={(conectado===true) ? "green" : "red"}>
+                        {(conectado===true) ? "Conectado" : "Desconectado"}   
                     </Badge>
                     <Badge colorScheme="blue">
                         Nivel

@@ -34,9 +34,10 @@ export function Amigos() {
         };
 
         fetch("http://localhost:8000/amigos", requestOptions)
-            .then(response => response.text())
+            .then(response => response.json())
             .then(result => {
-                setAmigo([result.username,result.puntos, result.conectado]);
+                console.log(result);
+                setAmigo(result);
             })
             .catch(error => console.log("error", error));
     };
@@ -71,7 +72,7 @@ export function Amigos() {
 
     useEffect(()=>{
         verAmigos();
-    });
+    },[]);
 
     const { isOpen, onOpen, onClose } = useDisclosure();
 

@@ -1,27 +1,31 @@
 import {
     Badge,
     Box,
-    Flex,
     Text,
     HStack,
     Center,
-    Button,
 } from "@chakra-ui/react";
 
-export function CartaInvitacion({ nombre, nivel }) {
+export function Top({ nombre, nivel, puntos }) {
     return (
-        <Box px="20px" py="10px" borderRadius="5px">
+        <Box
+            px="20px"
+            py="10px"
+            borderRadius="5px"
+        >
             <Center>
                 <HStack gap={4}>
-                    <Text width="150px" fontSize="xl" fontWeight="bold">
+                    <Text bg={"blackAlpha.300"} pl={"10px"} pr={"10px"} borderRadius={"3px"} fontSize="sm" fontWeight="bold">
                         {nombre}
                     </Text>
                     <Badge colorScheme="blue">
                         Nivel
+                        {" "}
                         {nivel}
                     </Badge>
-                    <Button colorScheme="green">Aceptar</Button>
-                    <Button colorScheme="red">Rechazar</Button>
+                    <Badge colorScheme="green">
+                        {puntos}
+                    </Badge>
                 </HStack>
             </Center>
         </Box>

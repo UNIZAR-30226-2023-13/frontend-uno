@@ -6,7 +6,7 @@ import {
     Center,
 } from "@chakra-ui/react";
 
-export function CartaSocial({ nombre, estado, nivel }) {
+export function CartaSocial({ nombre, conectado, nivel }) {
     return (
         <Box
             px="20px"
@@ -21,8 +21,8 @@ export function CartaSocial({ nombre, estado, nivel }) {
                     <Text fontSize="2xl" fontWeight="bold">
                         {nombre}
                     </Text>
-                    <Badge colorScheme={(estado === "Conectado") ? "green" : "red"}>
-                        {estado}
+                    <Badge colorScheme={(conectado === "Conectado") ? "green" : "red"}>
+                        {conectado}
                     </Badge>
                     <Badge colorScheme="blue">
                         Nivel

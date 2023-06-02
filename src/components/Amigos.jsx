@@ -29,12 +29,15 @@ export function Amigos() {
 
         var requestOptions = {
             method: "GET",
-            redirect: "follow"
+            redirect: "follow",
+            credentials: "include"
         };
 
         fetch("http://localhost:8000/amigos", requestOptions)
             .then(response => response.text())
-            .then(result => console.log(result))
+            .then(result => {
+                setAmigo([result.username,result.puntos, result.conectado]);
+            })
             .catch(error => console.log("error", error));
     };
 
@@ -46,14 +49,17 @@ export function Amigos() {
 
         fetch("http://localhost:8000/amigos/invitaciones", requestOptions)
             .then(response => response.text())
-            .then(result => console.log(result))
+            .then(result => {
+                setInvitacion([result.username,result.puntos]);
+            })
             .catch(error => console.log("error", error));
     };
 
     const handleEnviarInvitacion = async () => {
         var requestOptions = {
             method: "POST",
-            redirect: "follow"
+            redirect: "follow",
+            credentials: "include"
         };
 
         fetch("http://localhost:8000/amigos/enviar_invitacion", requestOptions)
@@ -65,7 +71,6 @@ export function Amigos() {
 
     useEffect(()=>{
         verAmigos();
-        verInvitaciones();
     });
 
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -73,6 +78,8 @@ export function Amigos() {
     const initialRef = React.useRef(null);
     const finalRef = React.useRef(null);
     const [,setUsuarioAInvitar] = useState("");
+    const [amigo, setAmigo] = useState(["","",false]);
+    const [invitacion, setInvitacion] = useState(["","",false]);
 
     const [invitaciones, setInvitaciones] = useState([
         {
@@ -183,10 +190,10 @@ export function Amigos() {
                         <FormLabel fontSize="2xl" pt="1em">
                             Invitaciones recibidas
                         </FormLabel>
-                        {invitaciones.map((invitacion) => (
+                        {invitacion.map((i) => (
                             <CartaInvitacion
-                                nombre={invitacion.nombre}
-                                nivel={invitacion.nivel}
+                                nombre={i.nombre}
+                                nivel={i.nivel}
                             />
                         ))}
                     </ModalBody>
@@ -204,11 +211,11 @@ export function Amigos() {
                     width={680}
                     boxShadow="0 0 2rem gray"
                 >
-                    {amigos.map((amigo) => (
+                    {amigo.map((a) => (
                         <CartaSocial
-                            estado={amigo.estado}
-                            nombre={amigo.nombre}
-                            nivel={amigo.nivel}
+                            conectado={a.conectado}
+                            nombre={a.username}
+                            nivel={a.puntos}
                         />
                     ))}
                 </VStack>

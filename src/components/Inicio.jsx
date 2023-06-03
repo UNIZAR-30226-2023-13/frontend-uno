@@ -11,12 +11,8 @@ import { EmpezarPartida } from "./EmpezarPartida";
 import { socket } from "../socket";
 
 export function Inicio() {
-
-    const [nombre_usuario, setNombreUsuario] = useState("");
-
-
     useEffect(() => {
-        async function obtenerDatos (){
+        async function registrar (){
             var requestOptions = {
                 method: "GET",
                 redirect: "follow",
@@ -28,17 +24,16 @@ export function Inicio() {
                     response.json())
                 .then(result => {
                     console.log(result.username);
-                    setNombreUsuario(result.username);
+                    return(result.username);
+                })
+                .then((nombre_usuario) => {
+                    socket.emit("registro", nombre_usuario);
                 })
                 .catch(error => console.log("error", error));
         }
 
-        //socket.connect();
         
-        obtenerDatos().then(()=>{
-            console.log(nombre_usuario);
-            socket.emit("registro", nombre_usuario);
-        });
+        registrar();
         
         
     },[]);

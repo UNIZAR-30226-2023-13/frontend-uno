@@ -24,8 +24,47 @@ import { CartaInvitacion } from "./CartaInvitacion";
 import { CartaSocial } from "./CartaSocial";
 
 export function Amigos() {
+    const handleAceptarSolicitud = async(nombre) => {
+        var urlencoded = new URLSearchParams();
+        urlencoded.append("username", nombre);
+
+        var requestOptions = {
+            method: "POST",
+            redirect: "follow",
+            body: urlencoded,
+            credentials: "include"
+        };
+
+        fetch("http://localhost:8000/amigos/anadir_amigo", requestOptions)
+            .then(response => response.text())
+            .then(async result => {
+                await verAmigos();
+                await verInvitaciones();
+                console.log(result);})
+            .catch(error => console.log("error", error));
+    };
+
+    const handleRechazarSolicitud = async(nombre) => {
+        var urlencoded = new URLSearchParams();
+        urlencoded.append("username", nombre);
+
+        var requestOptions = {
+            method: "POST",
+            redirect: "follow",
+            body: urlencoded,
+            credentials: "include"
+        };
+
+        fetch("http://localhost:8000/amigos/eliminar_invitacion", requestOptions)
+            .then(response => response.text())
+            .then(async result => {
+                await verInvitaciones();
+                console.log(result);})
+            .catch(error => console.log("error", error));
+    };
 
     const verAmigos = async () => {
+        console.log("recibiendo amigos");
 
         var requestOptions = {
             method: "GET",
@@ -43,95 +82,57 @@ export function Amigos() {
     };
 
     const verInvitaciones = async () => {
+        console.log("recibiendo invitaciones");
         var requestOptions = {
             method: "GET",
-            redirect: "follow"
+            redirect: "follow",
+            credentials: "include"
         };
 
         fetch("http://localhost:8000/amigos/invitaciones", requestOptions)
-            .then(response => response.text())
+            .then(response => response.json())
             .then(result => {
-                setInvitacion([result.username,result.puntos]);
+                console.log(result);
+                setInvitacion(result);
             })
             .catch(error => console.log("error", error));
     };
 
-    const handleEnviarInvitacion = async () => {
+    const handleEnviarInvitacion = async (e) => {
+        e.preventDefault();
+        var urlencoded = new URLSearchParams();
+        urlencoded.append("username", usuarioAInvitar);
+
         var requestOptions = {
             method: "POST",
             redirect: "follow",
+            body: urlencoded,
             credentials: "include"
         };
 
         fetch("http://localhost:8000/amigos/enviar_invitacion", requestOptions)
             .then(response => response.text())
-            .then(result => console.log(result))
+            .then(async result => {
+                await verAmigos();
+                await verInvitaciones();
+                console.log(result);
+            })
             .catch(error => console.log("error", error));
     };
 
 
     useEffect(()=>{
         verAmigos();
+        verInvitaciones();
     },[]);
 
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     const initialRef = React.useRef(null);
     const finalRef = React.useRef(null);
-    const [,setUsuarioAInvitar] = useState("");
-    const [amigo, setAmigo] = useState(["","",false]);
-    const [invitacion, setInvitacion] = useState(["","",false]);
-
-    const [invitaciones, setInvitaciones] = useState([
-        {
-            nombre: "Pepe Martinez",
-            nivel: "12",
-        },
-        {
-            nombre: "Marta Gonzalez",
-            nivel: "54",
-        },
-        {
-            nombre: "Lucas Sánchez",
-            nivel: "33",
-        },
-        {
-            nombre: "Rosa López",
-            nivel: "04",
-        },
-        {
-            nombre: "Jorge Pérez",
-            nivel: "48",
-        },
-    ]);
-
-    const [amigos, setAmigos] = useState([
-        {
-            nombre: "Pepe Martinez",
-            nivel: "12",
-            estado: "Conectado",
-        },
-        {
-            nombre: "Marta Gonzalez",
-            nivel: "54",
-            estado: "Desconectado",
-        },
-        {
-            nombre: "Lucas Sánchez",
-            nivel: "33",
-            estado: "Desconectado",
-        },
-        {
-            nombre: "Rosa López",
-            nivel: "04",
-            estado: "Conectado",
-        },
-        {
-            nombre: "Jorge Pérez",
-            nivel: "48",
-            estado: "Conectado",
-        },
-    ]);
+    const [usuarioAInvitar,setUsuarioAInvitar] = useState("");
+    const [amigo, setAmigo] = useState([]);
+    const [invitacion, setInvitacion] = useState([]);
 
     return (
         <>
@@ -193,8 +194,10 @@ export function Amigos() {
                         </FormLabel>
                         {invitacion.map((i) => (
                             <CartaInvitacion
-                                nombre={i.nombre}
-                                nivel={i.nivel}
+                                nombre={i.username}
+                                nivel={Math.trunc((i.puntos)/100)}
+                                aceptarSolicitud={handleAceptarSolicitud}
+                                rechazarSolicitud={handleRechazarSolicitud}
                             />
                         ))}
                     </ModalBody>
@@ -216,9 +219,12 @@ export function Amigos() {
                         <CartaSocial
                             conectado={a.conectado}
                             nombre={a.username}
-                            nivel={a.puntos}
+                            nivel={Math.trunc((a.puntos)/100)}
                         />
                     ))}
+                    {amigo.length===0 ? 
+                        <Text py={10} fontSize={"2xl"}>Aun no tienes amigos</Text>
+                        : ""}
                 </VStack>
             </Center>
         </>

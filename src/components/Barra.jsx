@@ -27,6 +27,27 @@ export function Barra({ setterPaginaActual, paginaActual }) {
     const [globalState, setGlobalState] = useGlobalState();
     const [cookie, setCookie, removeCookie] = useCookies("session");
 
+    const handleCerrarSesion = () => {
+        var requestOptions = {
+            method: "POST",
+            redirect: "follow",
+            credentials: "include"
+        };
+
+        fetch("http://localhost:8000/cuenta/cerrar-sesion", requestOptions)
+            .then(response => {
+                if(response.status === 200){
+                    setGlobalState(<Login/>);
+                }
+                else{
+                    //No se ha podido cerrar sesion
+                }
+                return response.text();
+            })  
+            .then(result => console.log(result))
+            .catch(error => console.log("error", error));
+    };
+
     const bg = useColorModeValue("white", "gray.800");
     const mobileNav = useDisclosure();
     return (
@@ -130,11 +151,7 @@ export function Barra({ setterPaginaActual, paginaActual }) {
                         _hover={{
                             bgColor: "blackAlpha.700",
                         }}
-                        onClick={() => {
-                            console.log("cerrar sesión");
-                            // llamada a la API para cerrar sesion
-                            setGlobalState(<Login />);
-                        }}
+                        onClick={handleCerrarSesion}
                     >
             Cerrar sesión
                     </Button>

@@ -85,7 +85,7 @@ export function Registro() {
                         </AlertDialogHeader>
 
                         <AlertDialogBody>
-                            Inicia sesión para empezar a jugar al UNO
+                            Ya puedes empezar a jugar al UNO
                         </AlertDialogBody>
 
                         <AlertDialogFooter>

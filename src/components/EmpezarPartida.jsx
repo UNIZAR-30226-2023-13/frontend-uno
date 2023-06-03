@@ -11,11 +11,37 @@ import {
     Progress,
     HStack,
 } from "@chakra-ui/react";
+
 import { useGlobalState } from "./GlobalState";
+import { useEffect } from "react";
 import Juego from "./Juego";
 
 export function EmpezarPartida({ puntos }) {
+
     const [globalState, setGlobalState] = useGlobalState();
+    const [datos, setDatos] = useGlobalState();
+
+    const obtenerDatos = async () => {
+        var requestOptions = {
+            method: "GET",
+            redirect: "follow",
+            credentials: "include"
+        };
+
+        fetch("http://localhost:8000/cuenta/quien-soy", requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                setDatos(result);
+                console.log(result);
+            })
+            .catch(error => console.log("error", error));
+    };
+
+    useEffect(()=>{
+        obtenerDatos();
+    },[]);
+
+    
     return (
         <Container maxW="3xl">
             <Stack
@@ -83,15 +109,16 @@ export function EmpezarPartida({ puntos }) {
             </Stack>
             <HStack width="100%" justifyContent="space-between">
                 <Text fontWeight="bold">
-          Nivel
-                    {Math.trunc(puntos / 100)}
+                    {"Nivel "}
+                    {console.log(datos.puntos)}
+                    {Math.trunc((datos.puntos) / 100)}
                 </Text>
                 <Text fontWeight="bold">
-          Nivel
-                    {Math.trunc(puntos / 100) + 1}
+                    {"Nivel "}
+                    {Math.trunc((datos.puntos) / 100) + 1}
                 </Text>
             </HStack>
-            <Progress value={puntos % 100} />
+            <Progress value={(datos.puntos) % 100} />
         </Container>
     );
 }

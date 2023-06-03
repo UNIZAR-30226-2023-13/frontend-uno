@@ -7,23 +7,56 @@ import {
     Stack,
     Text,
     Button,
+    Center,
 } from "@chakra-ui/react";
 
 
-// Settings for the slider
-const settings = {
-    dots: true,
-    arrows: false,
-    fade: true,
-    infinite: true,
-    autoplay: true,
-    speed: 500,
-    autoplaySpeed: 5000,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-};
 
-export function PersonalizarBaraja({estilo}) {
+export function PersonalizarBaraja() {
+
+    const [baraja,setBaraja] = useState([]);
+
+    const verEstiloCarta = async () => {
+
+        var requestOptions = {
+            method: "GET",
+            redirect: "follow",
+            credentials: "include"
+        };
+
+        fetch("http://localhost:8000/aspectos/cartas", requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                console.log(result);
+                setBaraja(result);
+            })
+            .catch(error => console.log("error", error));
+    };
+
+    const handleCambiarAspectoCarta = async() => {
+        var urlencoded = new URLSearchParams();
+        urlencoded.append("aspecto", baraja[currentSlide].nombre);
+
+        var requestOptions = {
+            method: "POST",
+            body: urlencoded,
+            redirect: "follow",
+            credentials: "include"
+        };
+
+        fetch("http://localhost:8000/aspectos/cartas/cambiar", requestOptions)
+            .then(response => response.text())
+            .then(async result => {
+                await verEstiloCarta();
+                console.log(result);
+            })
+            .catch(error => console.log("error", error));
+    };
+
+    useEffect(()=>{
+        verEstiloCarta();
+    },[]);
+
     const arrowStyles = {
         cursor: "pointer",
         pos: "absolute",
@@ -42,30 +75,8 @@ export function PersonalizarBaraja({estilo}) {
             bg: "black",
         },
     };
-    const slides = [
-        {
-            img: "https://libreriascampoamor.com/uploads/vxzdjjpt4yj0lv9fuowk.jpg",
-            label: "Baraja clásica",
-        },
-        {
-            img: "https://m.media-amazon.com/images/I/61m4UGzWGqL._AC_UF894,1000_QL80_.jpg",
-            label: "Baraja minimalista",
-        },
-        {
-            img: "https://images.pexels.com/photos/2878019/pexels-photo-2878019.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260",
-            label: "Baraja 3",
-        },
-        {
-            img: "https://images.pexels.com/photos/1142950/pexels-photo-1142950.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-            label: "Baraja 4",
-        },
-        {
-            img: "https://images.pexels.com/photos/3124111/pexels-photo-3124111.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-            label: "Baraja 5",
-        },
-    ];
     const [currentSlide, setCurrentSlide] = useState(0);
-    const slidesCount = slides.length;
+    const slidesCount = baraja.length;
 
     useEffect(() => {
         console.log(`Current slide${currentSlide}`);
@@ -101,7 +112,7 @@ export function PersonalizarBaraja({estilo}) {
         >
             <Flex w="full" pos="relative" overflow="hidden">
                 <Flex h="630px" w="full" {...carouselStyle}>
-                    {slides.map((slide, sid) => (
+                    {baraja.map((estilo, sid) => (
                         <Box key={`slide-${sid}`} boxSize="full" shadow="md" flex="none">
                             <Text
                                 color="white"
@@ -116,24 +127,34 @@ export function PersonalizarBaraja({estilo}) {
                                 {slidesCount}
                             </Text>
                             <Image
-                                src={slide.img}
+                                aspectRatio={"1/1"}
+                                objectFit={"cover"}
+                                src={estilo.ruta}
                                 alt="carousel image"
                                 boxSize="full"
                                 backgroundSize="cover"
                             />
-                            <Stack
-                                p="8px 12px"
-                                pos="absolute"
-                                bottom="24px"
-                                textAlign="center"
-                                align="center"
-                                w="full"
-                                mb="8"
-                                color="white"
-                            >
-                                <Text fontSize="2xl" bg={"blackAlpha.800"} borderRadius={"10px"} pl={"10px"} pr={"10px"} pt={"2px"} pb={"2px"}>{slide.label}</Text>
-                                {estilo === slide.label ? (<Button w="30%" isDisabled="true" colorScheme="blackAlpha">Seleccionado</Button>) : (<Button w="30%" colorScheme="blackAlpha">Seleccionar</Button>)}
-                            </Stack>
+                            <Center>
+                                <Stack
+                                    p="20px 20px"
+                                    pos="absolute"
+                                    bottom="24px"
+                                    textAlign="center"
+                                    align="center"
+                                    mb="8"
+                                    color="white"
+                                    bgColor={"whiteAlpha.900"}
+                                    borderRadius={"10px"}
+                                >
+                                    <Text fontSize="2xl" bg={"blackAlpha.800"} borderRadius={"10px"} pl={"10px"} pr={"10px"} pt={"2px"} pb={"2px"}>{estilo.nombre}</Text>
+                                    <Text fontSize="2xl" bg={"blue.700"} borderRadius={"10px"} pl={"10px"} pr={"10px"} pt={"2px"} pb={"2px"}>Disponible en el nivel: {Math.trunc((estilo.puntos_desbloqueo) / 100)}</Text>
+                                    {!estilo.desbloqueado ? 
+                                        (<Button isDisabled="true" colorScheme="red">Todavía no tienes el nivel necesario</Button>) :
+                                        (estilo.enUso 
+                                            ? (<Button  isDisabled="true" colorScheme="green">Seleccionado</Button>) :
+                                            (<Button onClick={handleCambiarAspectoCarta} colorScheme="blackAlpha">Seleccionar</Button>))}
+                                </Stack>
+                            </Center>
                         </Box>
                     ))}
                 </Flex>

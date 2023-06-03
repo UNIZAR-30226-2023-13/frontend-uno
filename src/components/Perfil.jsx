@@ -64,6 +64,12 @@ export function Perfil() {
         var urlencoded = new URLSearchParams();
         urlencoded.append("email", email);
         urlencoded.append("password", password);
+        if(password.length>0){
+            urlencoded.append("cambioPassword", true);
+        }
+        else{
+            urlencoded.append("cambioPassword", false);
+        }
 
         var requestOptions = {
             method: "POST",
@@ -73,7 +79,11 @@ export function Perfil() {
         };
 
         fetch("http://localhost:8000/cuenta/cambiar-email-password", requestOptions)
-            .then(response => response.text())
+            .then(response => {
+                if (response.status === 200){
+                    setPassword("");
+                }
+                return response.text();})
             .then(result => {
                 console.log(result);
             })

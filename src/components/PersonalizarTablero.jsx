@@ -7,9 +7,55 @@ import {
     Stack,
     Text,
     Button,
+    Center,
 } from "@chakra-ui/react";
 
+
 export function PersonalizarTablero() {
+
+    const [tablero,setTablero] = useState([]);
+
+    const verEstiloTablero = async () => {
+
+        var requestOptions = {
+            method: "GET",
+            redirect: "follow",
+            credentials: "include"
+        };
+
+        fetch("http://localhost:8000/aspectos/tableros", requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                console.log(result);
+                setTablero(result);
+            })
+            .catch(error => console.log("error", error));
+    };
+
+    const handleCambiarAspectoTablero = async() => {
+        var urlencoded = new URLSearchParams();
+        urlencoded.append("tablero", tablero[currentSlide].nombre);
+
+        var requestOptions = {
+            method: "POST",
+            body: urlencoded,
+            redirect: "follow",
+            credentials: "include"
+        };
+
+        fetch("http://localhost:8000/aspectos/tableros/cambiar", requestOptions)
+            .then(response => response.text())
+            .then(async result => {
+                await verEstiloTablero();
+                console.log(result);
+            })
+            .catch(error => console.log("error", error));
+    };
+
+    useEffect(()=>{
+        verEstiloTablero();
+    },[]);
+
     const arrowStyles = {
         cursor: "pointer",
         pos: "absolute",
@@ -28,40 +74,9 @@ export function PersonalizarTablero() {
             bg: "black",
         },
     };
-    const slides = [
-        {
-            img: "https://images.pexels.com/photos/2599537/pexels-photo-2599537.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-            label: "Tablero 1",
-            description: "Este es el tablero 1",
-        },
-        {
-            img: "https://images.pexels.com/photos/2714581/pexels-photo-2714581.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-            label: "Tablero 2",
-            description: "Este es el tablero 2",
-        },
-        {
-            img: "https://images.pexels.com/photos/2878019/pexels-photo-2878019.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260",
-            label: "Third Slide",
-            description: "Este es el tablero 3",
-        },
-        {
-            img: "https://images.pexels.com/photos/1142950/pexels-photo-1142950.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-            label: "Fourth Slide",
-            description: "Este es el tablero 4",
-        },
-        {
-            img: "https://images.pexels.com/photos/3124111/pexels-photo-3124111.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-            label: "Tablero 5",
-            description: "Este es el tablero 5",
-        },
-    ];
     const [currentSlide, setCurrentSlide] = useState(0);
-    const slidesCount = slides.length;
+    const slidesCount = tablero.length;
 
-    useEffect(() => {
-        console.log(`Current slide${currentSlide}`);
-        console.log(`Slide count${slidesCount}`);
-    });
 
     const prevSlide = () => {
         setCurrentSlide((s) => (s === 0 ? slidesCount - 1 : s - 1));
@@ -92,7 +107,7 @@ export function PersonalizarTablero() {
         >
             <Flex w="full" pos="relative" overflow="hidden">
                 <Flex h="630px" w="full" {...carouselStyle}>
-                    {slides.map((slide, sid) => (
+                    {tablero.map((estilo, sid) => (
                         <Box key={`slide-${sid}`} boxSize="full" shadow="md" flex="none">
                             <Text
                                 color="white"
@@ -103,30 +118,38 @@ export function PersonalizarTablero() {
                             >
                                 {sid + 1}
                                 {" "}
-                /
+                                    /
                                 {slidesCount}
                             </Text>
                             <Image
-                                src={slide.img}
+                                aspectRatio={"1/1"}
+                                objectFit={"cover"}
+                                src={estilo.ruta}
                                 alt="carousel image"
                                 boxSize="full"
                                 backgroundSize="cover"
                             />
-                            <Stack
-                                p="8px 12px"
-                                pos="absolute"
-                                bottom="24px"
-                                textAlign="center"
-                                align="center"
-                                w="full"
-                                mb="8"
-                                color="white"
-                            >
-                                <Text fontSize="2xl">{slide.label}</Text>
-                                <Button w="30%" colorScheme="blackAlpha">
-                  Seleccionar
-                                </Button>
-                            </Stack>
+                            <Center>
+                                <Stack
+                                    p="20px 20px"
+                                    pos="absolute"
+                                    bottom="24px"
+                                    textAlign="center"
+                                    align="center"
+                                    mb="8"
+                                    color="white"
+                                    bgColor={"whiteAlpha.900"}
+                                    borderRadius={"10px"}
+                                >
+                                    <Text fontSize="2xl" bg={"blackAlpha.800"} borderRadius={"10px"} pl={"10px"} pr={"10px"} pt={"2px"} pb={"2px"}>{estilo.nombre}</Text>
+                                    <Text fontSize="2xl" bg={"blue.700"} borderRadius={"10px"} pl={"10px"} pr={"10px"} pt={"2px"} pb={"2px"}>Disponible en el nivel: {Math.trunc((estilo.puntos_desbloqueo) / 100)}</Text>
+                                    {!estilo.desbloqueado ? 
+                                        (<Button isDisabled="true" colorScheme="red">Todavía no tienes el nivel necesario</Button>) :
+                                        (estilo.enUso 
+                                            ? (<Button  isDisabled="true" colorScheme="green">Seleccionado</Button>) :
+                                            (<Button onClick={handleCambiarAspectoTablero} colorScheme="blackAlpha">Seleccionar</Button>))}
+                                </Stack>
+                            </Center>
                         </Box>
                     ))}
                 </Flex>

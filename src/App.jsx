@@ -2,7 +2,7 @@ import "./App.css";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import { useGlobalState } from "./components/GlobalState";
 import Login from "./components/Login";
-
+import React, { useState, useEffect } from "react";
 // 2. Extend the theme to include custom colors, fonts, etc
 const colors = {
     brand: {
@@ -14,6 +14,7 @@ const colors = {
 const theme = extendTheme({ colors });
 
 function App() {
+
     const [globalState, setGlobalState] = useGlobalState(
         <Login />,
     );

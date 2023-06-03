@@ -25,6 +25,7 @@ import { ViewIcon } from "@chakra-ui/icons";
 import { ViewOffIcon } from "@chakra-ui/icons";
 import { useGlobalState } from "./GlobalState";
 import Login from "./Login";
+import {socket} from "../socket";
 
 export function Perfil() {
     const [,setGlobalState] = useGlobalState();
@@ -105,6 +106,7 @@ export function Perfil() {
         fetch("http://localhost:8000/cuenta/eliminar", requestOptions)
             .then(response => response.text())
             .then(result => {
+                socket.disconnect();
                 setGlobalState(<Login/>);
                 console.log(result);
             })

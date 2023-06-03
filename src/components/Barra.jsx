@@ -21,7 +21,8 @@ import {
 import React from "react";
 import Login from "./Login";
 import { useGlobalState } from "./GlobalState";
-import Cookies from "js-cookie";
+import { socket } from "../socket";
+
 
 export function Barra({ setterPaginaActual, paginaActual }) {
     const [globalState, setGlobalState] = useGlobalState();
@@ -37,6 +38,7 @@ export function Barra({ setterPaginaActual, paginaActual }) {
         fetch("http://localhost:8000/cuenta/cerrar-sesion", requestOptions)
             .then(response => {
                 if(response.status === 200){
+                    socket.disconnect();
                     setGlobalState(<Login/>);
                 }
                 else{
@@ -46,6 +48,8 @@ export function Barra({ setterPaginaActual, paginaActual }) {
             })  
             .then(result => console.log(result))
             .catch(error => console.log("error", error));
+
+        
     };
 
     const bg = useColorModeValue("white", "gray.800");

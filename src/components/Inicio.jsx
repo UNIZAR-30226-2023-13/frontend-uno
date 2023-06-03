@@ -27,6 +27,7 @@ export function Inicio() {
                     return(result.username);
                 })
                 .then((nombre_usuario) => {
+                    socket.connect();
                     socket.emit("registro", nombre_usuario);
                 })
                 .catch(error => console.log("error", error));

@@ -23,6 +23,7 @@ import {
     PopoverCloseButton,
     Icon,
     useDisclosure,
+    useToast
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { HiArrowPath } from "react-icons/hi2";
@@ -32,10 +33,18 @@ import { useGlobalState } from "./GlobalState";
 import { Inicio } from "./Inicio";
 import { Carta } from "./Carta";
 import { Top } from "./Top";
+import { useEffect } from "react";
+import { socket } from "../socket";
 
-export default function Juego() {
-    const [globalState, setGlobalState] = useGlobalState();
+export default function Juego({username}) {
+    console.log(username);
+    const [tengoPartida, setTengoPartida] = useState();
+    const toast = useToast();
+
+    const [, setGlobalState] = useGlobalState();
     const [unoPulsado, setUnoPulsado] = useState(false);
+    const [jugadores, setJugadores] = useState([{}]);
+    /* 
     const [jugadores, setJugadores] = useState([
         {
             nombre: "ana123",
@@ -58,20 +67,9 @@ export default function Juego() {
             puntos: 300,
         }
     ]);
-    const [cartasJugador1, setCartasJugador1] = useState([
-        {
-            numero: 1,
-            color: "red",
-            accion: null,
-            estilo: "harry potter",
-        },
-        {
-            numero: 2,
-            color: "blue",
-            accion: null,
-            estilo: "clasico",
-        },
-    ]);
+    */
+    const [misCartas, setMisCartas] = useState([{}]);
+    const [cartaDescartes, setCartaDescartes] = useState({});
 
     const [cartasJugador2, setCartasJugador2] = useState([
         {
@@ -137,6 +135,51 @@ export default function Juego() {
         // console.log(`numero: ${numero} color: ${color} numero: ${numero}`);
     };
 
+    const actualizarPartida = (partida) => {
+        // Entonces es la primera vez que recibo la partida
+        if (!tengoPartida){
+            // Mostrar mensaje de partida encontrada
+            toast({
+                title: "Se ha encontrado una partida",
+                status: "success",
+                position: "top",
+                duration: 3000,
+            });
+
+        }
+        setTengoPartida(true);
+        // Actualizo la lista de jugadores
+        const listaJugadores = [];
+        for (const jugador of partida.jugadores){
+            listaJugadores.push({
+                nombre: jugador.username,
+                nivel: Math.trunc((jugador.puntos) / 100),
+                numCartas: jugador.mano.length
+            });
+        } 
+        console.log(listaJugadores);
+        setJugadores(listaJugadores);
+
+        // Actualizo mis cartas
+        const cartas = partida.jugadores.filter((j)=>j.username===username)[0].mano;
+        console.log(cartas);
+        setMisCartas(cartas);
+
+        // Actualizo la carta de descartes
+        setCartaDescartes(partida.mazoDescartes.at(-partida.mazoDescartes.length));
+        console.log(cartaDescartes);
+
+        console.log(JSON.stringify(partida, null, 2));
+    };
+
+    useEffect(()=>{
+        socket.emit("buscarPartida");
+
+        socket.on("partida",actualizarPartida);
+
+        socket.on("disconnect", ()=>{setGlobalState(<Inicio/>);});
+    },[]);
+
     const spin = keyframes`  
     from {transform: rotate(0deg);}   
     to {transform: rotate(360deg)} 
@@ -146,7 +189,16 @@ export default function Juego() {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const finalRef = React.useRef(null);
 
-    return (
+    if (!tengoPartida){
+        return (
+            <Center minH="100%">
+                NO HAY PARTIDA AUN
+            </Center>
+        );
+    }
+    
+    else return (
+        
         <Grid
             templateColumns="repeat(11, 1fr)"
             templateRows="repeat(1, 1fr)"
@@ -156,7 +208,18 @@ export default function Juego() {
             <GridItem colStart="1" colEnd="3" w="100%" h="20vh" bg="blue.500">
                 <Center minH="100%">
                     <Button fontSize="3xl" position="relative" maxW="100%" width="8em" height="3em" size="lg"
-                        onClick={() => setGlobalState(<Inicio />)}>
+                        onClick={() => {
+                            socket.emit("abandonarPartida", (response) => {
+                                toast({
+                                    title: "Partida abandonada correctamente",
+                                    status: "success",
+                                    position: "top",
+                                    duration: 3000,
+                                });
+                                console.log(response);
+                            });
+                            setGlobalState(<Inicio />);
+                        }}>
                         Salir del juego
                     </Button>
                 </Center>
@@ -168,11 +231,12 @@ export default function Juego() {
             </GridItem>
             <GridItem colStart="8" colEnd="12" w="100%" bg="blue.500">
                 <Box>
-                    {jugadores.map((jugador) => (
+                    {jugadores.map((jugador, key) => (
                         <Top
+                            key={"jugador-"+key}
                             nombre={jugador.nombre}
                             nivel={jugador.nivel}
-                            puntos={jugador.puntos}
+                            numCartas={jugador.numCartas}
                         />
                     ))}
                 </Box>
@@ -188,7 +252,8 @@ export default function Juego() {
                 </Center>
                 <HStack style={{ zIndex: 2 }} minH="100%" alignItems="center" justifyContent="center">
                     <Carta color="black" accion="mazo" estilo="minimalista"/>
-                    <Carta numero="2" color="blue.500" estilo="clasico" />
+                    {/* La carta del mazo de descartes */}
+                    <Carta accion={cartaDescartes.accion} numero={cartaDescartes.numero} color={cartaDescartes.color} estilo="clasico" />
                     <>
                         <Modal finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose} isCentered>
                             <ModalOverlay />
@@ -238,30 +303,29 @@ export default function Juego() {
             </GridItem>
             <GridItem colStart="1" colEnd="3" w="100%" h="30vh" bg="blue.500">
                 <Center minH="100%">
-                    <Button fontSize="3xl" position="relative" maxW="100%" width="5em" height="3em" size="lg">
+                    <Button onClick={()=>{
+                        socket.emit("robarCarta");
+                    }} fontSize="3xl" position="relative" maxW="100%" width="5em" height="3em" size="lg">
                         Robar
                     </Button>
                 </Center>
             </GridItem>
             <GridItem colStart="3" colEnd="10" w="100%" bg="blue.500">
                 <HStack minH="100%" alignItems="center" justifyContent="center">
-                    {cartasJugador1.map((carta) => {
+                    {misCartas.map((carta) => {
                         switch (carta.accion) {
                         case "cambio color":
                             return (
-                                <Carta onClick={onOpen} numero={carta.numero} color={`${carta.color}.500`} accion={carta.accion} />
+                                <Carta onClick={onOpen} numero={carta.numero} color={carta.color} accion={carta.accion} />
                             );
-                            break;
                         case "roba 4":
                             return (
-                                <Carta onClick={onOpen} numero={carta.numero} color={`${carta.color}.500`} accion={carta.accion} />
+                                <Carta onClick={onOpen} numero={carta.numero} color={carta.color} accion={carta.accion} />
                             );
-                            break;
                         default:
                             return (
-                                <Carta onClick={() => { handleJugarCarta();}} numero={carta.numero} color={`${carta.color}.500`} accion={carta.accion} />
+                                <Carta onClick={() => { handleJugarCarta();}} numero={carta.numero} color={carta.color} accion={carta.accion} />
                             );
-                            break;
                         }
                     })}
 
@@ -270,7 +334,7 @@ export default function Juego() {
             <GridItem colStart="10" colEnd="12" w="100%" bg="blue.500">
                 <Center minH="100%">
                     <Popover
-                        isOpen={((cartasJugador1.length === 2 && !unoPulsado))}
+                        isOpen={((misCartas.length === 2 && !unoPulsado))}
                         onOpen={onOpen}
                         onClose={onClose}
                         placement="top-start"
@@ -279,7 +343,7 @@ export default function Juego() {
                             <Button onClick={()=>{{
                                 setUnoPulsado(true);
                             }}} 
-                            isDisabled={cartasJugador1.length !== 2 || unoPulsado} fontSize="3xl" position="relative" maxW="100%" width="5em" height="3em" size="lg">
+                            isDisabled={misCartas.length !== 2 || unoPulsado} fontSize="3xl" position="relative" maxW="100%" width="5em" height="3em" size="lg">
                                 UNO!
                             </Button>
                         </PopoverTrigger>

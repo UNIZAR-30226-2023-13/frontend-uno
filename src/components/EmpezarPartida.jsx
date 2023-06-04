@@ -77,7 +77,7 @@ export function EmpezarPartida() {
                     position="relative"
                 >
                     <Button
-                        onClick={() => setGlobalState(<Juego />)}
+                        onClick={() => setGlobalState(<Juego username={datos.username}/>)}
                         colorScheme="green"
                         bg="green.400"
                         rounded="full"

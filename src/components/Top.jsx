@@ -6,7 +6,7 @@ import {
     Center,
 } from "@chakra-ui/react";
 
-export function Top({ nombre, nivel, puntos }) {
+export function Top({ nombre, nivel, numCartas }) {
     return (
         <Box
             px="20px"
@@ -24,7 +24,8 @@ export function Top({ nombre, nivel, puntos }) {
                         {nivel}
                     </Badge>
                     <Badge colorScheme="green">
-                        {puntos}
+                        {"N.º Cartas: "}
+                        {numCartas}
                     </Badge>
                 </HStack>
             </Center>

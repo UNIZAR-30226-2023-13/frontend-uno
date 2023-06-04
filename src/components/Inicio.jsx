@@ -11,6 +11,7 @@ import { socket } from "../socket";
 //import { useToast } from "@chakra-ui/react";
 
 export function Inicio() {
+<<<<<<< HEAD
 
     const [nombre_usuario, setNombreUsuario] = useState("");
     //const toast = useToast();
@@ -18,6 +19,10 @@ export function Inicio() {
     useEffect(() => {
         async function obtenerDatos(){
             //NO ME DEJA GESTIONAR EL ERROR
+=======
+    useEffect(() => {
+        async function registrar (){
+>>>>>>> ddce084b1dc00f168b5d3471aba5a6fef56afdd5
             var requestOptions = {
                 method: "GET",
                 redirect: "follow",
@@ -28,17 +33,17 @@ export function Inicio() {
                 .then(async response => response.json())
                 .then(result => {
                     console.log(result.username);
-                    setNombreUsuario(result.username);
+                    return(result.username);
+                })
+                .then((nombre_usuario) => {
+                    socket.connect();
+                    socket.emit("registro", nombre_usuario);
                 })
                 .catch(error => console.log("error", error));
         }
 
-        //socket.connect();
         
-        obtenerDatos().then(()=>{
-            console.log(nombre_usuario);
-            socket.emit("registro", nombre_usuario);
-        });
+        registrar();
         
         
     },[]);

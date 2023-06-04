@@ -20,6 +20,12 @@ import {
 import React from "react";
 import Login from "./Login";
 import { useGlobalState } from "./GlobalState";
+<<<<<<< HEAD
+=======
+import { socket } from "../socket";
+
+
+>>>>>>> ddce084b1dc00f168b5d3471aba5a6fef56afdd5
 export function Barra({ setterPaginaActual, paginaActual }) {
     const [, setGlobalState] = useGlobalState();
 
@@ -33,6 +39,7 @@ export function Barra({ setterPaginaActual, paginaActual }) {
         fetch("http://localhost:8000/cuenta/cerrar-sesion", requestOptions)
             .then(response => {
                 if(response.status === 200){
+                    socket.disconnect();
                     setGlobalState(<Login/>);
                 }
                 else{
@@ -42,6 +49,8 @@ export function Barra({ setterPaginaActual, paginaActual }) {
             })  
             .then(result => console.log(result))
             .catch(error => console.log("error", error));
+
+        
     };
 
     const bg = useColorModeValue("white", "gray.800");

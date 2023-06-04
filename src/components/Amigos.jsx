@@ -189,6 +189,12 @@ export function Amigos() {
     useEffect(()=>{
         verAmigos();
         verInvitaciones();
+        // Si queremos que se actualice la lista de amigos cada 10 segundos
+        const intervalId = setInterval(() => {
+            verAmigos();
+            verInvitaciones();
+        }, 1000 * 10); // in milliseconds
+        return () => clearInterval(intervalId);
     },[]);
 
     const { isOpen, onOpen, onClose } = useDisclosure();

@@ -27,6 +27,7 @@ import { ViewIcon } from "@chakra-ui/icons";
 import { ViewOffIcon } from "@chakra-ui/icons";
 import { useGlobalState } from "./GlobalState";
 import Login from "./Login";
+import {socket} from "../socket";
 
 export function Perfil() {
 
@@ -146,6 +147,11 @@ export function Perfil() {
                 }
             })
             .then(result => {
+<<<<<<< HEAD
+=======
+                socket.disconnect();
+                setGlobalState(<Login/>);
+>>>>>>> ddce084b1dc00f168b5d3471aba5a6fef56afdd5
                 console.log(result);
             })
             .catch(error => console.log("error", error));

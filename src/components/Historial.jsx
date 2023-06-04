@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     VStack,
     StackDivider,
@@ -10,6 +10,7 @@ import { CartaPartida } from "./CartaPartida";
 export function Historial() {
     const username = "adri";
     //
+    const [partidasPrueba, setPartidasPrueba] = useState([]);
     const [partidas, setPartidas] = useState([
         {
             ganador: "adri",
@@ -53,9 +54,55 @@ export function Historial() {
         },
     ]);
 
+    const obtenerPartidas = async () => {
+
+        var requestOptions = {
+            method: "GET",
+            redirect: "follow",
+            credentials: "include",
+        };
+
+        fetch("http://localhost:8000/partidas", requestOptions)
+            .then(async response => 
+                response.json())
+            .then(result => {
+                setPartidasPrueba(result);
+                console.log(result);
+            })
+            .catch(error => console.log("error", error));
+    };
+
+    const [nombre_usuario, setNombreUsuario] = useState("");
+
+    const obtenerDatosPerfil = async () => {
+
+        var requestOptions = {
+            method: "GET",
+            redirect: "follow",
+            credentials: "include",
+        };
+
+        fetch("http://localhost:8000/cuenta/quien-soy", requestOptions)
+            .then(async response => 
+                response.json())
+            .then(result => {
+                console.log(result);
+                setNombreUsuario(result.username);
+                console.log(result.username);
+            })
+            .catch(error => console.log("error", error));
+    };
+
+    useEffect(()=>{
+        obtenerDatosPerfil();
+        obtenerPartidas();
+    }, []);
+
     return (
         <>
             <VStack>
+                {partidasPrueba.partida.map((partida) => 
+                    <Text>{JSON.stringify(partida)}</Text>)}
                 <Text pt="1em" fontSize="4xl">Historial</Text>
                 <Text pt="1em" fontSize="xl">Aquí podrás ver tus anteriores partidas jugadas</Text>
             </VStack>
@@ -75,7 +122,12 @@ export function Historial() {
                     width={680}
                     boxShadow="0 0 2rem gray"
                 >
-                    {partidas.map((partida) => <CartaPartida ganador={partida.ganador} fecha={partida.fecha} usuario1={partida.usuario1} usuario2={partida.usuario2} usuario3={partida.usuario3} usuario4={partida.usuario4} />)}
+                    {
+                        /*
+                    partidas.map((partida) => <CartaPartida ganador={partida.ganador} fecha={partida.fecha} usuario1={partida.usuario1} usuario2={partida.usuario2} usuario3={partida.usuario3} usuario4={partida.usuario4} />)
+                    */
+                    }
+                    
                 </VStack>
             </Center>
         </>

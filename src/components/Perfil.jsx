@@ -147,11 +147,8 @@ export function Perfil() {
                 }
             })
             .then(result => {
-<<<<<<< HEAD
-=======
                 socket.disconnect();
                 setGlobalState(<Login/>);
->>>>>>> ddce084b1dc00f168b5d3471aba5a6fef56afdd5
                 console.log(result);
             })
             .catch(error => console.log("error", error));

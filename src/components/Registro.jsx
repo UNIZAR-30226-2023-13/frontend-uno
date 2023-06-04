@@ -20,29 +20,37 @@ import {
     AlertDialogBody,
     AlertDialogFooter,
     useDisclosure,
+    Wrap,
+    WrapItem,
+    useToast,
+    Divider
 } from "@chakra-ui/react";
+
 import { useState, useRef } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { useGlobalState } from "./GlobalState";
-import LoginBonito from "./Login";
+import Login from "./Login";
 
 export function Registro() {
+
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [, setGlobalState] = useGlobalState();
     const [contrasenasDistintas, setContrasenasDistintas] = useState(false);
     const { isOpen, onOpen, onClose } = useDisclosure();
     const cancelRef = useRef();
+    const toast = useToast();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         const nombre = e.target.user.value;
         const email = e.target.email.value;
         const password = e.target.password.value;
         const confirmPassword = e.target.confirmPassword.value;
+
         // Si los datos son coherentes
         if (password === confirmPassword) {
-            // Llamada a la API
             setContrasenasDistintas(false);
             const res = await fetch("http://localhost:8000/signup", {
                 method: "POST",
@@ -54,11 +62,22 @@ export function Registro() {
                     password: password,
                 }),
             });
+
             console.log(res);
+
             if (res.status === 401) {
-                console.log("error inesperado");
-            } else if (res.status === 403) {
-                console.log("ya existe un usuario con ese username");
+                toast({
+                    title: "Ha sucedido un error",
+                    status: "error",
+                    position: "top",
+                });
+            } 
+            else if (res.status === 403) {
+                toast({
+                    title: "Ya existe un usuario con ese nombre",
+                    status: "warning",
+                    position: "top",
+                });
             }
             else if(res.status === 200){
                 onOpen(true);    
@@ -72,6 +91,10 @@ export function Registro() {
 
     return (
         <>
+            <Wrap>
+                <WrapItem>
+                </WrapItem>
+            </Wrap>
             <AlertDialog
                 isCentered
                 isOpen={isOpen}
@@ -83,7 +106,7 @@ export function Registro() {
                         <AlertDialogHeader fontSize="lg" fontWeight="bold">
                             Cuenta creada correctamente
                         </AlertDialogHeader>
-
+                        <Divider></Divider>
                         <AlertDialogBody>
                             Ya puedes empezar a jugar al UNO
                         </AlertDialogBody>
@@ -95,7 +118,7 @@ export function Registro() {
                                     colorScheme="blue"
                                     onClick={() => {
                                         onClose();
-                                        setGlobalState(<LoginBonito />);
+                                        setGlobalState(<Login />);
                                     }}
                                     ml={3}
                                 >
@@ -122,7 +145,7 @@ export function Registro() {
                         <Heading fontSize="4xl" textAlign="center">
                             Crear cuenta
                         </Heading>
-                        <Text fontSize="lg" color="gray.600">
+                        <Text fontSize="lg" color="gray.600" fontWeight="bold">
                             ¡Empieza a disfrutar del juego de cartas más
                             popular!
                         </Text>
@@ -142,11 +165,11 @@ export function Registro() {
                                     </FormControl>
                                 </Box>
                                 <FormControl id="email" isRequired>
-                                    <FormLabel>Correo electrónico</FormLabel>
+                                    <FormLabel requiredIndicator={false}>Correo electrónico</FormLabel>
                                     <Input type="email" />
                                 </FormControl>
                                 <FormControl id="password" isRequired>
-                                    <FormLabel>Contraseña</FormLabel>
+                                    <FormLabel requiredIndicator={false}>Contraseña</FormLabel>
                                     <InputGroup>
                                         <Input
                                             type={
@@ -179,7 +202,7 @@ export function Registro() {
                                     isRequired
                                     isInvalid={contrasenasDistintas}
                                 >
-                                    <FormLabel>Confirmar contraseña</FormLabel>
+                                    <FormLabel requiredIndicator={false}>Confirmar contraseña</FormLabel>
                                     <InputGroup>
                                         <Input
                                             type={
@@ -210,7 +233,7 @@ export function Registro() {
                                         <></>
                                     ) : (
                                         <FormErrorMessage>
-                                            Contraseñas no coinciden.
+                                            Las contraseñas no coinciden.
                                         </FormErrorMessage>
                                     )}
                                 </FormControl>
@@ -233,7 +256,7 @@ export function Registro() {
                                         ¿Ya tienes una cuenta?{" "}
                                         <Link
                                             onClick={() =>
-                                                setGlobalState(<LoginBonito />)
+                                                setGlobalState(<Login />)
                                             }
                                             color="blue.400"
                                         >

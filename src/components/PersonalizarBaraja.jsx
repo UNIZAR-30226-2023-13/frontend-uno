@@ -13,7 +13,7 @@ import {
 
 
 export function PersonalizarBaraja() {
-
+    //FALTA AÑADIR CODIGOS ERROR
     const [baraja,setBaraja] = useState([]);
 
     const verEstiloCarta = async () => {
@@ -133,6 +133,7 @@ export function PersonalizarBaraja() {
                                 alt="carousel image"
                                 boxSize="full"
                                 backgroundSize="cover"
+                                filter={!estilo.desbloqueado ? "grayscale(100%)" : ""}
                             />
                             <Center>
                                 <Stack

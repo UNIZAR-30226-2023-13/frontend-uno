@@ -10,18 +10,21 @@ import {
     createIcon,
     Progress,
     HStack,
+    //useToast,
 } from "@chakra-ui/react";
 
 import { useGlobalState } from "./GlobalState";
 import { useEffect } from "react";
 import Juego from "./Juego";
 
-export function EmpezarPartida({ puntos }) {
+export function EmpezarPartida() {
 
-    const [globalState, setGlobalState] = useGlobalState();
+    const [, setGlobalState] = useGlobalState();
     const [datos, setDatos] = useGlobalState();
+    //const toast = useToast();
 
     const obtenerDatos = async () => {
+        //NO ME DEJA GESTIONAR EL ERROR
         var requestOptions = {
             method: "GET",
             redirect: "follow",
@@ -29,7 +32,7 @@ export function EmpezarPartida({ puntos }) {
         };
 
         fetch("http://localhost:8000/cuenta/quien-soy", requestOptions)
-            .then(response => response.json())
+            .then(async response => response.json())
             .then(result => {
                 setDatos(result);
                 console.log(result);
@@ -55,16 +58,16 @@ export function EmpezarPartida({ puntos }) {
                     fontSize={{ base: "2xl", sm: "4xl", md: "6xl" }}
                     lineHeight="110%"
                 >
-          ¿Estás listo para jugar al
+                    ¿Estás listo para jugar al
                     {" "}
                     <br />
                     <Text as="span" color="green.400">
-            UNO
+                        UNO
                     </Text>
-          ?
+                        ?
                 </Heading>
                 <Text color="gray.500">
-          UNO, el juego de cartas más popular. Empieza partida para sumergirte en este increíble juego.
+                    UNO, el juego de cartas más popular. Empieza partida para sumergirte en este increíble juego.
                 </Text>
                 <Stack
                     direction="column"
@@ -83,7 +86,7 @@ export function EmpezarPartida({ puntos }) {
                             bg: "green.500",
                         }}
                     >
-            Empezar partida
+                        Empezar partida
                     </Button>
                     <Box>
                         <Icon
@@ -102,7 +105,7 @@ export function EmpezarPartida({ puntos }) {
                             top="-15px"
                             transform="rotate(10deg)"
                         >
-              ¿A qué esperas?
+                            ¿A qué esperas?
                         </Text>
                     </Box>
                 </Stack>

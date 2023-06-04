@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import {
     VStack,
     StackDivider,
@@ -18,7 +17,11 @@ import {
     InputRightElement,
     InputGroup,
     useDisclosure,
+    Wrap,
+    WrapItem,
+    useToast
 } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
 import { FaPaperPlane } from "react-icons/fa";
 import { CartaInvitacion } from "./CartaInvitacion";
 import { CartaSocial } from "./CartaSocial";
@@ -36,7 +39,36 @@ export function Amigos() {
         };
 
         fetch("http://localhost:8000/amigos/anadir_amigo", requestOptions)
-            .then(response => response.text())
+            .then(response => {
+                if (response.status === 200){
+                    toast({
+                        title: "Solicitud enviada correctamente",
+                        status: "success",
+                        position: "top",
+                    });
+                }
+                else if (response.status === 400){
+                    toast({
+                        title: "¡No puedes enviarte una invitacion a ti mismo!",
+                        status: "warning",
+                        position: "top",
+                    });
+                }
+                else if(response.status === 409){
+                    toast({
+                        title: "Ya sois amigos",
+                        status: "info",
+                        position: "top",
+                    });
+                }
+                else if(response.status === 500){
+                    toast({
+                        title: "Ha sucedido un error",
+                        status: "error",
+                        position: "top",
+                    });
+                }
+            })
             .then(async result => {
                 await verAmigos();
                 await verInvitaciones();
@@ -45,6 +77,7 @@ export function Amigos() {
     };
 
     const handleRechazarSolicitud = async(nombre) => {
+        //FALTAN CODIGOS DE ERROR
         var urlencoded = new URLSearchParams();
         urlencoded.append("username", nombre);
 
@@ -64,6 +97,7 @@ export function Amigos() {
     };
 
     const verAmigos = async () => {
+        //NO FUNCIONA AL PONER CODIGOS DE ERROR
         console.log("recibiendo amigos");
 
         var requestOptions = {
@@ -82,6 +116,7 @@ export function Amigos() {
     };
 
     const verInvitaciones = async () => {
+        //NO FUNCIONA AL PONER CODIGOS DE ERROR
         console.log("recibiendo invitaciones");
         var requestOptions = {
             method: "GET",
@@ -111,10 +146,40 @@ export function Amigos() {
         };
 
         fetch("http://localhost:8000/amigos/enviar_invitacion", requestOptions)
-            .then(response => response.text())
+            .then(response => {
+                if (response.status === 200){
+                    toast({
+                        title: "Solicitud enviada correctamente",
+                        status: "success",
+                        position: "top",
+                    });
+                }
+                else if (response.status === 400){
+                    toast({
+                        title: "¡No puedes enviarte una invitacion a ti mismo!",
+                        status: "warning",
+                        position: "top",
+                    });
+                }
+                else if(response.status === 409){
+                    toast({
+                        title: "Ya sois amigos",
+                        status: "info",
+                        position: "top",
+                    });
+                }
+                else if(response.status === 500){
+                    toast({
+                        title: "Ha sucedido un error",
+                        status: "error",
+                        position: "top",
+                    });
+                }
+            })
             .then(async result => {
                 await verAmigos();
                 await verInvitaciones();
+                //{onOpenConfirmar;}
                 console.log(result);
             })
             .catch(error => console.log("error", error));
@@ -127,6 +192,8 @@ export function Amigos() {
     },[]);
 
     const { isOpen, onOpen, onClose } = useDisclosure();
+    //const { isOpenConfirmar, onOpenConfirmar, onCloseConfirmar } = useDisclosure();
+    const toast = useToast();
 
     const initialRef = React.useRef(null);
     const finalRef = React.useRef(null);
@@ -203,6 +270,28 @@ export function Amigos() {
                     </ModalBody>
                 </ModalContent>
             </Modal>
+            <Wrap>
+                <WrapItem>
+                </WrapItem>
+            </Wrap>
+            {/*
+            <Modal
+                initialFocusRef={initialRef}
+                finalFocusRef={finalRef}
+                isOpen={isOpenConfirmar}
+                onClose={onCloseConfirmar}
+                size="2xl"
+            >
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader fontSize="3xl">Invitaciones</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody pb={6}>
+                        <Text>Solicitud enviada correctamente</Text>
+                    </ModalBody>
+                </ModalContent>
+            </Modal>
+            */}
             <Center paddingY="20px" paddingX="10%">
                 <VStack
                     py={5}

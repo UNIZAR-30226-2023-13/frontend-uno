@@ -11,7 +11,7 @@ import imagen_1_hp from "../images/Harry-Potter-PNG-Background.png";
 
 
 export function Carta({
-    onClick, numero, color, accion, numCartas, estilo,seleccionable=false
+    onClick, numero, color, accion, numCartas, estilo
 }) {
     let textoAux;
     let textoCentral;
@@ -76,31 +76,53 @@ export function Carta({
         textoCentral = numero;
     }
     return (
-        <Box    
-            _hover={{
-                transform: "translateY(-10%)",
-                filter: "brightness(110%)",
-
-            }}
-            onClick={onClick}
-            bgColor={color}
-            border="1px"
-            borderRadius="4px"
-            minH="100%"
-            align-items="center"
-            justify-items="center"
-        >
-            <VStack maxH="100%" width="5em" alignItems="unset">
-                <Text px="5px" color="white}" align="left">
-                    {textoAux}
-                </Text>
-                <Text fontSize="4xl" color="white}" align="center">
-                    {textoCentral}
-                </Text>
-                <Text px="5px" color="white}" align="right">
-                    {textoAux}
-                </Text>
-            </VStack>
-        </Box>
+        (accion==="uno" || accion==="mazo") ? 
+            <Box    
+                onClick={onClick}
+                bgColor={color}
+                border="1px"
+                borderRadius="4px"
+                minH="100%"
+                align-items="center"
+                justify-items="center"
+            >
+                <VStack maxH="100%" width="5em" alignItems="unset">
+                    <Text px="5px" color="white}" align="left">
+                        {textoAux}
+                    </Text>
+                    <Text fontSize="4xl" color="white}" align="center">
+                        {textoCentral}
+                    </Text>
+                    <Text px="5px" color="white}" align="right">
+                        {textoAux}
+                    </Text>
+                </VStack>
+            </Box>
+            :
+            <Box    
+                _hover={{
+                    transform: "translateY(-10%)",
+                    filter: "brightness(110%)",
+                }}
+                onClick={onClick}
+                bgColor={color}
+                border="1px"
+                borderRadius="4px"
+                minH="100%"
+                align-items="center"
+                justify-items="center"
+            >
+                <VStack maxH="100%" width="5em" alignItems="unset">
+                    <Text px="5px" color="white}" align="left">
+                        {textoAux}
+                    </Text>
+                    <Text fontSize="4xl" color="white}" align="center">
+                        {textoCentral}
+                    </Text>
+                    <Text px="5px" color="white}" align="right">
+                        {textoAux}
+                    </Text>
+                </VStack>
+            </Box>
     );
 }

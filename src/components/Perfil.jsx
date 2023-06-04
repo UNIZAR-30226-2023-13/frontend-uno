@@ -17,6 +17,8 @@ import {
     ModalHeader,
     InputGroup,
     InputRightElement,
+    useToast,
+    FormErrorMessage,
 } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
@@ -27,18 +29,23 @@ import { useGlobalState } from "./GlobalState";
 import Login from "./Login";
 
 export function Perfil() {
+
     const [,setGlobalState] = useGlobalState();
-    const [nombre_usuario, setNombreUsuario] = useState("Nuevo nombre usuario");
+    const [nombre_usuario, setNombreUsuario] = useState("");
     const [email,setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [passwordConfirmacion, setpasswordConfirmacion] = useState("");
     const [showPassword, setShowPassword] = useState(false);
+    const [showNuevaPassword, setShowNuevaPassword] = useState(false);
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const [contrasenaIncorrecta, setContrasenaIncorrecta] = useState(false);
+    const toast = useToast();
 
     const initialRef = useRef(null);
     const finalRef = useRef(null);
 
     const obtenerDatosPerfil = async () => {
+        //NO ME DEJA GESTIONAR EL ERROR
 
         var requestOptions = {
             method: "GET",
@@ -47,8 +54,7 @@ export function Perfil() {
         };
 
         fetch("http://localhost:8000/cuenta/quien-soy", requestOptions)
-            .then(async response => 
-                response.json())
+            .then(async response => response.json())
             .then(result => {
                 console.log(result);
                 setNombreUsuario(result.username);
@@ -82,6 +88,25 @@ export function Perfil() {
             .then(response => {
                 if (response.status === 200){
                     setPassword("");
+                    toast({
+                        title: "Cambios guardados correctamente",
+                        status: "success",
+                        position: "top",
+                    });
+                }
+                else if(response.status === 401){
+                    toast({
+                        title: "Cookie no valida",
+                        status: "error",
+                        position: "top",
+                    });
+                }
+                else if(response.status === 403){
+                    toast({
+                        title: "No se ha podido modificar el email y la contraseña",
+                        status: "error",
+                        position: "top",
+                    });
                 }
                 return response.text();})
             .then(result => {
@@ -103,9 +128,24 @@ export function Perfil() {
         };
 
         fetch("http://localhost:8000/cuenta/eliminar", requestOptions)
-            .then(response => response.text())
+            .then(response => {
+                if(response.status === 200){
+                    response.text();
+                    setContrasenaIncorrecta(false);
+                    setGlobalState(<Login/>);
+                }
+                else if(response.status === 401){
+                    toast({
+                        title: "Cookie no valida",
+                        status: "error",
+                        position: "top",
+                    });
+                }
+                else if(response.status === 403){
+                    setContrasenaIncorrecta(true);
+                }
+            })
             .then(result => {
-                setGlobalState(<Login/>);
                 console.log(result);
             })
             .catch(error => console.log("error", error));
@@ -129,8 +169,8 @@ export function Perfil() {
                         <ModalHeader>Confirma la eliminación de la cuenta</ModalHeader>
                         <ModalBody pb={6}>
                         
-                            <FormControl id="password" isRequired>
-                                <FormLabel>Introduce la contraseña</FormLabel>
+                            <FormControl id="password" isRequired isInvalid={contrasenaIncorrecta}>
+                                <FormLabel requiredIndicator={false}>Introduce la contraseña</FormLabel>
                                 <InputGroup>
                                     <Input
                                         value={passwordConfirmacion}
@@ -161,6 +201,13 @@ export function Perfil() {
                                         </Button>
                                     </InputRightElement>
                                 </InputGroup>
+                                {!contrasenaIncorrecta ? (
+                                    <></>
+                                ) : (
+                                    <FormErrorMessage>
+                                        Contraseña incorrecta
+                                    </FormErrorMessage>
+                                )}
                             </FormControl>
                         
                         </ModalBody>
@@ -169,7 +216,12 @@ export function Perfil() {
                             <Button type="submit" loadingText="Submitting" colorScheme='red' mr={3}>
                             Eliminar
                             </Button>
-                            <Button onClick={onClose}>Cancelar</Button>
+                            <Button onClick={() => {
+                                onClose(true);
+                                setContrasenaIncorrecta(false);
+                                setpasswordConfirmacion("");
+                            }}
+                            >Cancelar</Button>
                         </ModalFooter>
                     </form>
                 </ModalContent>
@@ -202,7 +254,7 @@ export function Perfil() {
                     <FormControl id="userName">
                         <FormLabel>Nombre de usuario</FormLabel>
                         <Input
-                            disabled="true"
+                            disabled={true}
                             placeholder={nombre_usuario}
                             _placeholder={{ color: "gray.500" }}
                             type="text"
@@ -222,13 +274,36 @@ export function Perfil() {
                     </FormControl>
                     <FormControl id="password">
                         <FormLabel>Contraseña</FormLabel>
-                        <Input
-                            value={password}
-                            placeholder="Nueva contraseña"
-                            _placeholder={{ color: "gray.500" }}
-                            type="password"
-                            onChange={(e)=>setPassword(e.target.value)}
-                        />
+                        <InputGroup>
+                            <Input
+                                value={password}
+                                placeholder="Nueva contraseña"
+                                _placeholder={{ color: "gray.500" }}
+                                onChange={(e)=>setPassword(e.target.value)}
+                                type={
+                                    showNuevaPassword
+                                        ? "text"
+                                        : "password"
+                                }
+                            />
+                            <InputRightElement h="full">
+                                <Button
+                                    variant="ghost"
+                                    onClick={() =>
+                                        setShowNuevaPassword(
+                                            (showNuevaPassword) =>
+                                                !showNuevaPassword
+                                        ) 
+                                    }
+                                >
+                                    {showNuevaPassword ? (
+                                        <ViewIcon />
+                                    ) : (
+                                        <ViewOffIcon />
+                                    )}
+                                </Button>
+                            </InputRightElement>
+                        </InputGroup>
                     </FormControl>
                     <Button
                         bg="blackAlpha.800"
@@ -237,16 +312,6 @@ export function Perfil() {
                         Eliminar cuenta
                     </Button>
                     <Stack spacing={6} direction={["column", "row"]}>
-                        <Button
-                            bg="red.400"
-                            color="white"
-                            w="full"
-                            _hover={{
-                                bg: "red.500",
-                            }}
-                        >
-                            Cancelar
-                        </Button>
                         <Button
                             bg="blue.400"
                             color="white"

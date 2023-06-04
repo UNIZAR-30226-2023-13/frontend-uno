@@ -26,6 +26,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { HiArrowPath } from "react-icons/hi2";
+import { BsArrowClockwise } from "react-icons/bs";
 import { useGlobalState } from "./GlobalState";
 // import { Registro } from './Registro';
 import { Inicio } from "./Inicio";
@@ -182,11 +183,9 @@ export default function Juego() {
                 </VStack>
             </GridItem>
             <GridItem colStart="3" colEnd="10" w="100%" bg="blue.500">
-                {/*
-                <Center position={'fixed'} left={'50%'} right={'50%'} style={{transform: `translate(-50%)`}} minH={'50%'}>
-                    <Icon fillOpacity={0} strokeOpacity={1} strokeWidth={'0.1px'} stroke={'red'}  boxSize={500} animation={spinAnimation} as={HiArrowPath}/>
+                <Center position={"fixed"} left={"50%"} right={"50%"} top={"17%"} minH={"50%"}>
+                    <Icon opacity={"60%"} fillOpacity={1} size={"2px"} boxSize={480} animation={spinAnimation} as={BsArrowClockwise}/>
                 </Center>
-                */}
                 <HStack style={{ zIndex: 2 }} minH="100%" alignItems="center" justifyContent="center">
                     <Carta color="black" accion="mazo" estilo="minimalista"/>
                     <Carta numero="2" color="blue.500" estilo="clasico" />

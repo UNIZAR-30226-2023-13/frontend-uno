@@ -11,7 +11,6 @@ import {
     chakra,
     useDisclosure,
 } from "@chakra-ui/react";
-import { useCookies } from "react-cookie";
 import {
     HiUser, HiUserGroup, HiShoppingCart, HiClipboard,
 } from "react-icons/hi";
@@ -21,11 +20,8 @@ import {
 import React from "react";
 import Login from "./Login";
 import { useGlobalState } from "./GlobalState";
-import Cookies from "js-cookie";
-
 export function Barra({ setterPaginaActual, paginaActual }) {
-    const [globalState, setGlobalState] = useGlobalState();
-    const [cookie, setCookie, removeCookie] = useCookies("session");
+    const [, setGlobalState] = useGlobalState();
 
     const handleCerrarSesion = () => {
         var requestOptions = {

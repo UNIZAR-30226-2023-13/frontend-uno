@@ -12,7 +12,7 @@ import {
 
 
 export function PersonalizarTablero() {
-
+    //FALTA AÑADIR CODIGOS ERROR
     const [tablero,setTablero] = useState([]);
 
     const verEstiloTablero = async () => {

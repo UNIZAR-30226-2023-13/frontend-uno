@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useGlobalState } from "./GlobalState";
 import { Barra } from "./Barra";
 import Personalizar from "./Personalizar";
 import { PersonalizarTablero } from "./PersonalizarTablero";
@@ -9,14 +8,16 @@ import { Perfil } from "./Perfil";
 import { Historial } from "./Historial";
 import { EmpezarPartida } from "./EmpezarPartida";
 import { socket } from "../socket";
+//import { useToast } from "@chakra-ui/react";
 
 export function Inicio() {
 
     const [nombre_usuario, setNombreUsuario] = useState("");
-
+    //const toast = useToast();
 
     useEffect(() => {
-        async function obtenerDatos (){
+        async function obtenerDatos(){
+            //NO ME DEJA GESTIONAR EL ERROR
             var requestOptions = {
                 method: "GET",
                 redirect: "follow",
@@ -24,8 +25,7 @@ export function Inicio() {
             };
 
             fetch("http://localhost:8000/cuenta/quien-soy", requestOptions)
-                .then(async response => 
-                    response.json())
+                .then(async response => response.json())
                 .then(result => {
                     console.log(result.username);
                     setNombreUsuario(result.username);
@@ -46,55 +46,54 @@ export function Inicio() {
 
     
     const [paginaActual, setPaginaActual] = useState("inicio");
-    const [globalState, setGlobalState] = useGlobalState();
     switch (paginaActual) {
     case "inicio":
         return (
             <>
                 <Barra setterPaginaActual={setPaginaActual} paginaActual={paginaActual} />
-                <EmpezarPartida puntos={893} />
+                <EmpezarPartida/>
             </>
         );
     case "personalizar":
         return (
-            <div>
+            <>
                 <Barra setterPaginaActual={setPaginaActual} paginaActual={paginaActual} />
-                <Personalizar setterPaginaActual={setPaginaActual} />
-            </div>
+                <Personalizar setterPaginaActual={setPaginaActual}/>
+            </>
         );
     case "personalizarTablero":
         return (
             <>
                 <Barra setterPaginaActual={setPaginaActual} paginaActual={paginaActual} />
-                <PersonalizarTablero />
+                <PersonalizarTablero/>
             </>
         );
     case "personalizarBaraja":
         return (
             <>
                 <Barra setterPaginaActual={setPaginaActual} paginaActual={paginaActual} />
-                <PersonalizarBaraja estilo="Baraja minimalista"/>
+                <PersonalizarBaraja/>
             </>
         );
     case "amigos":
         return (
             <>
                 <Barra setterPaginaActual={setPaginaActual} paginaActual={paginaActual} />
-                <Amigos />
+                <Amigos/>
             </>
         );
     case "perfil":
         return (
             <>
                 <Barra setterPaginaActual={setPaginaActual} paginaActual={paginaActual} />
-                <Perfil nombre_usuario="pepe" />
+                <Perfil/>
             </>
         );
     case "historial":
         return (
             <>
                 <Barra setterPaginaActual={setPaginaActual} paginaActual={paginaActual} />
-                <Historial />
+                <Historial/>
             </>
         );
 

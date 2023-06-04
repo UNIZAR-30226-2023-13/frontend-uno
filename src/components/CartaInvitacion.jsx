@@ -10,9 +10,6 @@ import {
 
 
 export function CartaInvitacion({ nombre, nivel, aceptarSolicitud, rechazarSolicitud }) {
-
-    
-
     return (
         <Box px="20px" py="10px" borderRadius="5px">
             <Center>

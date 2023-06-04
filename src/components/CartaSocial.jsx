@@ -4,33 +4,87 @@ import {
     Text,
     HStack,
     Center,
+    Button,
+    AlertDialog,
+    AlertDialogBody,
+    AlertDialogContent,
+    AlertDialogHeader,
+    AlertDialogOverlay,
+    Flex,
+    Divider,
+    AlertDialogFooter,
+    useDisclosure,
 } from "@chakra-ui/react";
 
+import { useRef } from "react";
+
 export function CartaSocial({ nombre, conectado, nivel }) {
+
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const cancelRef = useRef();
+
     return (
-        <Box
-            px="20px"
-            py="10px"
-            borderRadius="5px"
-            _hover={{
-                bgColor: "gray.100",
-            }}
-        >
-            <Center>
-                <HStack gap={4}>
-                    <Text fontSize="2xl" fontWeight="bold">
-                        {nombre}
-                    </Text>
-                    <Badge colorScheme={(conectado===true) ? "green" : "red"}>
-                        {(conectado===true) ? "Conectado" : "Desconectado"}   
-                    </Badge>
-                    <Badge colorScheme="blue">
-                        Nivel
-                        {" "}
-                        {nivel}
-                    </Badge>
-                </HStack>
-            </Center>
-        </Box>
+        <>
+            <AlertDialog
+                isCentered
+                isOpen={isOpen}
+                leastDestructiveRef={cancelRef}
+                onClose={onClose}
+            >
+                <AlertDialogOverlay>
+                    <AlertDialogContent>
+                        <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                            Confirmar eliminar amigo
+                        </AlertDialogHeader>
+                        <Divider></Divider>
+                        <AlertDialogBody>
+                            {"¿Deseas eliminar a "} {nombre} {"como amigo?"}
+                        </AlertDialogBody>
+
+                        <AlertDialogFooter>
+                            <Flex align="center">
+                                <Button onClick={onClose}>
+                                    Cancelar
+                                </Button>
+                                <Button
+                                    align="center"
+                                    colorScheme="red"
+                                    ml={3}
+                                    //SE GESTIONARÁ MÁS ADELANTE
+                                    onClick={onClose}
+                                >
+                                    Confirmar
+                                </Button>
+                            </Flex>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialogOverlay>
+            </AlertDialog>
+            <Box
+                px="20px"
+                py="10px"
+                borderRadius="5px"
+                _hover={{
+                    bgColor: "gray.100",
+                }}
+            >
+                <Center>
+                    <HStack gap={4}>
+                        <Text fontSize="2xl" fontWeight="bold">
+                            {nombre}
+                        </Text>
+                        <Badge colorScheme={(conectado===true) ? "green" : "red"}>
+                            {(conectado===true) ? "Conectado" : "Desconectado"}   
+                        </Badge>
+                        <Badge colorScheme="blue">
+                            Nivel
+                            {" "}
+                            {nivel}
+                        </Badge>
+                        <Button onClick={onOpen} colorScheme="red">Eliminar</Button>
+                    </HStack>
+                </Center>
+            </Box>
+        </>
     );
 }

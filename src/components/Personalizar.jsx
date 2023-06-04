@@ -12,7 +12,6 @@ import {
 
 import imagen_tablero from "../images/4469150.jpg";
 import imagen_baraja from "../images/card-games.png";
-import imagen_prueba from "../images/uno_inicio.jpeg";
 
 function ProductSimple({ objModificar, imagen, accionBoton }) {
     return (

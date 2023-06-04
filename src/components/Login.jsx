@@ -48,7 +48,7 @@ export default function Login() {
         
         const username = e.target.username.value;
         const password = e.target.password.value;
-        const res = await fetch("http://localhost:8000/login", {
+        fetch("http://localhost:8000/login", {
             method: "POST",
             mode: "cors",
             credentials: "include",
@@ -56,23 +56,26 @@ export default function Login() {
                 username,
                 password,
             }),
-        });
-        
-        console.log(res);
-
-        if (res.status === 401) {
-            setUsuarioContrasenaIncorrecto(true);
-        } 
-        else if (res.status === 200) {
-            setGlobalState(<Inicio/>);
-            /*
-            toast({
-                title: "Ha sucedido un error",
-                status: "error",
-                position: "top",
+        }).then(res => {
+            if (res.status === 200){
+                setGlobalState(<Inicio/>);
+            }
+            else if (res.status === 401){
+                setUsuarioContrasenaIncorrecto(true);
+            }
+        })
+        // TODO: esto quiza seria buena idea poner como catch de todos los fetch 
+            .catch(() => {
+                toast({
+                    title: "Ha sucedido un error",
+                    description: "Contacte con un administrador",
+                    status: "error",
+                    position: "top",
+                });
             });
-            */
-        }
+        
+    
+
     };
 
     useEffect(()=>{

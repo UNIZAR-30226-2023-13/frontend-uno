@@ -14,16 +14,18 @@ import { FaCrown, FaSkullCrossbones } from "react-icons/fa";
 export function CartaPartida({
     ganador,
     fecha,
-    usuario1,
-    usuario2,
-    usuario3,
-    usuario4,
+    usuarioPropio,
+    otrosUsuarios
 }) {
-    const otrosUsuarios = [usuario2, usuario3, usuario4];
+    const fechaDate = new Date (fecha);
+    const agno = fechaDate.getFullYear();
+    const mes = fechaDate.getMonth() + 1;
+    const dia = fechaDate.getUTCDate() + 1;
+    //const otrosUsuarios = [usuario2, usuario3, usuario4];
 
     let texto;
 
-    if (ganador === usuario1) {
+    if (usuarioPropio.esGanador) {
         texto = "¡Victoria!";
     } else {
         texto = "Derrota";
@@ -48,11 +50,11 @@ export function CartaPartida({
                                 fontSize="4xl"
                                 fontWeight="bold"
                                 textColor={
-                                    ganador === usuario1 ? "yellow.500" : "black"
+                                    ganador === usuarioPropio.nombre ? "yellow.500" : "black"
                                 }
                                 mr="2"
                                 as={
-                                    ganador === usuario1
+                                    ganador === usuarioPropio.nombre
                                         ? FaCrown
                                         : FaSkullCrossbones
                                 }
@@ -61,7 +63,7 @@ export function CartaPartida({
                                 fontSize="4xl"
                                 fontWeight="bold"
                                 textColor={
-                                    ganador === usuario1 ? "yellow.500" : "black"
+                                    ganador === usuarioPropio.nombre ? "yellow.500" : "black"
                                 }
                             >
                                 {texto}
@@ -70,11 +72,11 @@ export function CartaPartida({
                                 fontSize="4xl"
                                 fontWeight="bold"
                                 textColor={
-                                    ganador === usuario1 ? "yellow.500" : "black"
+                                    ganador === usuarioPropio.nombre ? "yellow.500" : "black"
                                 }
                                 ml="2"
                                 as={
-                                    ganador === usuario1
+                                    ganador === usuarioPropio.nombre
                                         ? FaCrown
                                         : FaSkullCrossbones
                                 }
@@ -83,11 +85,14 @@ export function CartaPartida({
                         <VStack>
                             <Text fontSize="lg">Fecha</Text>
                             <Text fontSize="xl" fontWeight="bold">
-                                {fecha}
+                                {dia + "-" + mes + "-" + agno}
                             </Text>
                         </VStack>
                     </VStack>
                 </Center>
+                {/* */}
+                
+                            
                 <Center>
                     <VStack maxWidth={"10em"}>
                         <Text align={"center"} w={"10em"} fontSize="2xl">Jugadores</Text>
@@ -104,12 +109,12 @@ export function CartaPartida({
                                     fontSize="2xl"
                                     fontWeight="bold"
                                     colorScheme={
-                                        ganador === u
+                                        ganador === u.nombre
                                             ? "yellow"
                                             : colores[index + 2]
                                     }
                                 >
-                                    {ganador === u ? (
+                                    {ganador === u.nombre ? (
                                         <Icon
                                             mr="0.5em"
                                             fontSize="2xl"
@@ -120,8 +125,8 @@ export function CartaPartida({
                                     ) : (
                                         ""
                                     )}
-                                    {u}
-                                    {ganador === u ? (
+                                    {u.nombre}
+                                    {ganador === u.nombre ? (
                                         <Icon
                                             ml="0.5em"
                                             fontSize="2xl"
@@ -137,6 +142,7 @@ export function CartaPartida({
                         })}
                     </VStack>
                 </Center>
+                {/* */}
             </Stack>
                 
         </Box>

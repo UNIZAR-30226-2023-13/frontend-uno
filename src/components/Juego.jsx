@@ -38,12 +38,13 @@ import { socket } from "../socket";
 
 export default function Juego({username}) {
     console.log(username);
-    const [tengoPartida, setTengoPartida] = useState();
+    const [tengoPartida, setTengoPartida] = useState(false);
     const toast = useToast();
 
     const [, setGlobalState] = useGlobalState();
     const [unoPulsado, setUnoPulsado] = useState(false);
     const [jugadores, setJugadores] = useState([{}]);
+
     /* 
     const [jugadores, setJugadores] = useState([
         {
@@ -69,7 +70,7 @@ export default function Juego({username}) {
     ]);
     */
     const [misCartas, setMisCartas] = useState([{}]);
-    const [cartaDescartes, setCartaDescartes] = useState({});
+    const [cartaDescartes, setCartaDescartes] = useState();
 
     const [cartasJugador2, setCartasJugador2] = useState([
         {
@@ -130,6 +131,71 @@ export default function Juego({username}) {
         },
     ]);
 
+    const [otrosJugadores, setOtrosJugadores] = useState([]);
+
+    const jugadorArriba = () => {
+        switch (otrosJugadores.length) {
+        // Si solo hay otro jugador
+        case 1:
+            return (
+                <Carta color="black" accion="uno" numCartas={otrosJugadores[0].mano.length} estilo="minimalista"/>
+            );
+            // Si hay tres jugadores debe quedarse en blanco    
+        case 2:
+            return <></>;
+            // Si hay cuatro 4 jugadores
+        case 3:
+            return (
+                <Carta color="black" accion="uno" numCartas={otrosJugadores[1].mano.length} estilo="minimalista"/>
+            );
+        default:
+            return <></>;
+        }
+    };
+
+    const jugadorIzq = () => {
+        switch (otrosJugadores.length) {
+        // Si solo hay otro jugador debe quedarse en blanco
+        case 1:
+            return <></>;
+            
+        // Si hay tres jugadores debe ser el siguiente a el propio
+        case 2:
+            return (
+                <Carta color="black" accion="uno" numCartas={otrosJugadores[0].mano.length} estilo="minimalista"/>
+            );
+        // Si hay cuatro 4 jugadores
+        case 3:
+            return (
+                <Carta color="black" accion="uno" numCartas={otrosJugadores[0].mano.length} estilo="minimalista"/>
+            );
+        default:
+            return <></>;
+        }
+    };
+    
+    const jugadorDcha = () => {
+        switch (otrosJugadores.length) {
+        // Si solo hay otro jugador debe quedarse en blanco
+        case 1:
+            return <></>;
+            
+        // Si hay tres jugadores debe ser el siguiente del siguiente a el propio
+        case 2:
+            return (
+                <Carta color="black" accion="uno" numCartas={otrosJugadores[1].mano.length} estilo="minimalista"/>
+            );
+        // Si hay cuatro 4 jugadores
+        case 3:
+            return (
+                <Carta color="black" accion="uno" numCartas={otrosJugadores[2].mano.length} estilo="minimalista"/>
+            );
+        default:
+            return <></>;
+        }
+    };
+
+
     const handleJugarCarta = () => {
         setUnoPulsado(false);
         // console.log(`numero: ${numero} color: ${color} numero: ${numero}`);
@@ -169,13 +235,25 @@ export default function Juego({username}) {
         setCartaDescartes(partida.mazoDescartes.at(-partida.mazoDescartes.length));
         console.log(cartaDescartes);
 
+        // Actualizo los otros jugadores
+        // Debo ordenador sabiendo mi posicion
+        const miPosicion = partida.jugadores.findIndex((j)=>j.username===username);
+        console.log("mi posicion es: " + miPosicion);
+        const jugadoresAux = [];
+        for (var i = 1; i < partida.jugadores.length; i++){
+            jugadoresAux.push(partida.jugadores[(miPosicion + i) % partida.jugadores.length]);
+        }
+        console.log("Otros jugadores:");
+        console.log(jugadoresAux);
+        setOtrosJugadores(jugadoresAux);
+
         console.log(JSON.stringify(partida, null, 2));
     };
 
     useEffect(()=>{
         socket.emit("buscarPartida");
 
-        socket.on("partida",actualizarPartida);
+        socket.on("partida", actualizarPartida);
 
         socket.on("disconnect", ()=>{setGlobalState(<Inicio/>);});
     },[]);
@@ -188,6 +266,9 @@ export default function Juego({username}) {
 
     const { isOpen, onOpen, onClose } = useDisclosure();
     const finalRef = React.useRef(null);
+
+    console.log("jugador de arriba: ");
+    console.log(jugadorArriba());
 
     if (!tengoPartida){
         return (
@@ -209,14 +290,12 @@ export default function Juego({username}) {
                 <Center minH="100%">
                     <Button fontSize="3xl" position="relative" maxW="100%" width="8em" height="3em" size="lg"
                         onClick={() => {
-                            socket.emit("abandonarPartida", (response) => {
-                                toast({
-                                    title: "Partida abandonada correctamente",
-                                    status: "success",
-                                    position: "top",
-                                    duration: 3000,
-                                });
-                                console.log(response);
+                            socket.emit("abandonarPartida");
+                            toast({
+                                title: "Partida abandonada correctamente",
+                                status: "success",
+                                position: "top",
+                                duration: 3000,
                             });
                             setGlobalState(<Inicio />);
                         }}>
@@ -226,7 +305,11 @@ export default function Juego({username}) {
             </GridItem>
             <GridItem colStart="3" colEnd="8" w="100%" bg="blue.500">
                 <HStack minH="100%" alignItems="center" ml="65%">
-                    <Carta color="black" accion="uno" numCartas={cartasJugador3.length} estilo="minimalista"/>
+                    {/* Hueco para el jugaor de arriba 
+                        <Carta color="black" accion="uno" numCartas={cartasJugador3.length} estilo="minimalista"/>
+                    */}
+                    
+                    {jugadorArriba()}
                 </HStack>
             </GridItem>
             <GridItem colStart="8" colEnd="12" w="100%" bg="blue.500">
@@ -243,7 +326,8 @@ export default function Juego({username}) {
             </GridItem>
             <GridItem colStart="1" colEnd="3" w="100%" h="49vh" bg="blue.500">
                 <VStack minH="100%" alignItems="center" justifyContent="center">
-                    <Carta color="black" accion="uno" numCartas={cartasJugador2.length} estilo="minimalista"/>
+                    {/* La carta del jugador de la izquierda */}
+                    {jugadorIzq()}
                 </VStack>
             </GridItem>
             <GridItem colStart="3" colEnd="10" w="100%" bg="blue.500">
@@ -298,7 +382,8 @@ export default function Juego({username}) {
             </GridItem>
             <GridItem colStart="10" colEnd="12" w="100%" bg="blue.500">
                 <VStack minH="100%" alignItems="center" justifyContent="center">
-                    <Carta color="black" accion="uno" numCartas={cartasJugador4.length} estilo="minimalista"/>
+                    {/* La carta del jugador de la derecha */}
+                    {jugadorDcha()}
                 </VStack>
             </GridItem>
             <GridItem colStart="1" colEnd="3" w="100%" h="30vh" bg="blue.500">

@@ -23,9 +23,7 @@ export function Carta({
         "amarillo": "yellow.500"
     };
     var colorFondo = colores[color];
-    console.log(colores.rojo);
     if (accion) {
-        console.log("soy especial");
         switch (accion) {
         case "uno":
             colorFondo = "black";
@@ -77,7 +75,6 @@ export function Carta({
             break;
         }
     } else if (estilo==="harry potter")  {
-        console.log("soy harry potter");
         switch(numero){
         case 1:
             switch(estilo){
@@ -88,7 +85,6 @@ export function Carta({
         }
     }
     else{
-        console.log("soy normal");
         textoAux = numero;
         textoCentral = numero;
     }

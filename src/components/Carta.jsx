@@ -5,6 +5,7 @@ import { NotAllowedIcon } from "@chakra-ui/icons";
 import { HiArrowPath } from "react-icons/hi2";
 import { GiCardPlay } from "react-icons/gi";
 
+import cambio_color from "../images/card-games.png";
 import imagen_uno from "../images/Uno-logo.png";
 import imagen_uno_minimalista from "../images/UNO_2020.png";
 import imagen_1_hp from "../images/Harry-Potter-PNG-Background.png";
@@ -15,10 +16,19 @@ export function Carta({
 }) {
     let textoAux;
     let textoCentral;
+    const colores = {
+        "azul": "blue.500",
+        "verde": "green.500",
+        "rojo": "red.500",
+        "amarillo": "yellow.500"
+    };
+    var colorFondo = colores[color];
+    console.log(colores.rojo);
     if (accion) {
         console.log("soy especial");
         switch (accion) {
         case "uno":
+            colorFondo = "black";
             textoAux = numCartas;
             switch(estilo) {
             case "clasico":
@@ -30,6 +40,7 @@ export function Carta({
             }
             break;
         case "roba 4":
+            colorFondo = "black";
             textoAux = "+4";
             textoCentral = <Icon fill="aqua" as={GiCardPlay} />;
             break;
@@ -37,7 +48,7 @@ export function Carta({
             textoAux = <Icon as={NotAllowedIcon} />;
             textoCentral = <Icon as={NotAllowedIcon} />;
             break;
-        case "reverse":
+        case "cambio sentido":
             textoAux = <Icon as={HiArrowPath} />;
             textoCentral = <Icon as={HiArrowPath} />;
             break;
@@ -45,7 +56,13 @@ export function Carta({
             textoAux = "+2";
             textoCentral = <Icon as={GiCardPlay} />;
             break;
+        case "cambio color":
+            colorFondo = "black";
+            textoAux = "C";
+            textoCentral = <Image src={cambio_color} />;
+            break;
         case "mazo":
+            colorFondo = "black";
             textoAux = "?";
             switch(estilo) {
             case "clasico":
@@ -79,7 +96,7 @@ export function Carta({
         (accion==="uno" || accion==="mazo") ? 
             <Box    
                 onClick={onClick}
-                bgColor={color}
+                bgColor={colorFondo}
                 border="1px"
                 borderRadius="4px"
                 minH="100%"
@@ -105,7 +122,7 @@ export function Carta({
                     filter: "brightness(110%)",
                 }}
                 onClick={onClick}
-                bgColor={color}
+                bgColor={colorFondo}
                 border="1px"
                 borderRadius="4px"
                 minH="100%"

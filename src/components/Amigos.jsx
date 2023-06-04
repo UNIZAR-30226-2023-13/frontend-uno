@@ -153,6 +153,7 @@ export function Amigos() {
                         status: "success",
                         position: "top",
                     });
+                    setUsuarioAInvitar("");
                 }
                 else if (response.status === 400){
                     toast({
@@ -242,6 +243,7 @@ export function Amigos() {
                                 </FormLabel>
                                 <InputGroup size="md">
                                     <Input
+                                        value={usuarioAInvitar}
                                         pr="4.5rem"
                                         ref={initialRef}
                                         fontSize="xl"

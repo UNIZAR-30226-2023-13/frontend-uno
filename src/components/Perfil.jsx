@@ -125,14 +125,13 @@ export function Perfil() {
             method: "POST",
             body: urlencoded,
             credentials: "include",
-            redirect: "follow"
         };
 
         fetch("http://localhost:8000/cuenta/eliminar", requestOptions)
             .then(response => {
                 if(response.status === 200){
-                    response.text();
                     setContrasenaIncorrecta(false);
+                    socket.disconnect();
                     setGlobalState(<Login/>);
                 }
                 else if(response.status === 401){
@@ -145,11 +144,6 @@ export function Perfil() {
                 else if(response.status === 403){
                     setContrasenaIncorrecta(true);
                 }
-            })
-            .then(result => {
-                socket.disconnect();
-                setGlobalState(<Login/>);
-                console.log(result);
             })
             .catch(error => console.log("error", error));
     };

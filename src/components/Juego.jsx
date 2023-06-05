@@ -52,7 +52,8 @@ export default function Juego({username}) {
     const [cartaDescartes, setCartaDescartes] = useState();
 
     const [otrosJugadores, setOtrosJugadores] = useState([]);
-    const [nombreJugadorArriba, setNombreJugadorArriba] = useState("");
+
+    const [jugadorConTurno, setJugadorConTurno] = useState("");
 
     const initialRef = React.useRef(null);
     const finalRef2 = React.useRef(null);
@@ -68,7 +69,7 @@ export default function Juego({username}) {
                 
                 <VStack gap={4}>
                     <Carta color="black" accion="uno" numCartas={otrosJugadores[0].mano.length} estilo="minimalista"/>
-                    <Text casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[0].username}</Text>
+                    <Text textShadow={otrosJugadores[0].username===jugadorConTurno ? "0px 5px 10px yellow": ""} casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[0].username}</Text>
                 </VStack>
                 
             );
@@ -78,9 +79,9 @@ export default function Juego({username}) {
             // Si hay cuatro 4 jugadores
         case 3:
             return (
-                <VStack gap={4}>
+                <VStack  gap={4}>
                     <Carta color="black" accion="uno" numCartas={otrosJugadores[1].mano.length} estilo="minimalista"/>
-                    <Text casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[1].username}</Text>
+                    <Text textShadow={otrosJugadores[1].username===jugadorConTurno ? "0px 5px 50px yellow": ""} casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[1].username}</Text>
                 </VStack>
             );
         default:
@@ -99,7 +100,7 @@ export default function Juego({username}) {
             return (
                 <VStack gap={4}>
                     <Carta color="black" accion="uno" numCartas={otrosJugadores[0].mano.length} estilo="minimalista"/>
-                    <Text casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[0].username}</Text>
+                    <Text textShadow={otrosJugadores[0].username===jugadorConTurno ? "0px 5px 10px yellow": ""} casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[0].username}</Text>
                 </VStack>
             );
         // Si hay cuatro 4 jugadores
@@ -107,7 +108,7 @@ export default function Juego({username}) {
             return (
                 <VStack gap={4}>
                     <Carta color="black" accion="uno" numCartas={otrosJugadores[0].mano.length} estilo="minimalista"/>
-                    <Text casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[0].username}</Text>
+                    <Text textShadow={otrosJugadores[0].username===jugadorConTurno ? "0px 5px 10px yellow": ""} casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[0].username}</Text>
                 </VStack>
             );
         default:
@@ -126,7 +127,7 @@ export default function Juego({username}) {
             return (
                 <VStack gap={4}>
                     <Carta color="black" accion="uno" numCartas={otrosJugadores[1].mano.length} estilo="minimalista"/>
-                    <Text casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[1].username}</Text>
+                    <Text textShadow={otrosJugadores[1].username===jugadorConTurno ? "0px 5px 10px yellow": ""} casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[1].username}</Text>
                 </VStack>
                 
             );
@@ -135,7 +136,7 @@ export default function Juego({username}) {
             return (
                 <VStack gap={4}>
                     <Carta color="black" accion="uno" numCartas={otrosJugadores[2].mano.length} estilo="minimalista"/>
-                    <Text casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[2].username}</Text>
+                    <Text textShadow={otrosJugadores[2].username===jugadorConTurno ? "0px 5px 10px yellow": ""} casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[2].username}</Text>
                 </VStack>
             );
         default:
@@ -149,6 +150,8 @@ export default function Juego({username}) {
     };
 
     const actualizarPartida = (partida) => {
+        if (!partida) return;
+
         setPartidaActualizada(true);
 
         // Actualizo la lista de jugadores
@@ -191,6 +194,9 @@ export default function Juego({username}) {
         // Pongo el sentido
         setSentidoHorario(partida.sentidoHorario);
 
+        // Actualizo el jugador con turno
+        setJugadorConTurno(partida.jugadores[partida.turno].username);
+
         console.log(JSON.stringify(partida, null, 2));
     };
 
@@ -200,6 +206,16 @@ export default function Juego({username}) {
         socket.emit("buscarPartida");
 
         socket.on("partida", actualizarPartida);
+
+        socket.on("partida:abandono", (username) => {
+            console.log("abandono de " + username);
+            toast({
+                title: "El jugador " + username + " ha abandonado la partida",
+                status: "info",
+                position: "top",
+                duration: 2000,
+            });
+        });
 
         socket.on("disconnect", ()=>{setGlobalState(<Inicio/>);});
     },[]);
@@ -229,6 +245,8 @@ export default function Juego({username}) {
     const modalTopController = useDisclosure();
     const finalRef = React.useRef(null);
 
+    console.log("turno: " + jugadorConTurno);
+
     let texto;
 
     if (ganador === username) {
@@ -256,8 +274,8 @@ export default function Juego({username}) {
                 isOpen={modalTopController.isOpen}
                 onClose={modalTopController.onClose}
                 size="2xl"
-                closeOnEsc="false"
-                closeOnOverlayClick="false"
+                closeOnEsc={false}
+                closeOnOverlayClick={false}
             >
                 <ModalOverlay />
                 <ModalContent>
@@ -300,12 +318,6 @@ export default function Juego({username}) {
                             <Button 
                                 onClick={() => {
                                     socket.emit("abandonarPartida");
-                                    toast({
-                                        title: "Partida abandonada correctamente",
-                                        status: "success",
-                                        position: "top",
-                                        duration: 3000,
-                                    });
                                     setGlobalState(<Inicio />);
                                 }}>
                                     Volver a la pagina principal
@@ -440,11 +452,11 @@ export default function Juego({username}) {
                             switch (carta.accion) {
                             case "cambio color":
                                 return (
-                                    <Carta onClick={onOpen} numero={carta.numero} color={carta.color} accion={carta.accion} posible={true}/>
+                                    <Carta onClick={onOpen} numero={carta.numero} color={carta.color} accion={carta.accion} posible={jugadorConTurno===username}/>
                                 );
                             case "roba 4":
                                 return (
-                                    <Carta onClick={onOpen} numero={carta.numero} color={carta.color} accion={carta.accion} posible={true}/>
+                                    <Carta onClick={onOpen} numero={carta.numero} color={carta.color} accion={carta.accion} posible={jugadorConTurno===username}/>
                                 );
                             default:
                                 return (
@@ -456,7 +468,7 @@ export default function Juego({username}) {
                                         },
                                         unoPulsado);
                                     }}
-                                    numero={carta.numero} color={carta.color} accion={carta.accion} />
+                                    numero={carta.numero} color={carta.color} accion={carta.accion} posible={jugadorConTurno===username && (carta.color===cartaDescartes.color || (carta.accion===cartaDescartes.accion && carta.accion!=undefined) || (carta.numero===cartaDescartes.numero && carta.numero!=undefined))}/>
                                 );
                             }
                         })}

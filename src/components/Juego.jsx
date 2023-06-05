@@ -143,6 +143,7 @@ export default function Juego({username}) {
         }
     };
 
+
     const sentidoJuego = () => {
         switch (cartaDescartes.color){
         case "verde":
@@ -404,6 +405,7 @@ export default function Juego({username}) {
                     <VStack minH="100%" pt={"3.5em"} alignItems="center" justifyContent="center">
                         {/* La carta del jugador de la izquierda */}
                         {jugadorIzq()}
+
                     </VStack>
                 </GridItem>
                 <GridItem colStart="3" colEnd="10" w="100%">
@@ -430,7 +432,7 @@ export default function Juego({username}) {
                                                     socket.emit("jugarCarta", 
                                                         {
                                                             accion: "cambio color",
-                                                            cambioColor: "rojo"
+                                                            colorCambio: "rojo"
                                                         },
                                                         unoPulsado);
                                                 
@@ -447,7 +449,7 @@ export default function Juego({username}) {
                                                     socket.emit("jugarCarta", 
                                                         {
                                                             accion: "cambio color",
-                                                            cambioColor: "azul"
+                                                            colorCambio: "azul"
                                                         },
                                                         unoPulsado);
                                                 
@@ -464,7 +466,7 @@ export default function Juego({username}) {
                                                     socket.emit("jugarCarta", 
                                                         {
                                                             accion: "cambio color",
-                                                            cambioColor: "verde"
+                                                            colorCambio: "verde"
                                                         },
                                                         unoPulsado);
                                                 
@@ -482,7 +484,7 @@ export default function Juego({username}) {
                                                     socket.emit("jugarCarta", 
                                                         {
                                                             accion: "cambio color",
-                                                            cambioColor: "amarillo"
+                                                            colorCambio: "amarillo"
                                                         },
                                                         unoPulsado);
                                                 
@@ -514,7 +516,7 @@ export default function Juego({username}) {
                                                     socket.emit("jugarCarta", 
                                                         {
                                                             accion: "roba 4",
-                                                            cambioColor: "rojo"
+                                                            colorCambio: "rojo"
                                                         },
                                                         unoPulsado);
                                                     modalRobaCuatroController.onClose();
@@ -530,7 +532,7 @@ export default function Juego({username}) {
                                                     socket.emit("jugarCarta", 
                                                         {
                                                             accion: "roba 4",
-                                                            cambioColor: "azul"
+                                                            colorCambio: "azul"
                                                         },
                                                         unoPulsado);
                                                     modalRobaCuatroController.onClose();
@@ -546,7 +548,7 @@ export default function Juego({username}) {
                                                     socket.emit("jugarCarta", 
                                                         {
                                                             accion: "roba 4",
-                                                            cambioColor: "verde"
+                                                            colorCambio: "verde"
                                                         },
                                                         unoPulsado);
                                                     modalRobaCuatroController.onClose();
@@ -563,7 +565,7 @@ export default function Juego({username}) {
                                                     socket.emit("jugarCarta", 
                                                         {
                                                             accion: "roba 4",
-                                                            cambioColor: "amarillo"
+                                                            colorCambio: "amarillo"
                                                         },
                                                         unoPulsado);
                                                     modalRobaCuatroController.onClose();

@@ -448,7 +448,15 @@ export default function Juego({username}) {
                                 );
                             default:
                                 return (
-                                    <Carta onClick={() => { handleJugarCarta();}} numero={carta.numero} color={carta.color} accion={carta.accion} />
+                                    <Carta onClick={() => {socket.emit("jugarCarta", 
+                                        {
+                                            color: carta.color,
+                                            numero: carta.numero,
+                                            accion: carta.accion
+                                        },
+                                        unoPulsado);
+                                    }}
+                                    numero={carta.numero} color={carta.color} accion={carta.accion} />
                                 );
                             }
                         })}

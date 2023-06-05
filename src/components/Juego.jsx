@@ -346,7 +346,7 @@ export default function Juego({username}) {
                                 {texto}
                             </Text>
                             <Divider></Divider>
-                            <Flex pt="10px">
+                            <VStack pt="10px">
                                 {jugadores.map((jugador, key) => (
                                     <Top
                                         key={"jugador-"+key}
@@ -355,7 +355,7 @@ export default function Juego({username}) {
                                         numCartas={jugador.numCartas}
                                     />
                                 ))}
-                            </Flex>
+                            </VStack>
                             <Button 
                                 onClick={() => {
                                     socket.emit("abandonarPartida");
@@ -452,6 +452,7 @@ export default function Juego({username}) {
                                                         unoPulsado);
                                                 
                                                     modalCambioColorController.onClose();
+                                                    setUnoPulsado(false);
                                                 }
                                                 }
                                             >
@@ -469,6 +470,7 @@ export default function Juego({username}) {
                                                         unoPulsado);
                                                 
                                                     modalCambioColorController.onClose();
+                                                    setUnoPulsado(false);
                                                 }
                                                 }
                                             >
@@ -486,6 +488,7 @@ export default function Juego({username}) {
                                                         unoPulsado);
                                                 
                                                     modalCambioColorController.onClose();
+                                                    setUnoPulsado(false);
                                                 }
                                                 }
                                             >
@@ -504,6 +507,7 @@ export default function Juego({username}) {
                                                         unoPulsado);
                                                 
                                                     modalCambioColorController.onClose();
+                                                    setUnoPulsado(false);
                                                 }
                                                 }
                                             >
@@ -535,6 +539,7 @@ export default function Juego({username}) {
                                                         },
                                                         unoPulsado);
                                                     modalRobaCuatroController.onClose();
+                                                    setUnoPulsado(false);
                                                 }
                                                 }
                                             >
@@ -551,6 +556,7 @@ export default function Juego({username}) {
                                                         },
                                                         unoPulsado);
                                                     modalRobaCuatroController.onClose();
+                                                    setUnoPulsado(false);
                                                 }
                                                 }
                                             >
@@ -567,6 +573,7 @@ export default function Juego({username}) {
                                                         },
                                                         unoPulsado);
                                                     modalRobaCuatroController.onClose();
+                                                    setUnoPulsado(false);
                                                 }
                                                 }
                                             >
@@ -584,6 +591,7 @@ export default function Juego({username}) {
                                                         },
                                                         unoPulsado);
                                                     modalRobaCuatroController.onClose();
+                                                    setUnoPulsado(false);
                                                 }
                                                 }
                                             >
@@ -606,7 +614,9 @@ export default function Juego({username}) {
                 <GridItem  pb={{base: 60, md: 0}} colStart="1" colEnd="3" w="100%" h="25vh">
                     <Center minH="100%">
                         <Button onClick={()=>{
-                            socket.emit("robarCarta");
+                            socket.emit("robarCarta"
+                            );
+                            setUnoPulsado(false);
                         }} fontSize="3xl" position="relative" maxW="100%" width="5em" height="3em" size="lg">
                             Robar
                         </Button>
@@ -633,6 +643,7 @@ export default function Juego({username}) {
                                             accion: carta.accion
                                         },
                                         unoPulsado);
+                                    setUnoPulsado(false);
                                     }}
                                     numero={carta.numero} color={carta.color} accion={carta.accion} posible={jugadorConTurno===username && (carta.color===cartaDescartes.color || (carta.accion===cartaDescartes.accion && carta.accion!=undefined) || (carta.numero===cartaDescartes.numero && carta.numero!=undefined))}/>
                                 );
@@ -644,7 +655,7 @@ export default function Juego({username}) {
                 <GridItem pb={{base: 60, md: 0}} colStart="10" colEnd="12" w="100%">
                     <Center minH="100%">
                         <Popover
-                            isOpen={((misCartas.length === 2 && !unoPulsado))}
+                            isOpen={((misCartas.length === 2 && !unoPulsado) && username===jugadorConTurno)}
                             onOpen={modalTopController.onOpen}
                             onClose={modalTopController.onClose}
                             placement="top-start"
@@ -653,7 +664,7 @@ export default function Juego({username}) {
                                 <Button onClick={()=>{{
                                     setUnoPulsado(true);
                                 }}} 
-                                isDisabled={misCartas.length !== 2 || unoPulsado} fontSize="3xl" position="relative" maxW="100%" width="5em" height="3em" size="lg">
+                                isDisabled={misCartas.length !== 2 || unoPulsado || username!==jugadorConTurno} fontSize="3xl" position="relative" maxW="100%" width="5em" height="3em" size="lg">
                                     UNO!
                                 </Button>
                             </PopoverTrigger>

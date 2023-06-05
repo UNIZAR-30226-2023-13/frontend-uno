@@ -27,7 +27,7 @@ import {
     Text
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { BsArrowClockwise } from "react-icons/bs";
+import { BsArrowClockwise, BsArrowCounterclockwise } from "react-icons/bs";
 import { useGlobalState } from "./GlobalState";
 // import { Registro } from './Registro';
 import { Inicio } from "./Inicio";
@@ -39,16 +39,19 @@ import { BuscarPartida } from "./BuscarPartida";
 
 export default function Juego({username}) {
     const [tengoPartida, setTengoPartida] = useState(false);
+    const [partidaActualizada, setPartidaActualizada] = useState(false);
     const toast = useToast();
 
     const [, setGlobalState] = useGlobalState();
     const [unoPulsado, setUnoPulsado] = useState(false);
+    const [sentidoHorario, setSentidoHorario] = useState(true);
     const [jugadores, setJugadores] = useState([{}]);
 
     const [misCartas, setMisCartas] = useState([{}]);
     const [cartaDescartes, setCartaDescartes] = useState();
 
     const [otrosJugadores, setOtrosJugadores] = useState([]);
+    const [nombreJugadorArriba, setNombreJugadorArriba] = useState("");
 
     const initialRef = React.useRef(null);
     const finalRef2 = React.useRef(null);
@@ -57,8 +60,14 @@ export default function Juego({username}) {
         switch (otrosJugadores.length) {
         // Si solo hay otro jugador
         case 1:
+            
             return (
-                <Carta color="black" accion="uno" numCartas={otrosJugadores[0].mano.length} estilo="minimalista"/>
+                
+                <VStack gap={4}>
+                    <Carta color="black" accion="uno" numCartas={otrosJugadores[0].mano.length} estilo="minimalista"/>
+                    <Text casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[0].username}</Text>
+                </VStack>
+                
             );
             // Si hay tres jugadores debe quedarse en blanco    
         case 2:
@@ -66,7 +75,10 @@ export default function Juego({username}) {
             // Si hay cuatro 4 jugadores
         case 3:
             return (
-                <Carta color="black" accion="uno" numCartas={otrosJugadores[1].mano.length} estilo="minimalista"/>
+                <VStack gap={4}>
+                    <Carta color="black" accion="uno" numCartas={otrosJugadores[1].mano.length} estilo="minimalista"/>
+                    <Text casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[1].username}</Text>
+                </VStack>
             );
         default:
             return <></>;
@@ -82,12 +94,18 @@ export default function Juego({username}) {
         // Si hay tres jugadores debe ser el siguiente a el propio
         case 2:
             return (
-                <Carta color="black" accion="uno" numCartas={otrosJugadores[0].mano.length} estilo="minimalista"/>
+                <VStack gap={4}>
+                    <Carta color="black" accion="uno" numCartas={otrosJugadores[0].mano.length} estilo="minimalista"/>
+                    <Text casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[0].username}</Text>
+                </VStack>
             );
         // Si hay cuatro 4 jugadores
         case 3:
             return (
-                <Carta color="black" accion="uno" numCartas={otrosJugadores[0].mano.length} estilo="minimalista"/>
+                <VStack gap={4}>
+                    <Carta color="black" accion="uno" numCartas={otrosJugadores[0].mano.length} estilo="minimalista"/>
+                    <Text casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[0].username}</Text>
+                </VStack>
             );
         default:
             return <></>;
@@ -103,12 +121,19 @@ export default function Juego({username}) {
         // Si hay tres jugadores debe ser el siguiente del siguiente a el propio
         case 2:
             return (
-                <Carta color="black" accion="uno" numCartas={otrosJugadores[1].mano.length} estilo="minimalista"/>
+                <VStack gap={4}>
+                    <Carta color="black" accion="uno" numCartas={otrosJugadores[1].mano.length} estilo="minimalista"/>
+                    <Text casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[1].username}</Text>
+                </VStack>
+                
             );
         // Si hay cuatro 4 jugadores
         case 3:
             return (
-                <Carta color="black" accion="uno" numCartas={otrosJugadores[2].mano.length} estilo="minimalista"/>
+                <VStack gap={4}>
+                    <Carta color="black" accion="uno" numCartas={otrosJugadores[2].mano.length} estilo="minimalista"/>
+                    <Text casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[2].username}</Text>
+                </VStack>
             );
         default:
             return <></>;
@@ -121,18 +146,8 @@ export default function Juego({username}) {
     };
 
     const actualizarPartida = (partida) => {
-        // Entonces es la primera vez que recibo la partida
-        if (!tengoPartida){
-            // Mostrar mensaje de partida encontrada
-            toast({
-                title: "Se ha encontrado una partida",
-                status: "success",
-                position: "top",
-                duration: 3000,
-            });
+        setPartidaActualizada(true);
 
-        }
-        setTengoPartida(true);
         // Actualizo la lista de jugadores
         const listaJugadores = [];
         for (const jugador of partida.jugadores){
@@ -169,8 +184,13 @@ export default function Juego({username}) {
             modalTopController.onOpen();
         }
 
+        // Pongo el sentido
+        setSentidoHorario(partida.sentidoHorario);
+
         console.log(JSON.stringify(partida, null, 2));
     };
+
+    console.log("sentido horario: " + sentidoHorario);
 
     useEffect(()=>{
         socket.emit("buscarPartida");
@@ -184,7 +204,22 @@ export default function Juego({username}) {
     from {transform: rotate(0deg);}   
     to {transform: rotate(360deg)} 
     `;
-    const spinAnimation = `${spin} infinite 2s linear`;
+
+    const spinReverse = keyframes`  
+    from {transform: rotate(360deg);}   
+    to {transform: rotate(0deg)} 
+    `;
+    const spinAnimation = (sentidoHorario ? spin : spinReverse) + " infinite 2s linear";
+
+    if (!tengoPartida && partidaActualizada){
+        setTengoPartida(true);
+        toast({
+            title: "Se ha encontrado una partida",
+            status: "success",
+            position: "top",
+            duration: 3000,
+        });
+    }
 
     const { isOpen, onOpen, onClose } = useDisclosure();
     const modalTopController = useDisclosure();
@@ -221,14 +256,16 @@ export default function Juego({username}) {
                 </ModalContent>
             </Modal>
             <Grid
+                
+                bgGradient={"radial-gradient(purple.500, purple.900)"}
                 templateColumns="repeat(11, 1fr)"
                 templateRows="repeat(1, 1fr)"
                 columnGap={0}
                 rowGap={0}
             >
-                <GridItem colStart="1" colEnd="3" w="100%" h="20vh" bg="blue.500">
-                    <Center minH="100%">
-                        <Button fontSize="3xl" position="relative" maxW="100%" width="8em" height="3em" size="lg"
+                <GridItem colStart="1" colEnd="3" w="100%" h="30vh">
+                    <Center minH="100%" pb={10}>
+                        <Button fontSize={{ base: "xl", md: "2xl", lg: "3xl" }} overflow={"hidden"} textOverflow={"ellipsis"} position="relative" maxW={"90%"} height="3em" size="lg"
                             onClick={() => {
                                 socket.emit("abandonarPartida");
                                 toast({
@@ -243,17 +280,20 @@ export default function Juego({username}) {
                         </Button>
                     </Center>
                 </GridItem>
-                <GridItem colStart="3" colEnd="8" w="100%" bg="blue.500">
-                    <HStack minH="100%" alignItems="center" ml="65%">
+                <GridItem colStart="3" colEnd="8" w="100%">
+                    
+                    <HStack minH="100%" alignContent={"center"} pt={5} alignItems="center" ml={"65%"}>
                         {/* Hueco para el jugaor de arriba 
                             <Carta color="black" accion="uno" numCartas={cartasJugador3.length} estilo="minimalista"/>
                         */}
                         
                         {jugadorArriba()}
+                        
                     </HStack>
+                    
                 </GridItem>
-                <GridItem colStart="8" colEnd="12" w="100%" bg="blue.500">
-                    <Box>
+                <GridItem colStart="8" colEnd="12" pt={10} w="100%">
+                    <Box display={{base: "none", md: "block"}}>
                         {jugadores.map((jugador, key) => (
                             <Top
                                 key={"jugador-"+key}
@@ -264,15 +304,15 @@ export default function Juego({username}) {
                         ))}
                     </Box>
                 </GridItem>
-                <GridItem colStart="1" colEnd="3" w="100%" h="49vh" bg="blue.500">
-                    <VStack minH="100%" alignItems="center" justifyContent="center">
+                <GridItem colStart="1" colEnd="3" w="100%" h="45vh" >
+                    <VStack minH="100%" pt={"3.5em"} alignItems="center" justifyContent="center">
                         {/* La carta del jugador de la izquierda */}
                         {jugadorIzq()}
                     </VStack>
                 </GridItem>
-                <GridItem colStart="3" colEnd="10" w="100%" bg="blue.500">
-                    <Center position={"fixed"} left={"50%"} right={"50%"} top={"17%"} minH={"50%"}>
-                        <Icon opacity={"60%"} fillOpacity={1} size={"2px"} boxSize={480} animation={spinAnimation} as={BsArrowClockwise}/>
+                <GridItem colStart="3" colEnd="10" w="100%">
+                    <Center position={"fixed"} left={"50%"} right={"50%"} top={"27%"} minH={"50%"}>
+                        <Icon opacity={"40%"} fillOpacity={1} size={"2px"} boxSize={480} animation={spinAnimation} as={(sentidoHorario ? BsArrowClockwise : BsArrowCounterclockwise)}/>
                     </Center>
                     <HStack style={{ zIndex: 2 }} minH="100%" alignItems="center" justifyContent="center">
                         <Carta color="black" accion="mazo" estilo="minimalista"/>
@@ -320,13 +360,13 @@ export default function Juego({username}) {
                         </>
                     </HStack>
                 </GridItem>
-                <GridItem colStart="10" colEnd="12" w="100%" bg="blue.500">
-                    <VStack minH="100%" alignItems="center" justifyContent="center">
+                <GridItem colStart="10" colEnd="12" w="100%">
+                    <VStack minH="100%" pt={"3.5em"} alignItems="center" justifyContent="center">
                         {/* La carta del jugador de la derecha */}
                         {jugadorDcha()}
                     </VStack>
                 </GridItem>
-                <GridItem colStart="1" colEnd="3" w="100%" h="30vh" bg="blue.500">
+                <GridItem  pb={{base: 60, md: 0}} colStart="1" colEnd="3" w="100%" h="25vh">
                     <Center minH="100%">
                         <Button onClick={()=>{
                             socket.emit("robarCarta");
@@ -335,7 +375,7 @@ export default function Juego({username}) {
                         </Button>
                     </Center>
                 </GridItem>
-                <GridItem colStart="3" colEnd="10" w="100%" bg="blue.500">
+                <GridItem pt={{base: 20, md: 0}} colStart="3" colEnd="10" w="100%">
                     <HStack minH="100%" alignItems="center" justifyContent="center">
                         {misCartas.map((carta) => {
                             switch (carta.accion) {
@@ -356,7 +396,7 @@ export default function Juego({username}) {
 
                     </HStack>
                 </GridItem>
-                <GridItem colStart="10" colEnd="12" w="100%" bg="blue.500">
+                <GridItem pb={{base: 60, md: 0}} colStart="10" colEnd="12" w="100%">
                     <Center minH="100%">
                         <Popover
                             isOpen={((misCartas.length === 2 && !unoPulsado))}

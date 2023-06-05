@@ -55,6 +55,8 @@ export default function Juego({username}) {
 
     const [jugadorConTurno, setJugadorConTurno] = useState("");
 
+
+
     const initialRef = React.useRef(null);
     const finalRef2 = React.useRef(null);
 
@@ -67,7 +69,9 @@ export default function Juego({username}) {
             
             return (
                 
-                <VStack gap={4}>
+                <VStack 
+                    className={otrosJugadores[0].username===jugadorConTurno ? "jugadorConTurno": ""}
+                    gap={4}>
                     <Carta color="black" accion="uno" numCartas={otrosJugadores[0].mano.length} estilo="minimalista"/>
                     <Text textShadow={otrosJugadores[0].username===jugadorConTurno ? "0px 5px 10px yellow": ""} casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[0].username}</Text>
                 </VStack>
@@ -79,9 +83,11 @@ export default function Juego({username}) {
             // Si hay cuatro 4 jugadores
         case 3:
             return (
-                <VStack  gap={4}>
-                    <Carta color="black" accion="uno" numCartas={otrosJugadores[1].mano.length} estilo="minimalista"/>
-                    <Text textShadow={otrosJugadores[1].username===jugadorConTurno ? "0px 5px 50px yellow": ""} casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[1].username}</Text>
+                <VStack
+                    className={otrosJugadores[1].username===jugadorConTurno ? "jugadorConTurno": ""}
+                    gap={4}>
+                    <Carta zIndex={10} color="black" accion="uno" numCartas={otrosJugadores[1].mano.length} estilo="minimalista"/>
+                    <Text zIndex={10} textShadow={otrosJugadores[1].username===jugadorConTurno ? "0px 5px 50px yellow": ""} casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[1].username}</Text>
                 </VStack>
             );
         default:
@@ -98,17 +104,21 @@ export default function Juego({username}) {
         // Si hay tres jugadores debe ser el siguiente a el propio
         case 2:
             return (
-                <VStack gap={4}>
-                    <Carta color="black" accion="uno" numCartas={otrosJugadores[0].mano.length} estilo="minimalista"/>
-                    <Text textShadow={otrosJugadores[0].username===jugadorConTurno ? "0px 5px 10px yellow": ""} casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[0].username}</Text>
+                <VStack 
+                    className={otrosJugadores[0].username===jugadorConTurno ? "jugadorConTurno": ""}
+                    gap={4}>
+                    <Carta zIndex={10} color="black" accion="uno" numCartas={otrosJugadores[0].mano.length} estilo="minimalista"/>
+                    <Text zIndex={10} textShadow={otrosJugadores[0].username===jugadorConTurno ? "0px 5px 10px yellow": ""} casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[0].username}</Text>
                 </VStack>
             );
         // Si hay cuatro 4 jugadores
         case 3:
             return (
-                <VStack gap={4}>
-                    <Carta color="black" accion="uno" numCartas={otrosJugadores[0].mano.length} estilo="minimalista"/>
-                    <Text textShadow={otrosJugadores[0].username===jugadorConTurno ? "0px 5px 10px yellow": ""} casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[0].username}</Text>
+                <VStack
+                    className={otrosJugadores[0].username===jugadorConTurno ? "jugadorConTurno": ""}
+                    gap={4}>
+                    <Carta zIndex={10} color="black" accion="uno" numCartas={otrosJugadores[0].mano.length} estilo="minimalista"/>
+                    <Text zIndex={10} textShadow={otrosJugadores[0].username===jugadorConTurno ? "0px 5px 10px yellow": ""} casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[0].username}</Text>
                 </VStack>
             );
         default:
@@ -125,18 +135,22 @@ export default function Juego({username}) {
         // Si hay tres jugadores debe ser el siguiente del siguiente a el propio
         case 2:
             return (
-                <VStack gap={4}>
-                    <Carta color="black" accion="uno" numCartas={otrosJugadores[1].mano.length} estilo="minimalista"/>
-                    <Text textShadow={otrosJugadores[1].username===jugadorConTurno ? "0px 5px 10px yellow": ""} casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[1].username}</Text>
+                <VStack
+                    className={otrosJugadores[1].username===jugadorConTurno ? "jugadorConTurno": ""}
+                    gap={4}>
+                    <Carta zIndex={10} color="black" accion="uno" numCartas={otrosJugadores[1].mano.length} estilo="minimalista"/>
+                    <Text zIndex={10} textShadow={otrosJugadores[1].username===jugadorConTurno ? "0px 5px 10px yellow": ""} casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[1].username}</Text>
                 </VStack>
                 
             );
         // Si hay cuatro 4 jugadores
         case 3:
             return (
-                <VStack gap={4}>
-                    <Carta color="black" accion="uno" numCartas={otrosJugadores[2].mano.length} estilo="minimalista"/>
-                    <Text textShadow={otrosJugadores[2].username===jugadorConTurno ? "0px 5px 10px yellow": ""} casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[2].username}</Text>
+                <VStack
+                    className={otrosJugadores[2].username===jugadorConTurno ? "jugadorConTurno": ""}
+                    gap={4}>
+                    <Carta zIndex={10} color="black" accion="uno" numCartas={otrosJugadores[2].mano.length} estilo="minimalista"/>
+                    <Text zIndex={10} textShadow={otrosJugadores[2].username===jugadorConTurno ? "0px 5px 10px yellow": ""} casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[2].username}</Text>
                 </VStack>
             );
         default:
@@ -336,7 +350,7 @@ export default function Juego({username}) {
             >
                 <GridItem colStart="1" colEnd="3" w="100%" h="30vh">
                     <Center minH="100%" pb={10}>
-                        <Button fontSize={{ base: "xl", md: "2xl", lg: "3xl" }} overflow={"hidden"} textOverflow={"ellipsis"} position="relative" maxW={"90%"} height="3em" size="lg"
+                        <Button  fontSize={{ base: "xl", md: "2xl", lg: "3xl" }} overflow={"hidden"} textOverflow={"ellipsis"} position="relative" maxW={"90%"} height="3em" size="lg"
                             onClick={() => {
                                 socket.emit("abandonarPartida");
                                 toast({
@@ -447,7 +461,7 @@ export default function Juego({username}) {
                     </Center>
                 </GridItem>
                 <GridItem pt={{base: 20, md: 0}} colStart="3" colEnd="10" w="100%">
-                    <HStack className="misCartas" minH="100%" alignItems="center" justifyContent="center">
+                    <HStack className={username===jugadorConTurno ? "jugadorConTurno misCartas": "misCartas"} minH="100%" alignItems="center" justifyContent="center">
                         {misCartas.map((carta) => {
                             switch (carta.accion) {
                             case "cambio color":

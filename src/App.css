@@ -5,3 +5,20 @@
 .misCartas div:not(:first-child) {
   margin-left: -2em;
 }
+
+.jugadorConTurno{
+  position:relative;
+}
+
+.jugadorConTurno::after{
+  transition: all .3s ease;
+  content: "\"\"";
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: -3;
+  right: 0;
+  background-color: yellow;
+  filter: blur(45px);
+  z-index: 5;
+}

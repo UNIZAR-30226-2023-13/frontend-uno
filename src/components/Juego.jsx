@@ -336,7 +336,7 @@ export default function Juego({username}) {
                     <HStack style={{ zIndex: 2 }} minH="100%" alignItems="center" justifyContent="center">
                         <Carta color="black" accion="mazo" estilo="minimalista"/>
                         {/* La carta del mazo de descartes */}
-                        <Carta accion={cartaDescartes.accion} numero={cartaDescartes.numero} color={cartaDescartes.color} estilo="clasico" />
+                        <Carta accion={cartaDescartes.accion} numero={cartaDescartes.numero} color={cartaDescartes.color} tipo="descarte" estilo="clasico" />
                         <>
                             <Modal finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose} isCentered>
                                 <ModalOverlay />
@@ -395,7 +395,7 @@ export default function Juego({username}) {
                     </Center>
                 </GridItem>
                 <GridItem colStart="3" colEnd="10" w="100%" bg="blue.500">
-                    <HStack minH="100%" alignItems="center" justifyContent="center">
+                    <HStack className="misCartas" minH="100%" alignItems="center" justifyContent="center">
                         {misCartas.map((carta) => {
                             switch (carta.accion) {
                             case "cambio color":

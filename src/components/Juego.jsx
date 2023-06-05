@@ -35,6 +35,7 @@ import { Carta } from "./Carta";
 import { Top } from "./Top";
 import { useEffect } from "react";
 import { socket } from "../socket";
+import { BuscarPartida } from "./BuscarPartida";
 
 export default function Juego({username}) {
     console.log(username);
@@ -273,7 +274,7 @@ export default function Juego({username}) {
     if (!tengoPartida){
         return (
             <Center minH="100%">
-                NO HAY PARTIDA AUN
+                <BuscarPartida/>
             </Center>
         );
     }

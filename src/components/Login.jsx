@@ -5,7 +5,6 @@ import {
     FormLabel,
     Heading,
     Input,
-    //Link,
     Stack,
     Image,
     Wrap,
@@ -110,20 +109,11 @@ export default function Login() {
                                 )}
                             </FormControl>
                             <Stack spacing={6}>
-                                {/*
-                                <Stack
-                                    direction={{ base: "column", sm: "row" }}
-                                    align="start"
-                                    justify="space-between"
-                                >
-                                    <Link fontSize="xl" onClick={() => setGlobalState(<Registro />)} color="blue.500">¿No tienes cuenta?</Link>
-                                </Stack>
-                                */}
-                                <Button py="1.3em" onClick={() => setGlobalState(<Registro />)} fontSize="xl" type="submit" colorScheme="green" variant="solid">
-                                    ¿No tienes cuenta?
-                                </Button>
                                 <Button py="1.3em" fontSize="xl" type="submit" colorScheme="blue" variant="solid">
                                     Iniciar sesión
+                                </Button>
+                                <Button py="1.3em" onClick={() => setGlobalState(<Registro />)} fontSize="xl" type="submit" colorScheme="green" variant="solid">
+                                    ¿No tienes cuenta?
                                 </Button>
                             </Stack>
                         

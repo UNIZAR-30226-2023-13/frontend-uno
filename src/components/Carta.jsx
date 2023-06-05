@@ -4,8 +4,8 @@ import {
 import { NotAllowedIcon } from "@chakra-ui/icons";
 import { HiArrowPath } from "react-icons/hi2";
 import { GiCardPlay } from "react-icons/gi";
+import { MdOutlineColorLens } from "react-icons/md";
 
-import cambio_color from "../images/card-games.png";
 import imagen_uno from "../images/Uno-logo.png";
 import imagen_uno_minimalista from "../images/UNO_2020.png";
 import imagen_1_hp from "../images/Harry-Potter-PNG-Background.png";
@@ -56,8 +56,8 @@ export function Carta({
             break;
         case "cambio color":
             colorFondo = "black";
-            textoAux = "C";
-            textoCentral = <Image src={cambio_color} />;
+            textoAux = <Icon as={MdOutlineColorLens} />;
+            textoCentral = <Icon as={MdOutlineColorLens} />;
             break;
         case "mazo":
             colorFondo = "black";

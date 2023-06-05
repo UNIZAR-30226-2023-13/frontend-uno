@@ -12,11 +12,11 @@ import {
 import { FaCrown, FaSkullCrossbones } from "react-icons/fa";
 
 export function CartaPartida({
-    ganador,
     fecha,
     usuarioPropio,
     otrosUsuarios
 }) {
+    console.log();
     const fechaDate = new Date (fecha);
     const agno = fechaDate.getFullYear();
     const mes = fechaDate.getMonth() + 1;
@@ -50,11 +50,11 @@ export function CartaPartida({
                                 fontSize="4xl"
                                 fontWeight="bold"
                                 textColor={
-                                    ganador === usuarioPropio.nombre ? "yellow.500" : "black"
+                                    usuarioPropio.esGanador ? "yellow.500" : "black"
                                 }
                                 mr="2"
                                 as={
-                                    ganador === usuarioPropio.nombre
+                                    usuarioPropio.esGanador
                                         ? FaCrown
                                         : FaSkullCrossbones
                                 }
@@ -63,7 +63,7 @@ export function CartaPartida({
                                 fontSize="4xl"
                                 fontWeight="bold"
                                 textColor={
-                                    ganador === usuarioPropio.nombre ? "yellow.500" : "black"
+                                    usuarioPropio.esGanador ? "yellow.500" : "black"
                                 }
                             >
                                 {texto}
@@ -72,11 +72,11 @@ export function CartaPartida({
                                 fontSize="4xl"
                                 fontWeight="bold"
                                 textColor={
-                                    ganador === usuarioPropio.nombre ? "yellow.500" : "black"
+                                    usuarioPropio.esGanador ? "yellow.500" : "black"
                                 }
                                 ml="2"
                                 as={
-                                    ganador === usuarioPropio.nombre
+                                    usuarioPropio.esGanador
                                         ? FaCrown
                                         : FaSkullCrossbones
                                 }
@@ -109,12 +109,12 @@ export function CartaPartida({
                                     fontSize="2xl"
                                     fontWeight="bold"
                                     colorScheme={
-                                        ganador === u.nombre
+                                        u.esGanador
                                             ? "yellow"
                                             : colores[index + 2]
                                     }
                                 >
-                                    {ganador === u.nombre ? (
+                                    {u.esGanador ? (
                                         <Icon
                                             mr="0.5em"
                                             fontSize="2xl"
@@ -126,7 +126,7 @@ export function CartaPartida({
                                         ""
                                     )}
                                     {u.nombre}
-                                    {ganador === u.nombre ? (
+                                    {u.esGanador ? (
                                         <Icon
                                             ml="0.5em"
                                             fontSize="2xl"

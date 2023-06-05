@@ -19,15 +19,16 @@ import {
     PopoverHeader,
     PopoverArrow,
     PopoverBody,
-    FormControl,
-    FormLabel,
     Icon,
     useDisclosure,
     useToast,
-    Text
+    Text,
+    Divider,
+    Flex
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { BsArrowClockwise } from "react-icons/bs";
+import { FaCrown, FaSkullCrossbones } from "react-icons/fa";
 import { useGlobalState } from "./GlobalState";
 // import { Registro } from './Registro';
 import { Inicio } from "./Inicio";
@@ -52,6 +53,8 @@ export default function Juego({username}) {
 
     const initialRef = React.useRef(null);
     const finalRef2 = React.useRef(null);
+
+    const [ganador, setGanador] = useState("");
 
     const jugadorArriba = () => {
         switch (otrosJugadores.length) {
@@ -167,6 +170,7 @@ export default function Juego({username}) {
         // En caso de finalizada
         if (partida.finalizado){
             modalTopController.onOpen();
+            setGanador(partida.ganador.username);
         }
 
         console.log(JSON.stringify(partida, null, 2));
@@ -190,6 +194,14 @@ export default function Juego({username}) {
     const modalTopController = useDisclosure();
     const finalRef = React.useRef(null);
 
+    let texto;
+
+    if (ganador === username) {
+        texto = "¡Victoria!";
+    } else {
+        texto = "Derrota";
+    }
+
     console.log("jugador de arriba: ");
     console.log(jugadorArriba());
 
@@ -209,14 +221,61 @@ export default function Juego({username}) {
                 isOpen={modalTopController.isOpen}
                 onClose={modalTopController.onClose}
                 size="2xl"
+                closeOnEsc="false"
+                closeOnOverlayClick="false"
             >
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader fontSize="3xl">Fin de partida</ModalHeader>
-                    <ModalCloseButton />
+                    <ModalHeader fontSize="3xl" textAlign={"center"}>Fin de partida</ModalHeader>
                     <ModalBody pb={6}>
-                        <Text>Top de jugadores</Text>
-                        
+                        <VStack>
+                            <Icon
+                                fontSize="4xl"
+                                fontWeight="bold"
+                                textColor={
+                                    ganador === username ? "yellow.500" : "black"
+                                }
+                                mr="2"
+                                as={
+                                    ganador === username
+                                        ? FaCrown
+                                        : FaSkullCrossbones
+                                }
+                            />
+                            <Text
+                                fontSize="4xl"
+                                fontWeight="bold"
+                                textColor={
+                                    ganador === username ? "yellow.500" : "black"
+                                }
+                            >
+                                {texto}
+                            </Text>
+                            <Divider></Divider>
+                            <Flex pt="10px">
+                                {jugadores.map((jugador, key) => (
+                                    <Top
+                                        key={"jugador-"+key}
+                                        nombre={jugador.nombre}
+                                        nivel={jugador.nivel}
+                                        numCartas={jugador.numCartas}
+                                    />
+                                ))}
+                            </Flex>
+                            <Button 
+                                onClick={() => {
+                                    socket.emit("abandonarPartida");
+                                    toast({
+                                        title: "Partida abandonada correctamente",
+                                        status: "success",
+                                        position: "top",
+                                        duration: 3000,
+                                    });
+                                    setGlobalState(<Inicio />);
+                                }}>
+                                    Volver a la pagina principal
+                            </Button>
+                        </VStack>
                     </ModalBody>
                 </ModalContent>
             </Modal>

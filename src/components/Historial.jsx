@@ -24,7 +24,8 @@ export function Historial() {
                 response.json())
             .then(result => {
                 setPartidasPrueba(result.partidas);
-                console.log(result);
+                console.log("partidas: ");
+                console.log(result.partidas);
             })
             .catch(error => console.log("error", error));
     };
@@ -78,7 +79,7 @@ export function Historial() {
                     boxShadow="0 0 2rem gray"
                 >
                     {
-                        partidasPrueba.map((partida, key) => <CartaPartida key={"jugador"+key} ganador={"juan"}
+                        partidasPrueba.map((partida, key) => <CartaPartida key={"jugador"+key} 
                             fecha={partida.fecha}
                             usuarioPropio={(partida.jugadores.filter((j) => j.nombre === nombre_usuario))[0]}
                             otrosUsuarios={partida.jugadores.filter((j) => j.nombre !== nombre_usuario)} />)

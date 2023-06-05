@@ -440,15 +440,15 @@ export default function Juego({username}) {
                             switch (carta.accion) {
                             case "cambio color":
                                 return (
-                                    <Carta onClick={onOpen} numero={carta.numero} color={carta.color} accion={carta.accion} />
+                                    <Carta onClick={onOpen} numero={carta.numero} color={carta.color} accion={carta.accion} posible={true}/>
                                 );
                             case "roba 4":
                                 return (
-                                    <Carta onClick={onOpen} numero={carta.numero} color={carta.color} accion={carta.accion} />
+                                    <Carta onClick={onOpen} numero={carta.numero} color={carta.color} accion={carta.accion} posible={true}/>
                                 );
                             default:
                                 return (
-                                    <Carta onClick={() => { handleJugarCarta();}} numero={carta.numero} color={carta.color} accion={carta.accion} />
+                                    <Carta onClick={() => { handleJugarCarta();}} numero={carta.numero} color={carta.color} accion={carta.accion} posible={carta.color===cartaDescartes.color || (carta.accion===cartaDescartes.accion && carta.accion!=undefined) || carta.numero===cartaDescartes.numero}/>
                                 );
                             }
                         })}

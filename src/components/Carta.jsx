@@ -12,7 +12,7 @@ import imagen_1_hp from "../images/Harry-Potter-PNG-Background.png";
 
 
 export function Carta({
-    onClick, numero, color, accion, numCartas, estilo, tipo = ""
+    onClick, numero, color, accion, numCartas, estilo, tipo = "", posible
 }) {
     let textoAux;
     let textoCentral;
@@ -88,31 +88,9 @@ export function Carta({
         textoAux = numero;
         textoCentral = numero;
     }
+    
     return (
-        (accion==="uno" || tipo==="descarte" || accion==="mazo") ? 
-            <Box    
-                onClick={onClick}
-                bgColor={colorFondo}
-                border="1px"
-                borderRadius="4px"
-                minH="100%"
-                align-items="center"
-                justify-items="center"
-                zIndex="10"
-            >
-                <VStack maxH="100%" width="5em" alignItems="unset">
-                    <Text px="5px" color="white}" align="left">
-                        {textoAux}
-                    </Text>
-                    <Text fontSize="4xl" color="white}" align="center">
-                        {textoCentral}
-                    </Text>
-                    <Text px="5px" color="white}" align="right">
-                        {textoAux}
-                    </Text>
-                </VStack>
-            </Box>
-            :
+        (posible === true) ? 
             <Box    
                 _hover={{
                     zIndex: 20,
@@ -120,6 +98,8 @@ export function Carta({
                     filter: "brightness(110%)",
                     opacity: "99%"
                 }}
+                transform= "translateY(-10%)"
+                filter= "brightness(105%)"
                 zIndex="10"
                 onClick={onClick}
                 bgColor={colorFondo}
@@ -151,5 +131,68 @@ export function Carta({
                     </Text>
                 </VStack>
             </Box>
+            :
+            (accion==="uno" || tipo==="descarte" || accion==="mazo") ? 
+                <Box    
+                    onClick={onClick}
+                    bgColor={colorFondo}
+                    border="1px"
+                    borderRadius="4px"
+                    minH="100%"
+                    align-items="center"
+                    justify-items="center"
+                    zIndex="10"
+                >
+                    <VStack maxH="100%" width="5em" alignItems="unset">
+                        <Text px="5px" color="white}" align="left">
+                            {textoAux}
+                        </Text>
+                        <Text fontSize="4xl" color="white}" align="center">
+                            {textoCentral}
+                        </Text>
+                        <Text px="5px" color="white}" align="right">
+                            {textoAux}
+                        </Text>
+                    </VStack>
+                </Box>
+                :
+                <Box    
+                    _hover={posible ?  {
+                        zIndex: 20,
+                        transform: "translateY(-20%)",
+                        filter: "brightness(110%)",
+                        opacity: "99%"
+                    }: {}}
+                    zIndex="10"
+                    onClick={onClick}
+                    bgColor={colorFondo}
+                    border="1px"
+                    borderRadius="4px"
+                    minH="100%"
+                    align-items="center"
+                    justify-items="center"
+                    position="relative"
+                    left="0px"
+                    width="105px"
+                    height= "150px"
+                    filter= "brightness(55%)"
+                    
+                    background-color= "white"
+                    border-radius= "8px"
+                    transition= "0.3s ease-in-out"
+                    box-shadow= "rgba(0, 0, 0, 0.25) 0px 5px 25px"
+                >
+                    <VStack gap={"3"} maxH="100%" alignContent={"space-between"} height={"auto"} width="100%" alignItems="unset">
+                        <Text height={"auto"} px="5px" color="white" align="left">
+                            {textoAux}
+                        </Text>
+                        <Text height={"auto"} fontSize="4xl" color="white" align="center">
+                            {textoCentral}
+                        </Text>
+                        <Text height={"auto"} px="5px" color="white" align="right">
+                            {textoAux}
+                        </Text>
+                    </VStack>
+                </Box>
     );
 }

@@ -440,11 +440,11 @@ export default function Juego({username}) {
                             switch (carta.accion) {
                             case "cambio color":
                                 return (
-                                    <Carta onClick={onOpen} numero={carta.numero} color={carta.color} accion={carta.accion} />
+                                    <Carta onClick={onOpen} numero={carta.numero} color={carta.color} accion={carta.accion} posible={true}/>
                                 );
                             case "roba 4":
                                 return (
-                                    <Carta onClick={onOpen} numero={carta.numero} color={carta.color} accion={carta.accion} />
+                                    <Carta onClick={onOpen} numero={carta.numero} color={carta.color} accion={carta.accion} posible={true}/>
                                 );
                             default:
                                 return (

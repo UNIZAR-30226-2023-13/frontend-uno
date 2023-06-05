@@ -24,7 +24,7 @@ import {
     useToast,
     Text,
     Divider,
-    Flex
+    Flex,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { FaSkullCrossbones, FaCrown } from "react-icons/fa";
@@ -66,7 +66,6 @@ export default function Juego({username}) {
         case 1:
             
             return (
-                
                 <VStack gap={4}>
                     <Carta color="black" accion="uno" numCartas={otrosJugadores[0].mano.length} estilo="minimalista"/>
                     <Text textShadow={otrosJugadores[0].username===jugadorConTurno ? "0px 5px 10px yellow": ""} casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[0].username}</Text>
@@ -141,6 +140,31 @@ export default function Juego({username}) {
             );
         default:
             return <></>;
+        }
+    };
+
+    const sentidoJuego = () => {
+        switch (cartaDescartes.color){
+        case "verde":
+            return (
+                <Icon  color="green" opacity={"60%"} fillOpacity={1} size={"2px"} boxSize={480} animation={spinAnimation} as={(sentidoHorario ? BsArrowClockwise : BsArrowCounterclockwise)}/>
+            );
+        case "amarillo":
+            return (
+                <Icon  color="yellow" opacity={"60%"} fillOpacity={1} size={"2px"} boxSize={480} animation={spinAnimation} as={(sentidoHorario ? BsArrowClockwise : BsArrowCounterclockwise)}/>
+            );
+        case "rojo":
+            return (
+                <Icon  color="red" opacity={"60%"} fillOpacity={1} size={"2px"} boxSize={480} animation={spinAnimation} as={(sentidoHorario ? BsArrowClockwise : BsArrowCounterclockwise)}/>
+            );
+        case "azul":
+            return (
+                <Icon  color="blue.800" opacity={"60%"} fillOpacity={1} size={"2px"} boxSize={480} animation={spinAnimation} as={(sentidoHorario ? BsArrowClockwise : BsArrowCounterclockwise)}/>
+            );
+        default:
+            return (
+                <Icon  color="white" opacity={"60%"} fillOpacity={1} size={"2px"} boxSize={480} animation={spinAnimation} as={(sentidoHorario ? BsArrowClockwise : BsArrowCounterclockwise)}/>
+            );
         }
     };
 
@@ -241,7 +265,8 @@ export default function Juego({username}) {
         });
     }
 
-    const { isOpen, onOpen, onClose } = useDisclosure();
+    const modalCambioColorController = useDisclosure();
+    const modalRobaCuatroController = useDisclosure();
     const modalTopController = useDisclosure();
     const finalRef = React.useRef(null);
 
@@ -383,14 +408,14 @@ export default function Juego({username}) {
                 </GridItem>
                 <GridItem colStart="3" colEnd="10" w="100%">
                     <Center position={"fixed"} left={"50%"} right={"50%"} top={"27%"} minH={"50%"}>
-                        <Icon opacity={"40%"} fillOpacity={1} size={"2px"} boxSize={480} animation={spinAnimation} as={(sentidoHorario ? BsArrowClockwise : BsArrowCounterclockwise)}/>
+                        {sentidoJuego()}
                     </Center>
                     <HStack style={{ zIndex: 2 }} minH="100%" alignItems="center" justifyContent="center">
                         <Carta color="black" accion="mazo" estilo="minimalista"/>
                         {/* La carta del mazo de descartes */}
                         <Carta accion={cartaDescartes.accion} numero={cartaDescartes.numero} color={cartaDescartes.color} tipo="descarte" estilo="clasico" />
                         <>
-                            <Modal finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose} isCentered>
+                            <Modal finalFocusRef={finalRef} isOpen={modalCambioColorController.isOpen} onClose={modalCambioColorController.onClose} isCentered>
                                 <ModalOverlay />
                                 <ModalContent>
                                     <ModalHeader>Elige el color al que deseas cambiar</ModalHeader>
@@ -401,18 +426,51 @@ export default function Juego({username}) {
                                             <Button
                                                 fontSize="xl"
                                                 colorScheme="red"
+                                                onClick={()=>{
+                                                    socket.emit("jugarCarta", 
+                                                        {
+                                                            accion: "cambio color",
+                                                            cambioColor: "rojo"
+                                                        },
+                                                        unoPulsado);
+                                                
+                                                    modalCambioColorController.onClose();
+                                                }
+                                                }
                                             >
                                                 Rojo
                                             </Button>
                                             <Button
                                                 fontSize="xl"
                                                 colorScheme="blue"
+                                                onClick={()=>{
+                                                    socket.emit("jugarCarta", 
+                                                        {
+                                                            accion: "cambio color",
+                                                            cambioColor: "azul"
+                                                        },
+                                                        unoPulsado);
+                                                
+                                                    modalCambioColorController.onClose();
+                                                }
+                                                }
                                             >
                                                 Azul
                                             </Button>
                                             <Button
                                                 fontSize="xl"
                                                 colorScheme="green"
+                                                onClick={()=>{
+                                                    socket.emit("jugarCarta", 
+                                                        {
+                                                            accion: "cambio color",
+                                                            cambioColor: "verde"
+                                                        },
+                                                        unoPulsado);
+                                                
+                                                    modalCambioColorController.onClose();
+                                                }
+                                                }
                                             >
                                                 Verde
                                             </Button>
@@ -420,6 +478,97 @@ export default function Juego({username}) {
                                                 fontSize="xl"
                                                 colorScheme="yellow"
                                                 textColor="white"
+                                                onClick={()=>{
+                                                    socket.emit("jugarCarta", 
+                                                        {
+                                                            accion: "cambio color",
+                                                            cambioColor: "amarillo"
+                                                        },
+                                                        unoPulsado);
+                                                
+                                                    modalCambioColorController.onClose();
+                                                }
+                                                }
+                                            >
+                                                Amarillo
+                                            </Button>
+                                        </HStack>
+                                    </ModalBody>
+
+                                </ModalContent>
+                            </Modal>
+                        </>
+                        <>
+                            <Modal finalFocusRef={finalRef} isOpen={modalRobaCuatroController.isOpen} onClose={modalRobaCuatroController.onClose} isCentered>
+                                <ModalOverlay />
+                                <ModalContent>
+                                    <ModalHeader>Elige el color al que deseas cambiar</ModalHeader>
+                                    <ModalCloseButton />
+
+                                    <ModalBody>
+                                        <HStack>
+                                            <Button
+                                                fontSize="xl"
+                                                colorScheme="red"
+                                                onClick={()=>{
+                                                    socket.emit("jugarCarta", 
+                                                        {
+                                                            accion: "roba 4",
+                                                            cambioColor: "rojo"
+                                                        },
+                                                        unoPulsado);
+                                                    modalRobaCuatroController.onClose();
+                                                }
+                                                }
+                                            >
+                                                Rojo
+                                            </Button>
+                                            <Button
+                                                fontSize="xl"
+                                                colorScheme="blue"
+                                                onClick={()=>{
+                                                    socket.emit("jugarCarta", 
+                                                        {
+                                                            accion: "roba 4",
+                                                            cambioColor: "azul"
+                                                        },
+                                                        unoPulsado);
+                                                    modalRobaCuatroController.onClose();
+                                                }
+                                                }
+                                            >
+                                                Azul
+                                            </Button>
+                                            <Button
+                                                fontSize="xl"
+                                                colorScheme="green"
+                                                onClick={()=>{
+                                                    socket.emit("jugarCarta", 
+                                                        {
+                                                            accion: "roba 4",
+                                                            cambioColor: "verde"
+                                                        },
+                                                        unoPulsado);
+                                                    modalRobaCuatroController.onClose();
+                                                }
+                                                }
+                                            >
+                                                Verde
+                                            </Button>
+                                            <Button
+                                                fontSize="xl"
+                                                colorScheme="yellow"
+                                                textColor="white"
+                                                onClick={()=>{
+                                                    socket.emit("jugarCarta", 
+                                                        {
+                                                            accion: "roba 4",
+                                                            cambioColor: "amarillo"
+                                                        },
+                                                        unoPulsado);
+                                                    modalRobaCuatroController.onClose();
+                                                }
+                                                }
                                             >
                                                 Amarillo
                                             </Button>
@@ -452,11 +601,11 @@ export default function Juego({username}) {
                             switch (carta.accion) {
                             case "cambio color":
                                 return (
-                                    <Carta onClick={onOpen} numero={carta.numero} color={carta.color} accion={carta.accion} posible={jugadorConTurno===username}/>
+                                    <Carta onClick={modalCambioColorController.onOpen} numero={carta.numero} color={carta.color} accion={carta.accion} posible={jugadorConTurno===username}/>
                                 );
                             case "roba 4":
                                 return (
-                                    <Carta onClick={onOpen} numero={carta.numero} color={carta.color} accion={carta.accion} posible={jugadorConTurno===username}/>
+                                    <Carta onClick={modalRobaCuatroController.onOpen} numero={carta.numero} color={carta.color} accion={carta.accion} posible={jugadorConTurno===username}/>
                                 );
                             default:
                                 return (
@@ -479,8 +628,8 @@ export default function Juego({username}) {
                     <Center minH="100%">
                         <Popover
                             isOpen={((misCartas.length === 2 && !unoPulsado))}
-                            onOpen={onOpen}
-                            onClose={onClose}
+                            onOpen={modalTopController.onOpen}
+                            onClose={modalTopController.onClose}
                             placement="top-start"
                         >
                             <PopoverTrigger>

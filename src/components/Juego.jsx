@@ -8,7 +8,6 @@ import {
     Box,
     Modal,
     ModalOverlay,
-    ModalFooter,
     ModalContent,
     ModalHeader,
     ModalCloseButton,
@@ -20,13 +19,14 @@ import {
     PopoverHeader,
     PopoverArrow,
     PopoverBody,
-    PopoverCloseButton,
+    FormControl,
+    FormLabel,
     Icon,
     useDisclosure,
-    useToast
+    useToast,
+    Text
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { HiArrowPath } from "react-icons/hi2";
 import { BsArrowClockwise } from "react-icons/bs";
 import { useGlobalState } from "./GlobalState";
 // import { Registro } from './Registro';
@@ -38,7 +38,6 @@ import { socket } from "../socket";
 import { BuscarPartida } from "./BuscarPartida";
 
 export default function Juego({username}) {
-    console.log(username);
     const [tengoPartida, setTengoPartida] = useState(false);
     const toast = useToast();
 
@@ -46,93 +45,13 @@ export default function Juego({username}) {
     const [unoPulsado, setUnoPulsado] = useState(false);
     const [jugadores, setJugadores] = useState([{}]);
 
-    /* 
-    const [jugadores, setJugadores] = useState([
-        {
-            nombre: "ana123",
-            nivel: 22,
-            puntos: 100,
-        },
-        {
-            nombre: "jorge234",
-            nivel: 34,
-            puntos: 200,
-        },
-        {
-            nombre: "luis345",
-            nivel: 5,
-            puntos: 450,
-        },
-        {
-            nombre: "maria456",
-            nivel: 41,
-            puntos: 300,
-        }
-    ]);
-    */
     const [misCartas, setMisCartas] = useState([{}]);
     const [cartaDescartes, setCartaDescartes] = useState();
 
-    const [cartasJugador2, setCartasJugador2] = useState([
-        {
-            numero: 1,
-            color: "red",
-            accion: null,
-        },
-        {
-            numero: 2,
-            color: "blue",
-            accion: null,
-        },
-        {
-            numero: 1,
-            color: "red",
-            accion: null,
-        },
-        {
-            numero: 2,
-            color: "blue",
-            accion: null,
-        },
-        {
-            numero: 1,
-            color: "red",
-            accion: null,
-        },
-        {
-            numero: 2,
-            color: "blue",
-            accion: null,
-        },
-    ]);
-
-    const [cartasJugador3, setCartasJugador3] = useState([
-        {
-            numero: 1,
-            color: "red",
-            accion: null,
-        },
-        {
-            numero: 2,
-            color: "blue",
-            accion: null,
-        },
-    ]);
-
-    const [cartasJugador4, setCartasJugador4] = useState([
-        {
-            numero: 1,
-            color: "red",
-            accion: null,
-        },
-        {
-            numero: 2,
-            color: "blue",
-            accion: null,
-        },
-    ]);
-
     const [otrosJugadores, setOtrosJugadores] = useState([]);
+
+    const initialRef = React.useRef(null);
+    const finalRef2 = React.useRef(null);
 
     const jugadorArriba = () => {
         switch (otrosJugadores.length) {
@@ -196,7 +115,6 @@ export default function Juego({username}) {
         }
     };
 
-
     const handleJugarCarta = () => {
         setUnoPulsado(false);
         // console.log(`numero: ${numero} color: ${color} numero: ${numero}`);
@@ -244,9 +162,12 @@ export default function Juego({username}) {
         for (var i = 1; i < partida.jugadores.length; i++){
             jugadoresAux.push(partida.jugadores[(miPosicion + i) % partida.jugadores.length]);
         }
-        console.log("Otros jugadores:");
-        console.log(jugadoresAux);
         setOtrosJugadores(jugadoresAux);
+
+        // En caso de finalizada
+        if (partida.finalizado){
+            modalTopController.onOpen();
+        }
 
         console.log(JSON.stringify(partida, null, 2));
     };
@@ -266,6 +187,7 @@ export default function Juego({username}) {
     const spinAnimation = `${spin} infinite 2s linear`;
 
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const modalTopController = useDisclosure();
     const finalRef = React.useRef(null);
 
     console.log("jugador de arriba: ");
@@ -280,169 +202,187 @@ export default function Juego({username}) {
     }
     
     else return (
-        
-        <Grid
-            templateColumns="repeat(11, 1fr)"
-            templateRows="repeat(1, 1fr)"
-            columnGap={0}
-            rowGap={0}
-        >
-            <GridItem colStart="1" colEnd="3" w="100%" h="20vh" bg="blue.500">
-                <Center minH="100%">
-                    <Button fontSize="3xl" position="relative" maxW="100%" width="8em" height="3em" size="lg"
-                        onClick={() => {
-                            socket.emit("abandonarPartida");
-                            toast({
-                                title: "Partida abandonada correctamente",
-                                status: "success",
-                                position: "top",
-                                duration: 3000,
-                            });
-                            setGlobalState(<Inicio />);
-                        }}>
-                        Salir del juego
-                    </Button>
-                </Center>
-            </GridItem>
-            <GridItem colStart="3" colEnd="8" w="100%" bg="blue.500">
-                <HStack minH="100%" alignItems="center" ml="65%">
-                    {/* Hueco para el jugaor de arriba 
-                        <Carta color="black" accion="uno" numCartas={cartasJugador3.length} estilo="minimalista"/>
-                    */}
-                    
-                    {jugadorArriba()}
-                </HStack>
-            </GridItem>
-            <GridItem colStart="8" colEnd="12" w="100%" bg="blue.500">
-                <Box>
-                    {jugadores.map((jugador, key) => (
-                        <Top
-                            key={"jugador-"+key}
-                            nombre={jugador.nombre}
-                            nivel={jugador.nivel}
-                            numCartas={jugador.numCartas}
-                        />
-                    ))}
-                </Box>
-            </GridItem>
-            <GridItem colStart="1" colEnd="3" w="100%" h="49vh" bg="blue.500">
-                <VStack minH="100%" alignItems="center" justifyContent="center">
-                    {/* La carta del jugador de la izquierda */}
-                    {jugadorIzq()}
-                </VStack>
-            </GridItem>
-            <GridItem colStart="3" colEnd="10" w="100%" bg="blue.500">
-                <Center position={"fixed"} left={"50%"} right={"50%"} top={"17%"} minH={"50%"}>
-                    <Icon opacity={"60%"} fillOpacity={1} size={"2px"} boxSize={480} animation={spinAnimation} as={BsArrowClockwise}/>
-                </Center>
-                <HStack style={{ zIndex: 2 }} minH="100%" alignItems="center" justifyContent="center">
-                    <Carta color="black" accion="mazo" estilo="minimalista"/>
-                    {/* La carta del mazo de descartes */}
-                    <Carta accion={cartaDescartes.accion} numero={cartaDescartes.numero} color={cartaDescartes.color} estilo="clasico" />
-                    <>
-                        <Modal finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose} isCentered>
-                            <ModalOverlay />
-                            <ModalContent>
-                                <ModalHeader>Elige el color al que deseas cambiar</ModalHeader>
-                                <ModalCloseButton />
+        <>
+            <Modal
+                initialFocusRef={initialRef}
+                finalFocusRef={finalRef2}
+                isOpen={modalTopController.isOpen}
+                onClose={modalTopController.onClose}
+                size="2xl"
+            >
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader fontSize="3xl">Fin de partida</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody pb={6}>
+                        <Text>Top de jugadores</Text>
+                        
+                    </ModalBody>
+                </ModalContent>
+            </Modal>
+            <Grid
+                templateColumns="repeat(11, 1fr)"
+                templateRows="repeat(1, 1fr)"
+                columnGap={0}
+                rowGap={0}
+            >
+                <GridItem colStart="1" colEnd="3" w="100%" h="20vh" bg="blue.500">
+                    <Center minH="100%">
+                        <Button fontSize="3xl" position="relative" maxW="100%" width="8em" height="3em" size="lg"
+                            onClick={() => {
+                                socket.emit("abandonarPartida");
+                                toast({
+                                    title: "Partida abandonada correctamente",
+                                    status: "success",
+                                    position: "top",
+                                    duration: 3000,
+                                });
+                                setGlobalState(<Inicio />);
+                            }}>
+                            Salir del juego
+                        </Button>
+                    </Center>
+                </GridItem>
+                <GridItem colStart="3" colEnd="8" w="100%" bg="blue.500">
+                    <HStack minH="100%" alignItems="center" ml="65%">
+                        {/* Hueco para el jugaor de arriba 
+                            <Carta color="black" accion="uno" numCartas={cartasJugador3.length} estilo="minimalista"/>
+                        */}
+                        
+                        {jugadorArriba()}
+                    </HStack>
+                </GridItem>
+                <GridItem colStart="8" colEnd="12" w="100%" bg="blue.500">
+                    <Box>
+                        {jugadores.map((jugador, key) => (
+                            <Top
+                                key={"jugador-"+key}
+                                nombre={jugador.nombre}
+                                nivel={jugador.nivel}
+                                numCartas={jugador.numCartas}
+                            />
+                        ))}
+                    </Box>
+                </GridItem>
+                <GridItem colStart="1" colEnd="3" w="100%" h="49vh" bg="blue.500">
+                    <VStack minH="100%" alignItems="center" justifyContent="center">
+                        {/* La carta del jugador de la izquierda */}
+                        {jugadorIzq()}
+                    </VStack>
+                </GridItem>
+                <GridItem colStart="3" colEnd="10" w="100%" bg="blue.500">
+                    <Center position={"fixed"} left={"50%"} right={"50%"} top={"17%"} minH={"50%"}>
+                        <Icon opacity={"60%"} fillOpacity={1} size={"2px"} boxSize={480} animation={spinAnimation} as={BsArrowClockwise}/>
+                    </Center>
+                    <HStack style={{ zIndex: 2 }} minH="100%" alignItems="center" justifyContent="center">
+                        <Carta color="black" accion="mazo" estilo="minimalista"/>
+                        {/* La carta del mazo de descartes */}
+                        <Carta accion={cartaDescartes.accion} numero={cartaDescartes.numero} color={cartaDescartes.color} estilo="clasico" />
+                        <>
+                            <Modal finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose} isCentered>
+                                <ModalOverlay />
+                                <ModalContent>
+                                    <ModalHeader>Elige el color al que deseas cambiar</ModalHeader>
+                                    <ModalCloseButton />
 
-                                <ModalBody>
-                                    <HStack>
-                                        <Button
-                                            fontSize="xl"
-                                            colorScheme="red"
-                                        >
-                                            Rojo
-                                        </Button>
-                                        <Button
-                                            fontSize="xl"
-                                            colorScheme="blue"
-                                        >
-                                            Azul
-                                        </Button>
-                                        <Button
-                                            fontSize="xl"
-                                            colorScheme="green"
-                                        >
-                                            Verde
-                                        </Button>
-                                        <Button
-                                            fontSize="xl"
-                                            colorScheme="yellow"
-                                            textColor="white"
-                                        >
-                                            Amarillo
-                                        </Button>
-                                    </HStack>
-                                </ModalBody>
+                                    <ModalBody>
+                                        <HStack>
+                                            <Button
+                                                fontSize="xl"
+                                                colorScheme="red"
+                                            >
+                                                Rojo
+                                            </Button>
+                                            <Button
+                                                fontSize="xl"
+                                                colorScheme="blue"
+                                            >
+                                                Azul
+                                            </Button>
+                                            <Button
+                                                fontSize="xl"
+                                                colorScheme="green"
+                                            >
+                                                Verde
+                                            </Button>
+                                            <Button
+                                                fontSize="xl"
+                                                colorScheme="yellow"
+                                                textColor="white"
+                                            >
+                                                Amarillo
+                                            </Button>
+                                        </HStack>
+                                    </ModalBody>
 
-                            </ModalContent>
-                        </Modal>
-                    </>
-                </HStack>
-            </GridItem>
-            <GridItem colStart="10" colEnd="12" w="100%" bg="blue.500">
-                <VStack minH="100%" alignItems="center" justifyContent="center">
-                    {/* La carta del jugador de la derecha */}
-                    {jugadorDcha()}
-                </VStack>
-            </GridItem>
-            <GridItem colStart="1" colEnd="3" w="100%" h="30vh" bg="blue.500">
-                <Center minH="100%">
-                    <Button onClick={()=>{
-                        socket.emit("robarCarta");
-                    }} fontSize="3xl" position="relative" maxW="100%" width="5em" height="3em" size="lg">
-                        Robar
-                    </Button>
-                </Center>
-            </GridItem>
-            <GridItem colStart="3" colEnd="10" w="100%" bg="blue.500">
-                <HStack minH="100%" alignItems="center" justifyContent="center">
-                    {misCartas.map((carta) => {
-                        switch (carta.accion) {
-                        case "cambio color":
-                            return (
-                                <Carta onClick={onOpen} numero={carta.numero} color={carta.color} accion={carta.accion} />
-                            );
-                        case "roba 4":
-                            return (
-                                <Carta onClick={onOpen} numero={carta.numero} color={carta.color} accion={carta.accion} />
-                            );
-                        default:
-                            return (
-                                <Carta onClick={() => { handleJugarCarta();}} numero={carta.numero} color={carta.color} accion={carta.accion} />
-                            );
-                        }
-                    })}
+                                </ModalContent>
+                            </Modal>
+                        </>
+                    </HStack>
+                </GridItem>
+                <GridItem colStart="10" colEnd="12" w="100%" bg="blue.500">
+                    <VStack minH="100%" alignItems="center" justifyContent="center">
+                        {/* La carta del jugador de la derecha */}
+                        {jugadorDcha()}
+                    </VStack>
+                </GridItem>
+                <GridItem colStart="1" colEnd="3" w="100%" h="30vh" bg="blue.500">
+                    <Center minH="100%">
+                        <Button onClick={()=>{
+                            socket.emit("robarCarta");
+                        }} fontSize="3xl" position="relative" maxW="100%" width="5em" height="3em" size="lg">
+                            Robar
+                        </Button>
+                    </Center>
+                </GridItem>
+                <GridItem colStart="3" colEnd="10" w="100%" bg="blue.500">
+                    <HStack minH="100%" alignItems="center" justifyContent="center">
+                        {misCartas.map((carta) => {
+                            switch (carta.accion) {
+                            case "cambio color":
+                                return (
+                                    <Carta onClick={onOpen} numero={carta.numero} color={carta.color} accion={carta.accion} />
+                                );
+                            case "roba 4":
+                                return (
+                                    <Carta onClick={onOpen} numero={carta.numero} color={carta.color} accion={carta.accion} />
+                                );
+                            default:
+                                return (
+                                    <Carta onClick={() => { handleJugarCarta();}} numero={carta.numero} color={carta.color} accion={carta.accion} />
+                                );
+                            }
+                        })}
 
-                </HStack>
-            </GridItem>
-            <GridItem colStart="10" colEnd="12" w="100%" bg="blue.500">
-                <Center minH="100%">
-                    <Popover
-                        isOpen={((misCartas.length === 2 && !unoPulsado))}
-                        onOpen={onOpen}
-                        onClose={onClose}
-                        placement="top-start"
-                    >
-                        <PopoverTrigger>
-                            <Button onClick={()=>{{
-                                setUnoPulsado(true);
-                            }}} 
-                            isDisabled={misCartas.length !== 2 || unoPulsado} fontSize="3xl" position="relative" maxW="100%" width="5em" height="3em" size="lg">
-                                UNO!
-                            </Button>
-                        </PopoverTrigger>
-                        <PopoverContent>
-                            <PopoverHeader fontWeight="semibold">¡Solo te quedan 2 cartas!</PopoverHeader>  
-                            <PopoverArrow />
-                            <PopoverBody>
-                                Pulsa el boton UNO! antes de lanzar tu próxima carta
-                            </PopoverBody>
-                        </PopoverContent>
-                    </Popover>
-                </Center>
-            </GridItem>
-        </Grid>
+                    </HStack>
+                </GridItem>
+                <GridItem colStart="10" colEnd="12" w="100%" bg="blue.500">
+                    <Center minH="100%">
+                        <Popover
+                            isOpen={((misCartas.length === 2 && !unoPulsado))}
+                            onOpen={onOpen}
+                            onClose={onClose}
+                            placement="top-start"
+                        >
+                            <PopoverTrigger>
+                                <Button onClick={()=>{{
+                                    setUnoPulsado(true);
+                                }}} 
+                                isDisabled={misCartas.length !== 2 || unoPulsado} fontSize="3xl" position="relative" maxW="100%" width="5em" height="3em" size="lg">
+                                    UNO!
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent>
+                                <PopoverHeader fontWeight="semibold">¡Solo te quedan 2 cartas!</PopoverHeader>  
+                                <PopoverArrow />
+                                <PopoverBody>
+                                    Pulsa el boton UNO! antes de lanzar tu próxima carta
+                                </PopoverBody>
+                            </PopoverContent>
+                        </Popover>
+                    </Center>
+                </GridItem>
+            </Grid>
+        </>
     );
 }

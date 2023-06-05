@@ -2,34 +2,38 @@ import {
     Box,
     Text,
     HStack,
-    Center,
     Spinner,
     VStack,
-    Image,
+    Button,
+    Center,
 } from "@chakra-ui/react";
+import { socket } from "../socket";
+import { useGlobalState } from "./GlobalState";
+import { Inicio } from "./Inicio";
 
 
 export function BuscarPartida() {
+    const [, setGlobalState] = useGlobalState();
     return (
-        <>
-            <Box px="20px" py="10px" borderRadius="5px">
-                <Center>
-                    <VStack>
-                        <HStack gap={4}>
-                            <Text pt="1em" fontSize="4xl">Buscando partida...</Text>
-                        </HStack>
-                        <HStack>
-                            <Spinner
-                                thickness='4px'
-                                speed='0.65s'
-                                emptyColor='gray.200'
-                                color='blue.500'
-                                size='xl'
-                            />
-                        </HStack>
-                    </VStack>
-                </Center>
-            </Box>
-        </>
+        <Center h={"100vh"}
+            w={"100vw"}>
+            <VStack gap={8} >
+                <Text pt="1em" fontSize="4xl">Buscando partida...</Text>
+                <Spinner
+                    thickness='4px'
+                    speed='0.65s'
+                    emptyColor='gray.200'
+                    color='blue.500'
+                    size='xl'
+                />
+                <Button onClick={()=>{
+                    socket.disconnect();
+                    setGlobalState(<Inicio/>);
+                }}>
+                    Cancelar busqueda
+                </Button>
+            </VStack>
+            
+        </Center>
     );
 }

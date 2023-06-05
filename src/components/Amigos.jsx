@@ -282,24 +282,6 @@ export function Amigos() {
                 <WrapItem>
                 </WrapItem>
             </Wrap>
-            {/*
-            <Modal
-                initialFocusRef={initialRef}
-                finalFocusRef={finalRef}
-                isOpen={isOpenConfirmar}
-                onClose={onCloseConfirmar}
-                size="2xl"
-            >
-                <ModalOverlay />
-                <ModalContent>
-                    <ModalHeader fontSize="3xl">Invitaciones</ModalHeader>
-                    <ModalCloseButton />
-                    <ModalBody pb={6}>
-                        <Text>Solicitud enviada correctamente</Text>
-                    </ModalBody>
-                </ModalContent>
-            </Modal>
-            */}
             <Center paddingY="20px" paddingX="10%">
                 <VStack
                     py={5}

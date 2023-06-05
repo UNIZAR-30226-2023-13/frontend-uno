@@ -4,15 +4,15 @@ import {
 import { NotAllowedIcon } from "@chakra-ui/icons";
 import { HiArrowPath } from "react-icons/hi2";
 import { GiCardPlay } from "react-icons/gi";
+import { MdOutlineColorLens } from "react-icons/md";
 
-import cambio_color from "../images/card-games.png";
 import imagen_uno from "../images/Uno-logo.png";
 import imagen_uno_minimalista from "../images/UNO_2020.png";
 import imagen_1_hp from "../images/Harry-Potter-PNG-Background.png";
 
 
 export function Carta({
-    onClick, numero, color, accion, numCartas, estilo
+    onClick, numero, color, accion, numCartas, estilo, tipo = ""
 }) {
     let textoAux;
     let textoCentral;
@@ -56,8 +56,8 @@ export function Carta({
             break;
         case "cambio color":
             colorFondo = "black";
-            textoAux = "C";
-            textoCentral = <Image src={cambio_color} />;
+            textoAux = <Icon as={MdOutlineColorLens} />;
+            textoCentral = <Icon as={MdOutlineColorLens} />;
             break;
         case "mazo":
             colorFondo = "black";
@@ -89,7 +89,7 @@ export function Carta({
         textoCentral = numero;
     }
     return (
-        (accion==="uno" || accion==="mazo") ? 
+        (accion==="uno" || tipo==="descarte" || accion==="mazo") ? 
             <Box    
                 onClick={onClick}
                 bgColor={colorFondo}
@@ -98,6 +98,7 @@ export function Carta({
                 minH="100%"
                 align-items="center"
                 justify-items="center"
+                zIndex="10"
             >
                 <VStack maxH="100%" width="5em" alignItems="unset">
                     <Text px="5px" color="white}" align="left">
@@ -114,9 +115,12 @@ export function Carta({
             :
             <Box    
                 _hover={{
-                    transform: "translateY(-10%)",
+                    zIndex: 20,
+                    transform: "translateY(-20%)",
                     filter: "brightness(110%)",
+                    opacity: "99%"
                 }}
+                zIndex="10"
                 onClick={onClick}
                 bgColor={colorFondo}
                 border="1px"
@@ -124,15 +128,25 @@ export function Carta({
                 minH="100%"
                 align-items="center"
                 justify-items="center"
+                position="relative"
+                left="0px"
+                width="105px"
+                height= "150px"
+                
+                
+                background-color= "white"
+                border-radius= "8px"
+                transition= "0.3s ease-in-out"
+                box-shadow= "rgba(0, 0, 0, 0.25) 0px 5px 25px"
             >
-                <VStack maxH="100%" width="5em" alignItems="unset">
-                    <Text px="5px" color="white}" align="left">
+                <VStack gap={"3"} maxH="100%" alignContent={"space-between"} height={"auto"} width="100%" alignItems="unset">
+                    <Text height={"auto"} px="5px" color="white" align="left">
                         {textoAux}
                     </Text>
-                    <Text fontSize="4xl" color="white}" align="center">
+                    <Text height={"auto"} fontSize="4xl" color="white" align="center">
                         {textoCentral}
                     </Text>
-                    <Text px="5px" color="white}" align="right">
+                    <Text height={"auto"} px="5px" color="white" align="right">
                         {textoAux}
                     </Text>
                 </VStack>

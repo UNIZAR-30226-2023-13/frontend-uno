@@ -19,12 +19,12 @@ import {
     PopoverHeader,
     PopoverArrow,
     PopoverBody,
-    FormControl,
-    FormLabel,
     Icon,
     useDisclosure,
     useToast,
-    Text
+    Text,
+    Divider,
+    Flex
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { BsArrowClockwise, BsArrowCounterclockwise } from "react-icons/bs";
@@ -55,6 +55,8 @@ export default function Juego({username}) {
 
     const initialRef = React.useRef(null);
     const finalRef2 = React.useRef(null);
+
+    const [ganador, setGanador] = useState("");
 
     const jugadorArriba = () => {
         switch (otrosJugadores.length) {
@@ -182,6 +184,7 @@ export default function Juego({username}) {
         // En caso de finalizada
         if (partida.finalizado){
             modalTopController.onOpen();
+            setGanador(partida.ganador.username);
         }
 
         // Pongo el sentido
@@ -225,6 +228,14 @@ export default function Juego({username}) {
     const modalTopController = useDisclosure();
     const finalRef = React.useRef(null);
 
+    let texto;
+
+    if (ganador === username) {
+        texto = "¡Victoria!";
+    } else {
+        texto = "Derrota";
+    }
+
     console.log("jugador de arriba: ");
     console.log(jugadorArriba());
 
@@ -244,14 +255,61 @@ export default function Juego({username}) {
                 isOpen={modalTopController.isOpen}
                 onClose={modalTopController.onClose}
                 size="2xl"
+                closeOnEsc="false"
+                closeOnOverlayClick="false"
             >
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader fontSize="3xl">Fin de partida</ModalHeader>
-                    <ModalCloseButton />
+                    <ModalHeader fontSize="3xl" textAlign={"center"}>Fin de partida</ModalHeader>
                     <ModalBody pb={6}>
-                        <Text>Top de jugadores</Text>
-                        
+                        <VStack>
+                            <Icon
+                                fontSize="4xl"
+                                fontWeight="bold"
+                                textColor={
+                                    ganador === username ? "yellow.500" : "black"
+                                }
+                                mr="2"
+                                as={
+                                    ganador === username
+                                        ? FaCrown
+                                        : FaSkullCrossbones
+                                }
+                            />
+                            <Text
+                                fontSize="4xl"
+                                fontWeight="bold"
+                                textColor={
+                                    ganador === username ? "yellow.500" : "black"
+                                }
+                            >
+                                {texto}
+                            </Text>
+                            <Divider></Divider>
+                            <Flex pt="10px">
+                                {jugadores.map((jugador, key) => (
+                                    <Top
+                                        key={"jugador-"+key}
+                                        nombre={jugador.nombre}
+                                        nivel={jugador.nivel}
+                                        numCartas={jugador.numCartas}
+                                    />
+                                ))}
+                            </Flex>
+                            <Button 
+                                onClick={() => {
+                                    socket.emit("abandonarPartida");
+                                    toast({
+                                        title: "Partida abandonada correctamente",
+                                        status: "success",
+                                        position: "top",
+                                        duration: 3000,
+                                    });
+                                    setGlobalState(<Inicio />);
+                                }}>
+                                    Volver a la pagina principal
+                            </Button>
+                        </VStack>
                     </ModalBody>
                 </ModalContent>
             </Modal>
@@ -317,7 +375,7 @@ export default function Juego({username}) {
                     <HStack style={{ zIndex: 2 }} minH="100%" alignItems="center" justifyContent="center">
                         <Carta color="black" accion="mazo" estilo="minimalista"/>
                         {/* La carta del mazo de descartes */}
-                        <Carta accion={cartaDescartes.accion} numero={cartaDescartes.numero} color={cartaDescartes.color} estilo="clasico" />
+                        <Carta accion={cartaDescartes.accion} numero={cartaDescartes.numero} color={cartaDescartes.color} tipo="descarte" estilo="clasico" />
                         <>
                             <Modal finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose} isCentered>
                                 <ModalOverlay />
@@ -376,7 +434,7 @@ export default function Juego({username}) {
                     </Center>
                 </GridItem>
                 <GridItem pt={{base: 20, md: 0}} colStart="3" colEnd="10" w="100%">
-                    <HStack minH="100%" alignItems="center" justifyContent="center">
+                    <HStack className="misCartas" minH="100%" alignItems="center" justifyContent="center">
                         {misCartas.map((carta) => {
                             switch (carta.accion) {
                             case "cambio color":

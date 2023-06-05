@@ -27,6 +27,7 @@ import {
     Flex
 } from "@chakra-ui/react";
 import React, { useState } from "react";
+import { FaSkullCrossbones, FaCrown } from "react-icons/fa";
 import { BsArrowClockwise, BsArrowCounterclockwise } from "react-icons/bs";
 import { useGlobalState } from "./GlobalState";
 // import { Registro } from './Registro';

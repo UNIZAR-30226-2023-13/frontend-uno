@@ -24,7 +24,6 @@ import {
     useToast,
     Text,
     Divider,
-    Flex,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { FaSkullCrossbones, FaCrown } from "react-icons/fa";
@@ -257,6 +256,12 @@ export default function Juego({username}) {
         });
 
         socket.on("disconnect", ()=>{setGlobalState(<Inicio/>);});
+
+        return () => {
+            socket.off("partida", actualizarPartida);
+            socket.off("partida:abandono");
+            socket.off("disconnect");
+        };
     },[]);
 
     const spin = keyframes`  

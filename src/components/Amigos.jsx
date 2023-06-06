@@ -302,7 +302,7 @@ export function Amigos() {
                         />
                     ))}
                     {amigo.length===0 ? 
-                        <Text py={10} fontSize={"2xl"}>Aun no tienes amigos</Text>
+                        <Text py={10} fontSize={"2xl"}>Aún no tienes amigos</Text>
                         : ""}
                 </VStack>
             </Center>

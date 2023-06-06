@@ -8,6 +8,7 @@ import { Perfil } from "./Perfil";
 import { Historial } from "./Historial";
 import { EmpezarPartida } from "./EmpezarPartida";
 import { socket } from "../socket";
+import { Box } from "@chakra-ui/react";
 //import { useToast } from "@chakra-ui/react";
 
 export function Inicio() {
@@ -44,17 +45,17 @@ export function Inicio() {
     switch (paginaActual) {
     case "inicio":
         return (
-            <>
+            <Box minH={"100vh"}>
                 <Barra setterPaginaActual={setPaginaActual} paginaActual={paginaActual} />
                 <EmpezarPartida/>
-            </>
+            </Box>
         );
     case "personalizar":
         return (
-            <>
+            <Box minH={"100vh"}>
                 <Barra setterPaginaActual={setPaginaActual} paginaActual={paginaActual} />
                 <Personalizar setterPaginaActual={setPaginaActual}/>
-            </>
+            </Box>
         );
     case "personalizarTablero":
         return (

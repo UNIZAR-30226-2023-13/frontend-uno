@@ -3,7 +3,7 @@ import {
 } from "@chakra-ui/react";
 import { NotAllowedIcon } from "@chakra-ui/icons";
 import { HiArrowPath } from "react-icons/hi2";
-import { GiCardPlay } from "react-icons/gi";
+import { GiCardPlay, GiCardDraw } from "react-icons/gi";
 import { MdOutlineColorLens } from "react-icons/md";
 
 import imagen_uno from "../images/Uno-logo.png";
@@ -40,7 +40,7 @@ export function Carta({
         case "roba 4":
             colorFondo = "black";
             textoAux = "+4";
-            textoCentral = <Icon fill="aqua" as={GiCardPlay} />;
+            textoCentral = <Icon as={GiCardDraw} />;
             break;
         case "prohibido":
             textoAux = <Icon as={NotAllowedIcon} />;
@@ -74,16 +74,7 @@ export function Carta({
         default:
             break;
         }
-    } else if (estilo==="harry potter")  {
-        switch(numero){
-        case 1:
-            switch(estilo){
-            case "harry potter":
-                textoAux = numero;
-                textoCentral = <Image src={imagen_1_hp} />;
-            }
-        }
-    }
+    } 
     else{
         textoAux = numero;
         textoCentral = numero;

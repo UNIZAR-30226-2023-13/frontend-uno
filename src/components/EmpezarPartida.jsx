@@ -10,6 +10,8 @@ import {
     createIcon,
     Progress,
     HStack,
+    Center,
+    VStack
     //useToast,
 } from "@chakra-ui/react";
 
@@ -66,7 +68,7 @@ export function EmpezarPartida() {
                     </Text>
                         ?
                 </Heading>
-                <Text color="gray.500">
+                <Text fontWeight={"bold"} color="gray.500" pt={"3em"}pb={"3em"}>
                     UNO, el juego de cartas más popular. Empieza partida para sumergirte en este increíble juego.
                 </Text>
                 <Stack
@@ -81,6 +83,7 @@ export function EmpezarPartida() {
                         colorScheme="green"
                         bg="green.400"
                         rounded="full"
+                        textColor={"white"}
                         px={6}
                         _hover={{
                             bg: "green.500",
@@ -109,19 +112,24 @@ export function EmpezarPartida() {
                         </Text>
                     </Box>
                 </Stack>
+                <HStack width="100%" justifyContent="space-between" pt={"2em"}>
+                    <Text fontWeight="bold">
+                        {"Nivel "}
+                        {console.log(datos.puntos)}
+                        {Math.trunc((datos.puntos) / 100)}
+                    </Text>
+                    <Text fontWeight="bold">
+                        {"Puntos: "}
+                        {console.log(datos.puntos)}
+                        {(datos.puntos % 100)}
+                    </Text>
+                    <Text fontWeight="bold">
+                        {"Nivel "}
+                        {Math.trunc((datos.puntos) / 100) + 1}
+                    </Text>
+                </HStack>
+                <Progress value={(datos.puntos) % 100} />   
             </Stack>
-            <HStack width="100%" justifyContent="space-between">
-                <Text fontWeight="bold">
-                    {"Nivel "}
-                    {console.log(datos.puntos)}
-                    {Math.trunc((datos.puntos) / 100)}
-                </Text>
-                <Text fontWeight="bold">
-                    {"Nivel "}
-                    {Math.trunc((datos.puntos) / 100) + 1}
-                </Text>
-            </HStack>
-            <Progress value={(datos.puntos) % 100} />
         </Container>
     );
 }

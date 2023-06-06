@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 
 import imagen_tablero from "../images/4469150.jpg";
-import imagen_baraja from "../images/card-games.png";
+import imagen_baraja from "../images/card-games.jpg";
 
 function ProductSimple({ objModificar, imagen, accionBoton }) {
     return (

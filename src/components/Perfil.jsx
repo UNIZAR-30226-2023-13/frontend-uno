@@ -65,7 +65,8 @@ export function Perfil() {
             .catch(error => console.log("error", error));
     };
 
-    const handleGuardarCambios = () => {
+    const handleGuardarCambios = (e) => {
+        e.preventDefault();
         console.log(email);
         console.log(password);
         var urlencoded = new URLSearchParams();
@@ -234,94 +235,97 @@ export function Perfil() {
                 justify="center"
                 bg={useColorModeValue("gray.50", "gray.800")}
             >
-                <Stack
-                    spacing={4}
-                    w="full"
-                    maxW="md"
-                    bg={useColorModeValue("white", "gray.700")}
-                    rounded="xl"
-                    boxShadow="lg"
-                    p={6}
-                    my={12}
-                >
-                    <Heading lineHeight={1.1} fontSize={{ base: "2xl", sm: "3xl" }}>
+                <form onSubmit={handleGuardarCambios} >
+                    <Stack
+                        spacing={4}
+                        w="full"
+                        maxW="md"
+                        bg={useColorModeValue("white", "gray.700")}
+                        rounded="xl"
+                        boxShadow="lg"
+                        p={8}
+                        my={12}
+                    >
+                        <Heading lineHeight={1.1} fontSize={{ base: "2xl", sm: "3xl" }}>
                         Configuración de perfil
-                    </Heading>
-                    <FormControl id="userName" />
-                    <FormControl id="userName">
-                        <FormLabel>Nombre de usuario</FormLabel>
-                        <Input
-                            disabled={true}
-                            placeholder={nombre_usuario}
-                            _placeholder={{ color: "gray.500" }}
-                            type="text"
-                        />
-                    </FormControl>
-                    <FormControl id="email">
-                        <FormLabel>Correo electrónico</FormLabel>
-                        <Input
-                            value={email}
-                            placeholder="Nuevo correo electronico"
-                            _placeholder={{ color: "gray.500" }}
-                            type="email"
-                            onChange={(e) => {
-                                setEmail(e.target.value);
-                            }}
-                        />
-                    </FormControl>
-                    <FormControl id="password">
-                        <FormLabel>Contraseña</FormLabel>
-                        <InputGroup>
+                        </Heading>
+                        <FormControl id="userName" />
+                        <FormControl id="userName">
+                            <FormLabel>Nombre de usuario</FormLabel>
                             <Input
-                                value={password}
-                                placeholder="Nueva contraseña"
+                                disabled={true}
+                                placeholder={nombre_usuario}
                                 _placeholder={{ color: "gray.500" }}
-                                onChange={(e)=>setPassword(e.target.value)}
-                                type={
-                                    showNuevaPassword
-                                        ? "text"
-                                        : "password"
-                                }
+                                type="text"
                             />
-                            <InputRightElement h="full">
-                                <Button
-                                    variant="ghost"
-                                    onClick={() =>
-                                        setShowNuevaPassword(
-                                            (showNuevaPassword) =>
-                                                !showNuevaPassword
-                                        ) 
+                        </FormControl>
+                        <FormControl id="email">
+                            <FormLabel>Correo electrónico</FormLabel>
+                            <Input
+                                value={email}
+                                placeholder="Nuevo correo electronico"
+                                _placeholder={{ color: "gray.500" }}
+                                type="email"
+                                onChange={(e) => {
+                                    setEmail(e.target.value);
+                                }}
+                            />
+                        </FormControl>
+                        <FormControl id="password">
+                            <FormLabel>Contraseña</FormLabel>
+                            <InputGroup>
+                                <Input
+                                    value={password}
+                                    placeholder="Nueva contraseña"
+                                    _placeholder={{ color: "gray.500" }}
+                                    onChange={(e)=>setPassword(e.target.value)}
+                                    type={
+                                        showNuevaPassword
+                                            ? "text"
+                                            : "password"
                                     }
-                                >
-                                    {showNuevaPassword ? (
-                                        <ViewIcon />
-                                    ) : (
-                                        <ViewOffIcon />
-                                    )}
-                                </Button>
-                            </InputRightElement>
-                        </InputGroup>
-                    </FormControl>
-                    <Button
-                        bg="blackAlpha.800"
-                        color="white"
-                        onClick={onOpen}>
-                        Eliminar cuenta
-                    </Button>
-                    <Stack spacing={6} direction={["column", "row"]}>
+                                />
+                                <InputRightElement h="full">
+                                    <Button
+                                        variant="ghost"
+                                        onClick={() =>
+                                            setShowNuevaPassword(
+                                                (showNuevaPassword) =>
+                                                    !showNuevaPassword
+                                            ) 
+                                        }
+                                    >
+                                        {showNuevaPassword ? (
+                                            <ViewIcon />
+                                        ) : (
+                                            <ViewOffIcon />
+                                        )}
+                                    </Button>
+                                </InputRightElement>
+                            </InputGroup>
+                        </FormControl>
                         <Button
-                            bg="blue.400"
+                            bg="blackAlpha.800"
                             color="white"
-                            w="full"
-                            _hover={{
-                                bg: "blue.500",
-                            }}
-                            onClick={handleGuardarCambios}
-                        >
-                            Guardar cambios
+                            onClick={onOpen}>
+                        Eliminar cuenta
                         </Button>
+                        <Stack spacing={6} direction={["column", "row"]}>
+                            <Button
+                                type="submit"
+                                bg="blue.400"
+                                color="white"
+                                w="full"
+                                _hover={{
+                                    bg: "blue.500",
+                                }}
+                                
+                            >
+                            Guardar cambios
+                            </Button>
+                        </Stack>
                     </Stack>
-                </Stack>
+                </form>
             </Flex>
         </>
     );

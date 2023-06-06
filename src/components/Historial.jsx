@@ -84,7 +84,9 @@ export function Historial() {
                             usuarioPropio={(partida.jugadores.filter((j) => j.nombre === nombre_usuario))[0]}
                             otrosUsuarios={partida.jugadores.filter((j) => j.nombre !== nombre_usuario)} />)
                     }
-                    
+                    {partidasPrueba.length===0 ? 
+                        <Text py={10} fontSize={"2xl"}>Aún no tienes partidas</Text>
+                        : ""}
                 </VStack>
             </Center>
         </>

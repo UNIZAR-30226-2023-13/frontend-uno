@@ -62,6 +62,8 @@ export function Barra({ setterPaginaActual, paginaActual }) {
             }}
             py={4}
             shadow="md"
+            borderBottomWidth={"2px"}
+            borderBottomColor={"black"}
         >
             <Flex alignItems="center" justifyContent="space-between" mx="auto">
 

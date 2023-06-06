@@ -128,6 +128,7 @@ export function PersonalizarTablero() {
                                 alt="carousel image"
                                 boxSize="full"
                                 backgroundSize="cover"
+                                filter={!estilo.desbloqueado ? "grayscale(100%)" : ""}
                             />
                             <Center>
                                 <Stack

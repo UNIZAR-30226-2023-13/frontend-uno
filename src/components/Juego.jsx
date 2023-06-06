@@ -72,8 +72,8 @@ export default function Juego({username}) {
                 <VStack 
                     className={otrosJugadores[0].username===jugadorConTurno ? "jugadorConTurno": ""}
                     gap={4}>
-                    <Carta color="black" accion="uno" numCartas={otrosJugadores[0].mano.length} estilo="minimalista"/>
-                    <Text textShadow={otrosJugadores[0].username===jugadorConTurno ? "0px 5px 10px yellow": ""} casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[0].username}</Text>
+                    <Carta zIndex={10} color="black" accion="uno" numCartas={otrosJugadores[0].mano.length} estilo="minimalista"/>
+                    <Text fontWeight="bold" zIndex={10} fontFamily={"body"} casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[0].username}</Text>
                 </VStack>
                 
             );
@@ -87,7 +87,7 @@ export default function Juego({username}) {
                     className={otrosJugadores[1].username===jugadorConTurno ? "jugadorConTurno": ""}
                     gap={4}>
                     <Carta zIndex={10} color="black" accion="uno" numCartas={otrosJugadores[1].mano.length} estilo="minimalista"/>
-                    <Text zIndex={10} textShadow={otrosJugadores[1].username===jugadorConTurno ? "0px 5px 50px yellow": ""} casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[1].username}</Text>
+                    <Text fontWeight="bold" zIndex={10} casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[1].username}</Text>
                 </VStack>
             );
         default:
@@ -108,7 +108,7 @@ export default function Juego({username}) {
                     className={otrosJugadores[0].username===jugadorConTurno ? "jugadorConTurno": ""}
                     gap={4}>
                     <Carta zIndex={10} color="black" accion="uno" numCartas={otrosJugadores[0].mano.length} estilo="minimalista"/>
-                    <Text zIndex={10} textShadow={otrosJugadores[0].username===jugadorConTurno ? "0px 5px 10px yellow": ""} casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[0].username}</Text>
+                    <Text fontWeight="bold" zIndex={10}  casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[0].username}</Text>
                 </VStack>
             );
         // Si hay cuatro 4 jugadores
@@ -118,7 +118,7 @@ export default function Juego({username}) {
                     className={otrosJugadores[0].username===jugadorConTurno ? "jugadorConTurno": ""}
                     gap={4}>
                     <Carta zIndex={10} color="black" accion="uno" numCartas={otrosJugadores[0].mano.length} estilo="minimalista"/>
-                    <Text zIndex={10} textShadow={otrosJugadores[0].username===jugadorConTurno ? "0px 5px 10px yellow": ""} casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[0].username}</Text>
+                    <Text fontWeight="bold" zIndex={10}  casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[0].username}</Text>
                 </VStack>
             );
         default:
@@ -139,7 +139,7 @@ export default function Juego({username}) {
                     className={otrosJugadores[1].username===jugadorConTurno ? "jugadorConTurno": ""}
                     gap={4}>
                     <Carta zIndex={10} color="black" accion="uno" numCartas={otrosJugadores[1].mano.length} estilo="minimalista"/>
-                    <Text zIndex={10} textShadow={otrosJugadores[1].username===jugadorConTurno ? "0px 5px 10px yellow": ""} casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[1].username}</Text>
+                    <Text fontWeight="bold" zIndex={10} casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[1].username}</Text>
                 </VStack>
                 
             );
@@ -149,8 +149,8 @@ export default function Juego({username}) {
                 <VStack
                     className={otrosJugadores[2].username===jugadorConTurno ? "jugadorConTurno": ""}
                     gap={4}>
-                    <Carta zIndex={10} color="black" accion="uno" numCartas={otrosJugadores[2].mano.length} estilo="minimalista"/>
-                    <Text zIndex={10} textShadow={otrosJugadores[2].username===jugadorConTurno ? "0px 5px 10px yellow": ""} casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[2].username}</Text>
+                    <Carta fontWeight="bold" zIndex={10} color="black" accion="uno" numCartas={otrosJugadores[2].mano.length} estilo="minimalista"/>
+                    <Text fontWeight="bold" zIndex={10} casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[2].username}</Text>
                 </VStack>
             );
         default:
@@ -184,10 +184,6 @@ export default function Juego({username}) {
         }
     };
 
-    const handleJugarCarta = () => {
-        setUnoPulsado(false);
-        // console.log(`numero: ${numero} color: ${color} numero: ${numero}`);
-    };
 
     const actualizarPartida = (partida) => {
         if (!partida) return;
@@ -626,34 +622,37 @@ export default function Juego({username}) {
                     </Center>
                 </GridItem>
                 <GridItem pt={{base: 20, md: 0}} colStart="3" colEnd="10" w="100%">
-                    <HStack className={username===jugadorConTurno ? "jugadorConTurno misCartas": "misCartas"} minH="100%" alignItems="center" justifyContent="center">
-                        {misCartas.map((carta) => {
-                            switch (carta.accion) {
-                            case "cambio color":
-                                return (
-                                    <Carta onClick={modalCambioColorController.onOpen} numero={carta.numero} color={carta.color} accion={carta.accion} posible={jugadorConTurno===username}/>
-                                );
-                            case "roba 4":
-                                return (
-                                    <Carta onClick={modalRobaCuatroController.onOpen} numero={carta.numero} color={carta.color} accion={carta.accion} posible={jugadorConTurno===username}/>
-                                );
-                            default:
-                                return (
-                                    <Carta onClick={() => {socket.emit("jugarCarta", 
-                                        {
-                                            color: carta.color,
-                                            numero: carta.numero,
-                                            accion: carta.accion
-                                        },
-                                        unoPulsado);
-                                    setUnoPulsado(false);
-                                    }}
-                                    numero={carta.numero} color={carta.color} accion={carta.accion} posible={jugadorConTurno===username && (carta.color===cartaDescartes.color || (carta.accion===cartaDescartes.accion && carta.accion!=undefined) || (carta.numero===cartaDescartes.numero && carta.numero!=undefined))}/>
-                                );
-                            }
-                        })}
+                    <Center w="inherit">
+                        <HStack maxW={"100%"} w={"-webkit-fit-content"} className={username===jugadorConTurno ? "jugadorConTurno misCartas": "misCartas"} minH="100%" alignItems="center" justifyContent="center">
+                            {misCartas.map((carta) => {
+                                switch (carta.accion) {
+                                case "cambio color":
+                                    return (
+                                        <Carta onClick={modalCambioColorController.onOpen} numero={carta.numero} color={carta.color} accion={carta.accion} posible={jugadorConTurno===username}/>
+                                    );
+                                case "roba 4":
+                                    return (
+                                        <Carta onClick={modalRobaCuatroController.onOpen} numero={carta.numero} color={carta.color} accion={carta.accion} posible={jugadorConTurno===username}/>
+                                    );
+                                default:
+                                    return (
+                                        <Carta onClick={() => {socket.emit("jugarCarta", 
+                                            {
+                                                color: carta.color,
+                                                numero: carta.numero,
+                                                accion: carta.accion
+                                            },
+                                            unoPulsado);
+                                        setUnoPulsado(false);
+                                        }}
+                                        className="jugadorConTurno"
+                                        numero={carta.numero} color={carta.color} accion={carta.accion} posible={jugadorConTurno===username && (carta.color===cartaDescartes.color || (carta.accion===cartaDescartes.accion && carta.accion!=undefined) || (carta.numero===cartaDescartes.numero && carta.numero!=undefined))}/>
+                                    );
+                                }
+                            })}
 
-                    </HStack>
+                        </HStack>
+                    </Center>
                 </GridItem>
                 <GridItem pb={{base: 60, md: 0}} colStart="10" colEnd="12" w="100%">
                     <Center minH="100%">

@@ -33,7 +33,7 @@ export function Barra({ setterPaginaActual, paginaActual }) {
             credentials: "include"
         };
 
-        fetch("http://localhost:8000/cuenta/cerrar-sesion", requestOptions)
+        fetch(process.env.REACT_APP_BACKEND_HOST + "/cuenta/cerrar-sesion", requestOptions)
             .then(response => {
                 if(response.status === 200){
                     socket.disconnect();

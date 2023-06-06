@@ -24,7 +24,7 @@ export function PersonalizarBaraja() {
             credentials: "include"
         };
 
-        fetch("http://localhost:8000/aspectos/cartas", requestOptions)
+        fetch(process.env.REACT_APP_BACKEND_HOST + "/aspectos/cartas", requestOptions)
             .then(response => response.json())
             .then(result => {
                 console.log(result);
@@ -44,7 +44,7 @@ export function PersonalizarBaraja() {
             credentials: "include"
         };
 
-        fetch("http://localhost:8000/aspectos/cartas/cambiar", requestOptions)
+        fetch(process.env.REACT_APP_BACKEND_HOST + "/aspectos/cartas/cambiar", requestOptions)
             .then(response => response.text())
             .then(async result => {
                 await verEstiloCarta();

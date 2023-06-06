@@ -38,7 +38,7 @@ export function Amigos() {
             credentials: "include"
         };
 
-        fetch("http://localhost:8000/amigos/anadir_amigo", requestOptions)
+        fetch(process.env.REACT_APP_BACKEND_HOST + "/amigos/anadir_amigo", requestOptions)
             .then(response => {
                 if (response.status === 200){
                     toast({
@@ -88,7 +88,7 @@ export function Amigos() {
             credentials: "include"
         };
 
-        fetch("http://localhost:8000/amigos/eliminar_invitacion", requestOptions)
+        fetch(process.env.REACT_APP_BACKEND_HOST + "/amigos/eliminar_invitacion", requestOptions)
             .then(response => response.text())
             .then(async result => {
                 await verInvitaciones();
@@ -106,7 +106,7 @@ export function Amigos() {
             credentials: "include"
         };
 
-        fetch("http://localhost:8000/amigos", requestOptions)
+        fetch(process.env.REACT_APP_BACKEND_HOST + "/amigos", requestOptions)
             .then(response => response.json())
             .then(result => {
                 console.log(result);
@@ -124,7 +124,7 @@ export function Amigos() {
             credentials: "include"
         };
 
-        fetch("http://localhost:8000/amigos/invitaciones", requestOptions)
+        fetch(process.env.REACT_APP_BACKEND_HOST + "/amigos/invitaciones", requestOptions)
             .then(response => response.json())
             .then(result => {
                 console.log(result);
@@ -145,7 +145,7 @@ export function Amigos() {
             credentials: "include"
         };
 
-        fetch("http://localhost:8000/amigos/enviar_invitacion", requestOptions)
+        fetch(process.env.REACT_APP_BACKEND_HOST + "/amigos/enviar_invitacion", requestOptions)
             .then(response => {
                 if (response.status === 200){
                     toast({

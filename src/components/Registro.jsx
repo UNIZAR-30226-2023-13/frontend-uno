@@ -52,7 +52,7 @@ export function Registro() {
         // Si los datos son coherentes
         if (password === confirmPassword) {
             setContrasenasDistintas(false);
-            const res = await fetch("http://localhost:8000/signup", {
+            const res = await fetch(process.env.REACT_APP_BACKEND_HOST + "/signup", {
                 method: "POST",
                 mode: "cors",
                 credentials: "include",

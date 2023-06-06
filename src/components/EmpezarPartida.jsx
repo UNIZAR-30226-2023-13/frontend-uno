@@ -52,8 +52,7 @@ export function EmpezarPartida() {
             <Stack
                 as={Box}
                 textAlign="center"
-                spacing={{ base: 8, md: 14 }}
-                py={{ base: 20, md: 36 }}
+                pt={"7em"}
             >
                 <Heading
                     fontWeight={600}
@@ -112,7 +111,7 @@ export function EmpezarPartida() {
                         </Text>
                     </Box>
                 </Stack>
-                <HStack width="100%" justifyContent="space-between" pt={"2em"}>
+                <HStack width="100%" justifyContent="space-between" pt={"5em"}>
                     <Text fontWeight="bold">
                         {"Nivel "}
                         {console.log(datos.puntos)}

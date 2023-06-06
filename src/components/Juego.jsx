@@ -203,7 +203,7 @@ export default function Juego({username}) {
                 numCartas: jugador.mano.length
             });
         } 
-        console.log(listaJugadores);
+        listaJugadores.sort((j1,j2)=>j1.numCartas - j2.numCartas);
         setJugadores(listaJugadores);
 
         // Actualizo mis cartas
@@ -236,6 +236,7 @@ export default function Juego({username}) {
 
         // Actualizo el jugador con turno
         setJugadorConTurno(partida.jugadores[partida.turno].username);
+        
 
         console.log(JSON.stringify(partida, null, 2));
     };
@@ -249,12 +250,14 @@ export default function Juego({username}) {
 
         socket.on("partida:abandono", (username) => {
             console.log("abandono de " + username);
+            
             toast({
                 title: "El jugador " + username + " ha abandonado la partida",
                 status: "info",
                 position: "top",
                 duration: 2000,
             });
+            
         });
 
         socket.on("disconnect", ()=>{setGlobalState(<Inicio/>);});

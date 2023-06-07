@@ -16,6 +16,7 @@ export function CartaPartida({
     usuarioPropio,
     otrosUsuarios
 }) {
+    if (!usuarioPropio || !fecha || !otrosUsuarios) return;
     console.log();
     const fechaDate = new Date (fecha);
     const agno = fechaDate.getFullYear();

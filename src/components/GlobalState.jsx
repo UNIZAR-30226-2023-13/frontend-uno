@@ -21,7 +21,7 @@ export function useGlobalState(initialState) {
     initiated = true;
 
     // Create a new state
-    const [s, ss] = useState(state);
+    const [, ss] = useState(state);
 
     // Add the setter of the new state to array of setters
     if (!setters.includes(ss)) setters.push(ss);

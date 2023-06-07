@@ -17,6 +17,7 @@ export function Inicio() {
                 method: "GET",
                 redirect: "follow",
                 credentials: "include",
+                mode: "cors",
             };
 
             fetch(process.env.REACT_APP_BACKEND_HOST + "/cuenta/quien-soy", requestOptions)

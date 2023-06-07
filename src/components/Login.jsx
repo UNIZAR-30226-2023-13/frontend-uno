@@ -56,6 +56,7 @@ export default function Login() {
                 password,
             }),
         }).then(res => {
+
             if (res.status === 200){
                 setGlobalState(<Inicio/>);
             }

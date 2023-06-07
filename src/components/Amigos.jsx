@@ -267,9 +267,7 @@ export function Amigos() {
                             Invitaciones recibidas
                         </FormLabel>
                         {invitacion.map((i, key) => (
-                        {invitacion.map((i, key) => (
                             <CartaInvitacion
-                                key={key}
                                 key={key}
                                 nombre={i.username}
                                 nivel={Math.trunc((i.puntos)/100)}

@@ -29,7 +29,7 @@ export function EmpezarPartida() {
             credentials: "include"
         };
 
-        fetch("http://localhost:8000/cuenta/quien-soy", requestOptions)
+        fetch(process.env.REACT_APP_BACKEND_HOST + "/cuenta/quien-soy", requestOptions)
             .then(async response => response.json())
             .then(result => {
                 setDatos(result);

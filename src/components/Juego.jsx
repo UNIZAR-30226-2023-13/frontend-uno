@@ -255,6 +255,12 @@ export default function Juego({username, tablero, cartas}) {
         });
 
         socket.on("disconnect", ()=>{setGlobalState(<Inicio/>);});
+
+        return () => {
+            socket.off("partida", actualizarPartida);
+            socket.off("partida:abandono");
+            socket.off("disconnect");
+        };
     },[]);
 
     const spin = keyframes`  

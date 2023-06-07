@@ -54,7 +54,7 @@ export function Perfil() {
             credentials: "include",
         };
 
-        fetch("http://localhost:8000/cuenta/quien-soy", requestOptions)
+        fetch(process.env.REACT_APP_BACKEND_HOST + "/cuenta/quien-soy", requestOptions)
             .then(async response => response.json())
             .then(result => {
                 console.log(result);
@@ -86,7 +86,7 @@ export function Perfil() {
             redirect: "follow"
         };
 
-        fetch("http://localhost:8000/cuenta/cambiar-email-password", requestOptions)
+        fetch(process.env.REACT_APP_BACKEND_HOST + "/cuenta/cambiar-email-password", requestOptions)
             .then(response => {
                 if (response.status === 200){
                     setPassword("");
@@ -128,7 +128,7 @@ export function Perfil() {
             credentials: "include",
         };
 
-        fetch("http://localhost:8000/cuenta/eliminar", requestOptions)
+        fetch(process.env.REACT_APP_BACKEND_HOST + "/cuenta/eliminar", requestOptions)
             .then(response => {
                 if(response.status === 200){
                     setContrasenaIncorrecta(false);

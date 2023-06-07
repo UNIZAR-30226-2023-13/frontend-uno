@@ -32,7 +32,7 @@ export default function Login() {
             redirect: "follow"
         };
 
-        fetch("http://localhost:8000/login", requestOptions)
+        fetch(process.env.REACT_APP_BACKEND_HOST + "/login", requestOptions)
             .then(response => {
                 if (response.status === 200){
                     setGlobalState(<Inicio/>);
@@ -46,7 +46,7 @@ export default function Login() {
         
         const username = e.target.username.value;
         const password = e.target.password.value;
-        fetch("http://localhost:8000/login", {
+        fetch(process.env.REACT_APP_BACKEND_HOST + "/login", {
             method: "POST",
             mode: "cors",
             credentials: "include",
@@ -55,6 +55,7 @@ export default function Login() {
                 password,
             }),
         }).then(res => {
+
             if (res.status === 200){
                 setGlobalState(<Inicio/>);
             }

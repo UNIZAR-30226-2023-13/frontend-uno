@@ -102,30 +102,5 @@ dist
 
 # TernJS port file
 .tern-port
-build/asset-manifest.json
-build/index.html
-build/static/css/main.d101aafc.css
-build/static/css/main.d101aafc.css.map
-build/static/js/main.8e0d8af0.js
-build/static/js/main.8e0d8af0.js.LICENSE.txt
-build/static/js/main.8e0d8af0.js.map
-build/static/media/5f569b8b4322de00046d577b.7418cbb27fffb3094e83.png
-build/static/media/50fc29b58585060abe3bad9a03e2c9d6.b962b726abe2d605b0e9.png
-build/static/media/85b0e22abfef18c932f206ede0b275b9.b6f3f9d14f18759dc6d2.png
-build/static/media/580b57fcd9996e24bc43c32a.cc57019380e34f9db018.png
-build/static/media/580b57fcd9996e24bc43c325.6c94309028c267dd8403.png
-build/static/media/104496-spider-man-miles-morales-png-free-photo.873810103d664732cf9e.png
-build/static/media/4469150.91df4e7ea9bc61c1a935.jpg
-build/static/media/bowser-png-Transparent.d5202a7ca31c7336b565.png
-build/static/media/Bulbasaur.47c587739dd59aa6d0d2.webp
-build/static/media/card-games.a2d62dcae38761328165.jpg
-build/static/media/d8bfa319e67b51d35ad73aeb39fce320.c1873bb49276a89562fd.png
-build/static/media/e084554d769c5ad5cb2eabf66fcdf65c.df4f2f255349d7a8e502.png
-build/static/media/Luigi-png.7ee2d96b37ed0ab7db0f.webp
-build/static/media/Poké_Ball_icon.svg.74816b936d6dbace2d1d.png
-build/static/media/Pokemon-Charmander-PNG-Pic.ee03df31f6a927bdbc8b.png
-build/static/media/spider_man_ps4_logo_by_crillyboy25_dc0f846-fullview.ebba33b02ec8cefd4f3e.png
-build/static/media/SuperMarioParty_Peach_2.243c657bb329b638587a.webp
-build/static/media/UNO_2020.d84f296ff6482a149fe5.png
-build/static/media/uno_inicio.d00de3619f0fadbf2a9f.jpeg
-build/static/media/Uno-logo.50cfdfde9d4ab7ee9f1b.png
+
+build/

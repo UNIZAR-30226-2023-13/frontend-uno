@@ -14,7 +14,7 @@ const theme = extendTheme({ colors });
 
 function App() {
 
-    const [globalState] = useGlobalState(
+    const [globalState, ] = useGlobalState(
         <Login />,
     );
 

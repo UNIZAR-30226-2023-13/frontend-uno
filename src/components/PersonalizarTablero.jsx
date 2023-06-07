@@ -23,7 +23,7 @@ export function PersonalizarTablero() {
             credentials: "include"
         };
 
-        fetch("http://localhost:8000/aspectos/tableros", requestOptions)
+        fetch(process.env.REACT_APP_BACKEND_HOST + "/aspectos/tableros", requestOptions)
             .then(response => response.json())
             .then(result => {
                 console.log(result);
@@ -43,7 +43,7 @@ export function PersonalizarTablero() {
             credentials: "include"
         };
 
-        fetch("http://localhost:8000/aspectos/tableros/cambiar", requestOptions)
+        fetch(process.env.REACT_APP_BACKEND_HOST + "/aspectos/tableros/cambiar", requestOptions)
             .then(response => response.text())
             .then(async result => {
                 await verEstiloTablero();

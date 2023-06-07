@@ -4,6 +4,7 @@ import {
     StackDivider,
     Center,
     Text,
+    Box,
 } from "@chakra-ui/react";
 import { CartaPartida } from "./CartaPartida";
 
@@ -57,7 +58,7 @@ export function Historial() {
     }, []);
 
     return (
-        <>
+        <Box>
             <VStack>
                 <Text pt="1em" fontSize="4xl">Historial</Text>
                 <Text pt="1em" fontSize="xl">Aquí podrás ver tus anteriores partidas jugadas</Text>
@@ -77,6 +78,7 @@ export function Historial() {
                     borderColor="gray.300"
                     width={680}
                     boxShadow="0 0 2rem gray"
+                    bg={"white"}
                 >
                     {
                         partidasPrueba.map((partida, key) => <CartaPartida key={"jugador"+key} 
@@ -89,6 +91,6 @@ export function Historial() {
                         : ""}
                 </VStack>
             </Center>
-        </>
+        </Box>
     );
 }

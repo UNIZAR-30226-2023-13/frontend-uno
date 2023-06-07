@@ -19,7 +19,8 @@ import {
     useDisclosure,
     Wrap,
     WrapItem,
-    useToast
+    useToast,
+    Box
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { FaPaperPlane } from "react-icons/fa";
@@ -180,7 +181,6 @@ export function Amigos() {
             .then(async result => {
                 await verAmigos();
                 await verInvitaciones();
-                //{onOpenConfirmar;}
                 console.log(result);
             })
             .catch(error => console.log("error", error));
@@ -199,7 +199,6 @@ export function Amigos() {
     },[]);
 
     const { isOpen, onOpen, onClose } = useDisclosure();
-    //const { isOpenConfirmar, onOpenConfirmar, onCloseConfirmar } = useDisclosure();
     const toast = useToast();
 
     const initialRef = React.useRef(null);
@@ -209,7 +208,7 @@ export function Amigos() {
     const [invitacion, setInvitacion] = useState([]);
 
     return (
-        <>
+        <Box>
             <VStack paddingX="10%">
                 <Text pt="1em" fontSize="4xl">
                      Amigos
@@ -293,6 +292,7 @@ export function Amigos() {
                     borderColor="gray.300"
                     width={680}
                     boxShadow="0 0 2rem gray"
+                    bg={"white"}
                 >
                     {amigo.map((a) => (
                         <CartaSocial
@@ -306,6 +306,6 @@ export function Amigos() {
                         : ""}
                 </VStack>
             </Center>
-        </>
+        </Box>
     );
 }

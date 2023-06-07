@@ -233,7 +233,6 @@ export function Perfil() {
                 minH="100%"
                 align="center"
                 justify="center"
-                bg={useColorModeValue("gray.50", "gray.800")}
             >
                 <form onSubmit={handleGuardarCambios} >
                     <Stack

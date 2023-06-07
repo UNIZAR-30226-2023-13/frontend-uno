@@ -21,7 +21,6 @@ export function CartaPartida({
     const agno = fechaDate.getFullYear();
     const mes = fechaDate.getMonth() + 1;
     const dia = fechaDate.getUTCDate() + 1;
-    //const otrosUsuarios = [usuario2, usuario3, usuario4];
 
     let texto;
 
@@ -140,9 +139,12 @@ export function CartaPartida({
                                 </Badge>
                             );
                         })}
+
+                        {otrosUsuarios.length===0 ? 
+                            <Badge align={"center"} colorScheme="purple">Abandono de jugadores</Badge>
+                            : ""}
                     </VStack>
                 </Center>
-                {/* */}
             </Stack>
                 
         </Box>

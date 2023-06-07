@@ -9,7 +9,6 @@ import { Historial } from "./Historial";
 import { EmpezarPartida } from "./EmpezarPartida";
 import { socket } from "../socket";
 import { Box } from "@chakra-ui/react";
-//import { useToast } from "@chakra-ui/react";
 
 export function Inicio() {
     useEffect(() => {

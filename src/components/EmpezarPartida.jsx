@@ -10,9 +10,6 @@ import {
     createIcon,
     Progress,
     HStack,
-    Center,
-    VStack
-    //useToast,
 } from "@chakra-ui/react";
 
 import { useGlobalState } from "./GlobalState";
@@ -23,7 +20,6 @@ export function EmpezarPartida() {
 
     const [, setGlobalState] = useGlobalState();
     const [datos, setDatos] = useGlobalState();
-    //const toast = useToast();
 
     const obtenerDatos = async () => {
         //NO ME DEJA GESTIONAR EL ERROR
@@ -78,7 +74,7 @@ export function EmpezarPartida() {
                     position="relative"
                 >
                     <Button
-                        onClick={() => setGlobalState(<Juego username={datos.username}/>)}
+                        onClick={() => setGlobalState(<Juego username={datos.username} tablero={datos.tablero} cartas={datos.cartas}/>)}
                         colorScheme="green"
                         bg="green.400"
                         rounded="full"

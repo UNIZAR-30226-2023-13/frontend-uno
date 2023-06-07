@@ -15,7 +15,7 @@ export function Top({ nombre, nivel, numCartas }) {
         >
             <Center>
                 <HStack gap={4}>
-                    <Text color={"whiteAlpha.900"} bg={"blackAlpha.300"} pl={"10px"} pr={"10px"} py={1} borderRadius={"3px"} fontSize="xl" fontWeight="bold">
+                    <Text color={"whiteAlpha.900"} bg={"blackAlpha.700"} pl={"10px"} pr={"10px"} py={1} borderRadius={"3px"} fontSize="xl" fontWeight="bold">
                         {nombre}
                     </Text>
                     <Badge  fontSize="md"  colorScheme="blue">

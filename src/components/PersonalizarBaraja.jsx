@@ -10,8 +10,6 @@ import {
     Center,
 } from "@chakra-ui/react";
 
-
-
 export function PersonalizarBaraja() {
     //FALTA AÑADIR CODIGOS ERROR
     const [baraja,setBaraja] = useState([]);

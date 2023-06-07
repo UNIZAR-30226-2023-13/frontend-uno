@@ -22,3 +22,39 @@
   filter: blur(45px);
   z-index: 5;
 }
+
+.mario::after{
+  content: '';
+  position:absolute;
+  top:0px;
+  left:0px;
+  width: 100vw;
+  height: 100vh;
+  background: url("https://cdn.wallpapersafari.com/97/53/e5DqVO.jpg") ;
+  opacity: 0.8;
+  z-index: -1;
+}
+
+.pokemon::after{
+  content: '';
+  position:absolute;
+  top:0px;
+  left:0px;
+  width: 100vw;
+  height: 100vh;
+  background: url("https://images4.alphacoders.com/641/641968.jpg") ;
+  opacity: 0.8;
+  z-index: -1;
+}
+
+.spiderman::after{
+  content: '';
+  position:absolute;
+  top:0px;
+  left:0px;
+  width: 100vw;
+  height: 100vh;
+  background: url("https://images4.alphacoders.com/110/thumb-1920-1105455.jpg") ;
+  opacity: 0.8;
+  z-index: -1;
+}

@@ -24,13 +24,11 @@ import {
     useToast,
     Text,
     Divider,
-    Flex,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { FaSkullCrossbones, FaCrown } from "react-icons/fa";
 import { BsArrowClockwise, BsArrowCounterclockwise } from "react-icons/bs";
 import { useGlobalState } from "./GlobalState";
-// import { Registro } from './Registro';
 import { Inicio } from "./Inicio";
 import { Carta } from "./Carta";
 import { Top } from "./Top";
@@ -38,7 +36,7 @@ import { useEffect } from "react";
 import { socket } from "../socket";
 import { BuscarPartida } from "./BuscarPartida";
 
-export default function Juego({username}) {
+export default function Juego({username, tablero, cartas}) {
     const [tengoPartida, setTengoPartida] = useState(false);
     const [partidaActualizada, setPartidaActualizada] = useState(false);
     const toast = useToast();
@@ -72,8 +70,8 @@ export default function Juego({username}) {
                 <VStack 
                     className={otrosJugadores[0].username===jugadorConTurno ? "jugadorConTurno": ""}
                     gap={4}>
-                    <Carta zIndex={10} color="black" accion="uno" numCartas={otrosJugadores[0].mano.length} estilo="minimalista"/>
-                    <Text fontWeight="bold" zIndex={10} fontFamily={"body"} casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[0].username}</Text>
+                    <Carta zIndex={10} color="black" accion="uno" numCartas={otrosJugadores[0].mano.length} estilo={cartas}/>
+                    <Text  borderRadius={5} px={2} bgColor={"blackAlpha.900"} fontWeight="bold" zIndex={10} fontFamily={"body"} casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[0].username}</Text>
                 </VStack>
                 
             );
@@ -86,8 +84,8 @@ export default function Juego({username}) {
                 <VStack
                     className={otrosJugadores[1].username===jugadorConTurno ? "jugadorConTurno": ""}
                     gap={4}>
-                    <Carta zIndex={10} color="black" accion="uno" numCartas={otrosJugadores[1].mano.length} estilo="minimalista"/>
-                    <Text fontWeight="bold" zIndex={10} casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[1].username}</Text>
+                    <Carta zIndex={10} color="black" accion="uno" numCartas={otrosJugadores[1].mano.length} estilo={cartas}/>
+                    <Text borderRadius={5} px={2} bgColor={"blackAlpha.900"} fontWeight="bold" zIndex={10} casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[1].username}</Text>
                 </VStack>
             );
         default:
@@ -107,8 +105,8 @@ export default function Juego({username}) {
                 <VStack 
                     className={otrosJugadores[0].username===jugadorConTurno ? "jugadorConTurno": ""}
                     gap={4}>
-                    <Carta zIndex={10} color="black" accion="uno" numCartas={otrosJugadores[0].mano.length} estilo="minimalista"/>
-                    <Text fontWeight="bold" zIndex={10}  casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[0].username}</Text>
+                    <Carta zIndex={10} color="black" accion="uno" numCartas={otrosJugadores[0].mano.length} estilo={cartas}/>
+                    <Text  borderRadius={5} px={2} bgColor={"blackAlpha.900"}  fontWeight="bold" zIndex={10}  casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[0].username}</Text>
                 </VStack>
             );
         // Si hay cuatro 4 jugadores
@@ -117,8 +115,8 @@ export default function Juego({username}) {
                 <VStack
                     className={otrosJugadores[0].username===jugadorConTurno ? "jugadorConTurno": ""}
                     gap={4}>
-                    <Carta zIndex={10} color="black" accion="uno" numCartas={otrosJugadores[0].mano.length} estilo="minimalista"/>
-                    <Text fontWeight="bold" zIndex={10}  casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[0].username}</Text>
+                    <Carta zIndex={10} color="black" accion="uno" numCartas={otrosJugadores[0].mano.length} estilo={cartas}/>
+                    <Text  borderRadius={5} px={2} bgColor={"blackAlpha.900"}  fontWeight="bold" zIndex={10}  casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[0].username}</Text>
                 </VStack>
             );
         default:
@@ -138,8 +136,8 @@ export default function Juego({username}) {
                 <VStack
                     className={otrosJugadores[1].username===jugadorConTurno ? "jugadorConTurno": ""}
                     gap={4}>
-                    <Carta zIndex={10} color="black" accion="uno" numCartas={otrosJugadores[1].mano.length} estilo="minimalista"/>
-                    <Text fontWeight="bold" zIndex={10} casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[1].username}</Text>
+                    <Carta zIndex={10} color="black" accion="uno" numCartas={otrosJugadores[1].mano.length} estilo={cartas}/>
+                    <Text  borderRadius={5} px={2} bgColor={"blackAlpha.900"}  fontWeight="bold" zIndex={10} casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[1].username}</Text>
                 </VStack>
                 
             );
@@ -149,8 +147,8 @@ export default function Juego({username}) {
                 <VStack
                     className={otrosJugadores[2].username===jugadorConTurno ? "jugadorConTurno": ""}
                     gap={4}>
-                    <Carta fontWeight="bold" zIndex={10} color="black" accion="uno" numCartas={otrosJugadores[2].mano.length} estilo="minimalista"/>
-                    <Text fontWeight="bold" zIndex={10} casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[2].username}</Text>
+                    <Carta fontWeight="bold" zIndex={10} color="black" accion="uno" numCartas={otrosJugadores[2].mano.length} estilo={cartas}/>
+                    <Text  borderRadius={5} px={2} bgColor={"blackAlpha.900"}  fontWeight="bold" zIndex={10} casing={"uppercase"} fontSize={"2xl"} color={"white"}>{otrosJugadores[2].username}</Text>
                 </VStack>
             );
         default:
@@ -163,23 +161,23 @@ export default function Juego({username}) {
         switch (cartaDescartes.color){
         case "verde":
             return (
-                <Icon  color="green" opacity={"60%"} fillOpacity={1} size={"2px"} boxSize={480} animation={spinAnimation} as={(sentidoHorario ? BsArrowClockwise : BsArrowCounterclockwise)}/>
+                <Icon  color="green" opacity={"80%"} fillOpacity={1} size={"2px"} boxSize={480} animation={spinAnimation} as={(sentidoHorario ? BsArrowClockwise : BsArrowCounterclockwise)}/>
             );
         case "amarillo":
             return (
-                <Icon  color="yellow" opacity={"60%"} fillOpacity={1} size={"2px"} boxSize={480} animation={spinAnimation} as={(sentidoHorario ? BsArrowClockwise : BsArrowCounterclockwise)}/>
+                <Icon  color="yellow" opacity={"80%"} fillOpacity={1} size={"2px"} boxSize={480} animation={spinAnimation} as={(sentidoHorario ? BsArrowClockwise : BsArrowCounterclockwise)}/>
             );
         case "rojo":
             return (
-                <Icon  color="red" opacity={"60%"} fillOpacity={1} size={"2px"} boxSize={480} animation={spinAnimation} as={(sentidoHorario ? BsArrowClockwise : BsArrowCounterclockwise)}/>
+                <Icon  color="red" opacity={"80%"} fillOpacity={1} size={"2px"} boxSize={480} animation={spinAnimation} as={(sentidoHorario ? BsArrowClockwise : BsArrowCounterclockwise)}/>
             );
         case "azul":
             return (
-                <Icon  color="blue.800" opacity={"60%"} fillOpacity={1} size={"2px"} boxSize={480} animation={spinAnimation} as={(sentidoHorario ? BsArrowClockwise : BsArrowCounterclockwise)}/>
+                <Icon  color="blue.800" opacity={"80%"} fillOpacity={1} size={"2px"} boxSize={480} animation={spinAnimation} as={(sentidoHorario ? BsArrowClockwise : BsArrowCounterclockwise)}/>
             );
         default:
             return (
-                <Icon  color="white" opacity={"60%"} fillOpacity={1} size={"2px"} boxSize={480} animation={spinAnimation} as={(sentidoHorario ? BsArrowClockwise : BsArrowCounterclockwise)}/>
+                <Icon  color="white" opacity={"80%"} fillOpacity={1} size={"2px"} boxSize={480} animation={spinAnimation} as={(sentidoHorario ? BsArrowClockwise : BsArrowCounterclockwise)}/>
             );
         }
     };
@@ -367,8 +365,10 @@ export default function Juego({username}) {
                 </ModalContent>
             </Modal>
             <Grid
+                className={tablero}
                 
-                bgGradient={"radial-gradient(purple.500, purple.900)"}
+                bgGradient={(tablero === "clasico" ? "radial-gradient(purple.500, purple.900)" : "" )}
+        
                 templateColumns="repeat(11, 1fr)"
                 templateRows="repeat(1, 1fr)"
                 columnGap={0}
@@ -395,7 +395,7 @@ export default function Juego({username}) {
                     
                     <HStack minH="100%" alignContent={"center"} pt={5} alignItems="center" ml={"65%"}>
                         {/* Hueco para el jugaor de arriba 
-                            <Carta color="black" accion="uno" numCartas={cartasJugador3.length} estilo="minimalista"/>
+                            <Carta color="black" accion="uno" numCartas={cartasJugador3.length} estilo="clasico"/>
                         */}
                         
                         {jugadorArriba()}
@@ -427,9 +427,9 @@ export default function Juego({username}) {
                         {sentidoJuego()}
                     </Center>
                     <HStack style={{ zIndex: 2 }} minH="100%" alignItems="center" justifyContent="center">
-                        <Carta color="black" accion="mazo" estilo="minimalista"/>
+                        <Carta color="black" accion="mazo" estilo={cartas}/>
                         {/* La carta del mazo de descartes */}
-                        <Carta accion={cartaDescartes.accion} numero={cartaDescartes.numero} color={cartaDescartes.color} tipo="descarte" estilo="clasico" />
+                        <Carta accion={cartaDescartes.accion} numero={cartaDescartes.numero} color={cartaDescartes.color} tipo="descarte" estilo={cartas} />
                         <>
                             <Modal finalFocusRef={finalRef} isOpen={modalCambioColorController.isOpen} onClose={modalCambioColorController.onClose} isCentered>
                                 <ModalOverlay />
@@ -636,17 +636,18 @@ export default function Juego({username}) {
                                     );
                                 default:
                                     return (
-                                        <Carta onClick={() => {socket.emit("jugarCarta", 
-                                            {
-                                                color: carta.color,
-                                                numero: carta.numero,
-                                                accion: carta.accion
-                                            },
-                                            unoPulsado);
-                                        setUnoPulsado(false);
-                                        }}
-                                        className="jugadorConTurno"
-                                        numero={carta.numero} color={carta.color} accion={carta.accion} posible={jugadorConTurno===username && (carta.color===cartaDescartes.color || (carta.accion===cartaDescartes.accion && carta.accion!=undefined) || (carta.numero===cartaDescartes.numero && carta.numero!=undefined))}/>
+                                        <Carta
+                                            onClick={() => {socket.emit("jugarCarta", 
+                                                {
+                                                    color: carta.color,
+                                                    numero: carta.numero,
+                                                    accion: carta.accion,
+                                                },
+                                                unoPulsado);
+                                            setUnoPulsado(false);
+                                            }}
+                                            className="jugadorConTurno"
+                                            estilo={cartas} numero={carta.numero} color={carta.color} accion={carta.accion} posible={jugadorConTurno===username && (carta.color===cartaDescartes.color || (carta.accion===cartaDescartes.accion && carta.accion!=undefined) || (carta.numero===cartaDescartes.numero && carta.numero!=undefined))}/>
                                     );
                                 }
                             })}

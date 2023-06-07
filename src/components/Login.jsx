@@ -25,7 +25,6 @@ export default function Login() {
     const [usuarioContrasenaIncorrecto, setUsuarioContrasenaIncorrecto] = useState(false);
     const toast = useToast();
 
-    //SE PRODUCE ERROR AL PONER CONTRASEÑA EQUIVOCADA Y CORREGIRLA DESPUES
     const intentarLogear = async () => {
         var requestOptions = {
             method: "POST",

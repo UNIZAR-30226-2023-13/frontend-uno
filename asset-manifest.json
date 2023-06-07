@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "/frontend-uno/static/css/main.d101aafc.css",
+    "main.js": "/frontend-uno/static/js/main.8e0d8af0.js",
+    "static/media/png": "/frontend-uno/static/media/580b57fcd9996e24bc43c32a.cc57019380e34f9db018.png",
+    "static/media/uno_inicio.jpeg": "/frontend-uno/static/media/uno_inicio.d00de3619f0fadbf2a9f.jpeg",
+    "static/media/104496-spider-man-miles-morales-png-free-photo.png": "/frontend-uno/static/media/104496-spider-man-miles-morales-png-free-photo.873810103d664732cf9e.png",
+    "static/media/Uno-logo.png": "/frontend-uno/static/media/Uno-logo.50cfdfde9d4ab7ee9f1b.png",
+    "static/media/4469150.jpg": "/frontend-uno/static/media/4469150.91df4e7ea9bc61c1a935.jpg",
+    "static/media/bowser-png-Transparent.png": "/frontend-uno/static/media/bowser-png-Transparent.d5202a7ca31c7336b565.png",
+    "static/media/Bulbasaur.webp": "/frontend-uno/static/media/Bulbasaur.47c587739dd59aa6d0d2.webp",
+    "static/media/Luigi-png.webp": "/frontend-uno/static/media/Luigi-png.7ee2d96b37ed0ab7db0f.webp",
+    "static/media/card-games.jpg": "/frontend-uno/static/media/card-games.a2d62dcae38761328165.jpg",
+    "static/media/Pokemon-Charmander-PNG-Pic.png": "/frontend-uno/static/media/Pokemon-Charmander-PNG-Pic.ee03df31f6a927bdbc8b.png",
+    "static/media/Poké_Ball_icon.svg.png": "/frontend-uno/static/media/Poké_Ball_icon.svg.74816b936d6dbace2d1d.png",
+    "static/media/spider_man_ps4_logo_by_crillyboy25_dc0f846-fullview.png": "/frontend-uno/static/media/spider_man_ps4_logo_by_crillyboy25_dc0f846-fullview.ebba33b02ec8cefd4f3e.png",
+    "static/media/UNO_2020.png": "/frontend-uno/static/media/UNO_2020.d84f296ff6482a149fe5.png",
+    "static/media/SuperMarioParty_Peach_2.webp": "/frontend-uno/static/media/SuperMarioParty_Peach_2.243c657bb329b638587a.webp",
+    "index.html": "/frontend-uno/index.html",
+    "main.d101aafc.css.map": "/frontend-uno/static/css/main.d101aafc.css.map",
+    "main.8e0d8af0.js.map": "/frontend-uno/static/js/main.8e0d8af0.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d101aafc.css",
+    "static/js/main.8e0d8af0.js"
+  ]
+}

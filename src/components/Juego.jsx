@@ -71,7 +71,7 @@ export default function Juego({username, tablero, cartas}) {
             return (
                 
                 <VStack 
-                    pt={10}    
+                    pt={20}    
                     className={otrosJugadores[0].username===jugadorConTurno ? "jugadorConTurno": ""}
                     position={"relative"}
                     gap={4}>

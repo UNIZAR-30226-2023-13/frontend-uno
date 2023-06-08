@@ -76,9 +76,9 @@ function ProductSimple({ objModificar, imagen, accionBoton }) {
 
 export default function Personalizar({ setterPaginaActual }) {
     return (
-        <VStack minH="100%">
+        <VStack paddingX="10%" minH="100%">
             <Text pt="1em" fontSize="4xl">Personalizar</Text>
-            <Text pt="1em" fontSize="xl">Aquí podrás cambiar el estilo a tu tablero y a tu baraja</Text>
+            <Text align="center" pt="1em" fontSize="xl">Aquí podrás cambiar el estilo a tu tablero y a tu baraja</Text>
             <Stack direction={{ base: "column", md: "row" }} gap={{ base: "0px", md: "5em" }} >
                 <ProductSimple objModificar="Tablero" imagen={imagen_tablero} accionBoton={() => { setterPaginaActual("personalizarTablero"); }} />
                 <ProductSimple objModificar="Baraja" imagen={imagen_baraja} accionBoton={() => { setterPaginaActual("personalizarBaraja"); }} />

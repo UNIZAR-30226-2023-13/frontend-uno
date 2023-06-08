@@ -48,22 +48,22 @@ export function EmpezarPartida() {
             <Stack
                 as={Box}
                 textAlign="center"
-                pt={"7em"}
+                pt={{ base: "3em", md: "7em" }}
+                pb={"2em"}
             >
                 <Heading
                     fontWeight={600}
-                    fontSize={{ base: "2xl", sm: "4xl", md: "6xl" }}
+                    fontSize={{ base: "4xl", md: "5xl", lg: "6xl" }}
                     lineHeight="110%"
                 >
                     ¿Estás listo para jugar al
                     {" "}
-                    <br />
                     <Text as="span" color="green.400">
                         UNO
                     </Text>
                         ?
                 </Heading>
-                <Text fontWeight={"bold"} color="gray.500" pt={"3em"}pb={"3em"}>
+                <Text fontSize={{ base: "lg", md: "xl"}} fontWeight={"bold"} color="gray.500" pt={"3em"}pb={"3em"}>
                     UNO, el juego de cartas más popular. Empieza partida para sumergirte en este increíble juego.
                 </Text>
                 <Stack
@@ -86,7 +86,7 @@ export function EmpezarPartida() {
                     >
                         Empezar partida
                     </Button>
-                    <Box>
+                    <Box  display={{ base: "none", md: "contents" }}>
                         <Icon
                             as={Arrow}
                             color={useColorModeValue("gray.800", "gray.300")}
@@ -107,6 +107,7 @@ export function EmpezarPartida() {
                         </Text>
                     </Box>
                 </Stack>
+
                 <HStack width="100%" justifyContent="space-between" pt={"5em"}>
                     <Text fontWeight="bold">
                         {"Nivel "}
@@ -123,7 +124,7 @@ export function EmpezarPartida() {
                         {Math.trunc((datos.puntos) / 100) + 1}
                     </Text>
                 </HStack>
-                <Progress value={(datos.puntos) % 100} />   
+                <Progress maxW={"100vw"} value={(datos.puntos) % 100}/>   
             </Stack>
         </Container>
     );

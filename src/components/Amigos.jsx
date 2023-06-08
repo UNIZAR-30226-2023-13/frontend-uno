@@ -285,13 +285,14 @@ export function Amigos() {
             <Center paddingY="20px" paddingX="10%">
                 <VStack
                     py={5}
+                    px={5}
                     divider={<StackDivider borderColor="gray.200" />}
                     spacing={4}
                     align="center"
                     borderRadius="10px"
                     border="1px"
                     borderColor="gray.300"
-                    width={680}
+                    minW={{ base: "70vw", lg: "auto" }}
                     boxShadow="0 0 2rem gray"
                     bg={"white"}
                 >

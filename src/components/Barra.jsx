@@ -90,7 +90,7 @@ export function Barra({ setterPaginaActual, paginaActual }) {
                         color="brand.500"
                         display={{
                             base: "none",
-                            md: "inline-flex",
+                            lg: "inline-flex",
                         }}
                     >
                         <Button
@@ -162,13 +162,13 @@ export function Barra({ setterPaginaActual, paginaActual }) {
                     <Box
                         display={{
                             base: "inline-flex",
-                            md: "none",
+                            lg: "none",
                         }}
                     >
                         <IconButton
                             display={{
                                 base: "flex",
-                                md: "none",
+                                lg: "none",
                             }}
                             aria-label="Open menu"
                             fontSize="20px"
@@ -188,13 +188,14 @@ export function Barra({ setterPaginaActual, paginaActual }) {
                             right={0}
                             display={mobileNav.isOpen ? "flex" : "none"}
                             flexDirection="column"
-                            p={2}
+                            py={2}
                             pb={4}
-                            m={2}
+                            px={2}
                             bg={bg}
                             spacing={3}
                             rounded="sm"
                             shadow="sm"
+                            zIndex={10}
                         >
                             <CloseButton
                                 aria-label="Close menu"
@@ -203,7 +204,7 @@ export function Barra({ setterPaginaActual, paginaActual }) {
 
                             <Button
                                 w="full"
-                                variant="ghost"
+                                variant="solid"
                                 colorScheme={paginaActual === "personalizar" ? "blue" : null}
                                 onClick={() => {
                                     setterPaginaActual("personalizar");

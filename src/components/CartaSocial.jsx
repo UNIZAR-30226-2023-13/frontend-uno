@@ -2,7 +2,7 @@ import {
     Badge,
     Box,
     Text,
-    HStack,
+    Stack,
     Center,
     Button,
     AlertDialog,
@@ -69,20 +69,24 @@ export function CartaSocial({ nombre, conectado, nivel }) {
                 }}
             >
                 <Center>
-                    <HStack gap={4}>
-                        <Text fontSize="2xl" fontWeight="bold">
+                    <Stack direction={{ base: "column", md: "row" }} alignItems={"center"} maxW={"90vw"} gap={{ base: "1em", md: "4em" }}>
+                        <Text fontSize={{ base: "3xl", md: "2xl" }} fontWeight="bold">
                             {nombre}
                         </Text>
-                        <Badge colorScheme={(conectado===true) ? "green" : "red"}>
-                            {(conectado===true) ? "Conectado" : "Desconectado"}   
-                        </Badge>
-                        <Badge colorScheme="blue">
+                        <Center>
+                            <Badge fontSize={{ base: "lg", md: "md" }} colorScheme={(conectado===true) ? "green" : "red"}>
+                                {(conectado===true) ? "Conectado" : "Desconectado"}   
+                            </Badge>
+                        </Center>
+                        <Center>
+                            <Badge fontSize={{ base: "lg", md: "md" }} colorScheme="blue">
                             Nivel
-                            {" "}
-                            {nivel}
-                        </Badge>
-                        <Button onClick={onOpen} colorScheme="red">Eliminar</Button>
-                    </HStack>
+                                {" "}
+                                {nivel}
+                            </Badge>
+                        </Center>
+                        <Button fontSize={{ base: "lg", md: "md" }} onClick={onOpen} colorScheme="red">Eliminar</Button>
+                    </Stack>
                 </Center>
             </Box>
         </>

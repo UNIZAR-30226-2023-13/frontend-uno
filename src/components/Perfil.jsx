@@ -225,9 +225,9 @@ export function Perfil() {
                 </ModalContent>
                 
             </Modal>
-            <VStack>
+            <VStack paddingX="10%">
                 <Text pt="1em" fontSize="4xl">Perfil</Text>
-                <Text pt="1em" fontSize="xl">Aquí podrás configurar tu correo electrónico y contraseña</Text>
+                <Text align="center" pt="1em" fontSize="xl">Aquí podrás configurar tu correo electrónico y contraseña</Text>
             </VStack>
             <Flex
                 minH="100%"

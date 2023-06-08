@@ -142,7 +142,7 @@ export function PersonalizarTablero() {
                                     bgColor={"whiteAlpha.900"}
                                     borderRadius={"10px"}
                                 >
-                                    <Text fontSize="2xl" bg={"blackAlpha.800"} borderRadius={"10px"} pl={"10px"} pr={"10px"} pt={"2px"} pb={"2px"}>{estilo.nombre}</Text>
+                                    <Text casing={"capitalize"} fontSize="2xl" bg={"blackAlpha.800"} borderRadius={"10px"} pl={"10px"} pr={"10px"} pt={"2px"} pb={"2px"}>{estilo.nombre}</Text>
                                     <Text fontSize="2xl" bg={"blue.700"} borderRadius={"10px"} pl={"10px"} pr={"10px"} pt={"2px"} pb={"2px"}>Disponible en el nivel: {Math.trunc((estilo.puntos_desbloqueo) / 100)}</Text>
                                     {!estilo.desbloqueado ? 
                                         (<Button isDisabled="true" colorScheme="red">Todavía no tienes el nivel necesario</Button>) :

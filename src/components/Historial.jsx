@@ -59,9 +59,9 @@ export function Historial() {
 
     return (
         <Box>
-            <VStack>
+            <VStack paddingX="10%">
                 <Text pt="1em" fontSize="4xl">Historial</Text>
-                <Text pt="1em" fontSize="xl">Aquí podrás ver tus anteriores partidas jugadas</Text>
+                <Text align="center" pt="1em" fontSize="xl">Aquí podrás ver tus anteriores partidas jugadas</Text>
             </VStack>
             <Center
                 paddingY="20px"

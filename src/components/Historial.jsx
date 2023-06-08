@@ -5,8 +5,11 @@ import {
     Center,
     Text,
     Box,
+    useToast,
 } from "@chakra-ui/react";
 import { CartaPartida } from "./CartaPartida";
+import { useGlobalState } from "./GlobalState";
+import Login from "./Login";
 
 export function Historial() {
     const [partidasPrueba, setPartidasPrueba] = useState([]);
@@ -32,6 +35,8 @@ export function Historial() {
     };
 
     const [nombre_usuario, setNombreUsuario] = useState("");
+    const [, setGlobalState] = useGlobalState();
+    const toast = useToast();
 
     const obtenerDatosPerfil = async () => {
 
@@ -42,14 +47,26 @@ export function Historial() {
         };
 
         fetch(process.env.REACT_APP_BACKEND_HOST + "/cuenta/quien-soy", requestOptions)
-            .then(async response => 
-                response.json())
+            .then(response => {
+                if (response.status === 200){   
+                    return response.json();
+                }
+                else if(response.status === 500){
+                    toast({
+                        title: "Ha sucedido un error",
+                        status: "error",
+                        position: "top",
+                    });
+                }
+            })
             .then(result => {
                 console.log(result);
                 setNombreUsuario(result.username);
                 console.log(result.username);
             })
-            .catch(error => console.log("error", error));
+            .catch(() => {
+                setGlobalState(<Login/>);
+            });
     };
 
     useEffect(()=>{

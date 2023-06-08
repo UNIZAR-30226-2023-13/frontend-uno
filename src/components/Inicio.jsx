@@ -8,7 +8,9 @@ import { Perfil } from "./Perfil";
 import { Historial } from "./Historial";
 import { EmpezarPartida } from "./EmpezarPartida";
 import { socket } from "../socket";
-import { Box } from "@chakra-ui/react";
+import { Box, useToast } from "@chakra-ui/react";
+import { useGlobalState } from "./GlobalState";
+import Login from "./Login";
 
 export function Inicio() {
     useEffect(() => {
@@ -21,7 +23,18 @@ export function Inicio() {
             };
 
             fetch(process.env.REACT_APP_BACKEND_HOST + "/cuenta/quien-soy", requestOptions)
-                .then(async response => response.json())
+                .then(response => {
+                    if (response.status === 200){   
+                        return response.json();
+                    }
+                    else if(response.status === 500){
+                        toast({
+                            title: "Ha sucedido un error",
+                            status: "error",
+                            position: "top",
+                        });
+                    }
+                })
                 .then(result => {
                     console.log(result.username);
                     return(result.username);
@@ -30,7 +43,9 @@ export function Inicio() {
                     socket.connect();
                     socket.emit("registro", nombre_usuario);
                 })
-                .catch(error => console.log("error", error));
+                .catch(() => {
+                    setGlobalState(<Login/>);
+                });
         }
 
         
@@ -42,6 +57,9 @@ export function Inicio() {
 
     
     const [paginaActual, setPaginaActual] = useState("inicio");
+    const [, setGlobalState] = useGlobalState();
+    const toast = useToast();
+
     switch (paginaActual) {
     case "inicio":
         return (

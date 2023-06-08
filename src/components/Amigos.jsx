@@ -78,7 +78,6 @@ export function Amigos() {
     };
 
     const handleRechazarSolicitud = async(nombre) => {
-        //FALTAN CODIGOS DE ERROR
         var urlencoded = new URLSearchParams();
         urlencoded.append("username", nombre);
 
@@ -90,7 +89,22 @@ export function Amigos() {
         };
 
         fetch(process.env.REACT_APP_BACKEND_HOST + "/amigos/eliminar_invitacion", requestOptions)
-            .then(response => response.text())
+            .then(response => {
+                if (response.status === 200){
+                    toast({
+                        title: "Solicitud eliminada correctamente",
+                        status: "success",
+                        position: "top",
+                    });
+                }
+                else if (response.status === 400){
+                    toast({
+                        title: "No se ha podido eliminar la solicitud",
+                        status: "error",
+                        position: "top",
+                    });
+                }
+            })
             .then(async result => {
                 await verInvitaciones();
                 console.log(result);})
@@ -98,7 +112,6 @@ export function Amigos() {
     };
 
     const verAmigos = async () => {
-        //NO FUNCIONA AL PONER CODIGOS DE ERROR
         console.log("recibiendo amigos");
 
         var requestOptions = {
@@ -108,7 +121,18 @@ export function Amigos() {
         };
 
         fetch(process.env.REACT_APP_BACKEND_HOST + "/amigos", requestOptions)
-            .then(response => response.json())
+            .then(response => {
+                if (response.status === 200){   
+                    return response.json();
+                }
+                else if(response.status === 500){
+                    toast({
+                        title: "Ha sucedido un error",
+                        status: "error",
+                        position: "top",
+                    });
+                }
+            })
             .then(result => {
                 console.log(result);
                 setAmigo(result);
@@ -117,7 +141,6 @@ export function Amigos() {
     };
 
     const verInvitaciones = async () => {
-        //NO FUNCIONA AL PONER CODIGOS DE ERROR
         console.log("recibiendo invitaciones");
         var requestOptions = {
             method: "GET",
@@ -126,7 +149,18 @@ export function Amigos() {
         };
 
         fetch(process.env.REACT_APP_BACKEND_HOST + "/amigos/invitaciones", requestOptions)
-            .then(response => response.json())
+            .then(response => {
+                if (response.status === 200){   
+                    return response.json();
+                }
+                else if(response.status === 500){
+                    toast({
+                        title: "Ha sucedido un error",
+                        status: "error",
+                        position: "top",
+                    });
+                }
+            })
             .then(result => {
                 console.log(result);
                 setInvitacion(result);
@@ -186,6 +220,47 @@ export function Amigos() {
             .catch(error => console.log("error", error));
     };
 
+    const handleEliminarAmigo = async (nombre) => {
+
+        var urlencoded = new URLSearchParams();
+        urlencoded.append("username", nombre);
+
+        var requestOptions = {
+            method: "POST",
+            body: urlencoded,
+            credentials: "include",
+            redirect: "follow"
+        };
+
+        fetch(process.env.REACT_APP_BACKEND_HOST + "/amigos/eliminar_amigo", requestOptions)
+            .then(async response => {
+                await verAmigos();
+                if (response.status === 200){
+                    toast({
+                        title: "Amigo eliminado correctamente",
+                        status: "success",
+                        position: "top",
+                    });
+                }
+                else if(response.status === 409){
+                    toast({
+                        title: "Ya no erais amigos",
+                        status: "warning",
+                        position: "top",
+                    });
+                }
+                else if(response.status === 500){
+                    toast({
+                        title: "Ha sucedido un error",
+                        status: "error",
+                        position: "top",
+                    });
+                }
+                response.text();
+            })
+            .then(result => console.log(result))
+            .catch(error => console.log("error", error));
+    };
 
     useEffect(()=>{
         verAmigos();
@@ -302,6 +377,7 @@ export function Amigos() {
                             conectado={a.conectado}
                             nombre={a.username}
                             nivel={Math.trunc((a.puntos)/100)}
+                            handleEliminarAmigo={handleEliminarAmigo}
                         />
                     ))}
                     {amigo.length===0 ? 

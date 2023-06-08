@@ -228,7 +228,7 @@ export function Carta({
                     bgColor={colorFondo}
                     border="1px"
                     borderRadius="4px"
-                    minH="100%"
+                    maxH="100%"
                     align-items="center"
                     justify-items="center"
                     position="relative"
@@ -271,7 +271,7 @@ export function Carta({
                     bgColor={colorFondo}
                     border="1px"
                     borderRadius="4px"
-                    minH="100%"
+                    maxH="100%"
                     align-items="center"
                     justify-items="center"
                     zIndex="10"

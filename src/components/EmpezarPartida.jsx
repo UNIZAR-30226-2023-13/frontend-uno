@@ -46,8 +46,8 @@ export function EmpezarPartida() {
                 }
             })
             .then(result => {
-                setLoaded(true);
                 setDatos(result);
+                setLoaded(true);
                 console.log(result);
             })
             .catch(() => {
@@ -103,6 +103,7 @@ export function EmpezarPartida() {
                         rounded="full"
                         textColor={"white"}
                         px={6}
+                        isDisabled={!loaded}
                         _hover={{
                             bg: "green.600",
                         }}

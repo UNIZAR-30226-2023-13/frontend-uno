@@ -247,6 +247,17 @@ export default function Juego({username, tablero, cartas}) {
     console.log("sentido horario: " + sentidoHorario);
 
     useEffect(()=>{
+        if (!username || username==undefined) {
+            toast({
+                title: "No se ha podido buscar partida",
+                description: "Intentelo de nuevo",
+                status: "error",
+                position: "top",
+                duration: 2000,
+            });
+            setGlobalState(<Inicio/>);
+        }
+
         socket.emit("buscarPartida");
 
         socket.on("partida", actualizarPartida);

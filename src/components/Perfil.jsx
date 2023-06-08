@@ -55,14 +55,27 @@ export function Perfil() {
         };
 
         fetch(process.env.REACT_APP_BACKEND_HOST + "/cuenta/quien-soy", requestOptions)
-            .then(async response => response.json())
+            .then(response => {
+                if (response.status === 200){   
+                    return response.json();
+                }
+                else if(response.status === 500){
+                    toast({
+                        title: "Ha sucedido un error",
+                        status: "error",
+                        position: "top",
+                    });
+                }
+            })
             .then(result => {
                 console.log(result);
                 setNombreUsuario(result.username);
                 setEmail(result.correo);
                 console.log(nombre_usuario);
             })
-            .catch(error => console.log("error", error));
+            .catch(() => {
+                setGlobalState(<Login/>);
+            });
     };
 
     const handleGuardarCambios = (e) => {

@@ -18,10 +18,12 @@ import {
 
 import { useRef } from "react";
 
-export function CartaSocial({ nombre, conectado, nivel }) {
+export function CartaSocial({ nombre, conectado, nivel, handleEliminarAmigo }) {
 
     const { isOpen, onOpen, onClose } = useDisclosure();
     const cancelRef = useRef();
+
+    
 
     return (
         <>
@@ -50,8 +52,10 @@ export function CartaSocial({ nombre, conectado, nivel }) {
                                     align="center"
                                     colorScheme="red"
                                     ml={3}
-                                    //SE GESTIONARÁ MÁS ADELANTE
-                                    onClick={onClose}
+                                    onClick={() => {
+                                        handleEliminarAmigo(nombre);
+                                        onClose(true);
+                                    }}
                                 >
                                     Confirmar
                                 </Button>

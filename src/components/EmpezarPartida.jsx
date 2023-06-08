@@ -10,19 +10,21 @@ import {
     createIcon,
     Progress,
     HStack,
+    useToast,
 } from "@chakra-ui/react";
 
 import { useGlobalState } from "./GlobalState";
 import { useEffect } from "react";
 import Juego from "./Juego";
+import Login from "./Login";
 
 export function EmpezarPartida() {
 
     const [, setGlobalState] = useGlobalState();
     const [datos, setDatos] = useGlobalState();
+    const toast = useToast();
 
     const obtenerDatos = async () => {
-        //NO ME DEJA GESTIONAR EL ERROR
         var requestOptions = {
             method: "GET",
             redirect: "follow",
@@ -30,12 +32,25 @@ export function EmpezarPartida() {
         };
 
         fetch(process.env.REACT_APP_BACKEND_HOST + "/cuenta/quien-soy", requestOptions)
-            .then(async response => response.json())
+            .then(response => {
+                if (response.status === 200){   
+                    return response.json();
+                }
+                else if(response.status === 500){
+                    toast({
+                        title: "Ha sucedido un error",
+                        status: "error",
+                        position: "top",
+                    });
+                }
+            })
             .then(result => {
                 setDatos(result);
                 console.log(result);
             })
-            .catch(error => console.log("error", error));
+            .catch(() => {
+                setGlobalState(<Login/>);
+            });
     };
 
     useEffect(()=>{

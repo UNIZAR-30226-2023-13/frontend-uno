@@ -563,7 +563,7 @@ export default function Juego({username, tablero, cartas}) {
                     className={tablero}
                     h={"100vh"}
                     w={"100vw"}
-                    bgGradient={(tablero === "clasico" ? "radial-gradient(purple.500, purple.900)" : "" )}
+                    bgGradient={(tablero === "clasico" ? "radial-gradient(purple.500, purple.900)" : (tablero === "minimalista" ? "radial-gradient(#e66465, #9198e5)" : "" ) )}
                 >
                     {/* Fila 1 */}
                     <Flex position={"relative"} pt={10} flexDirection={"row"}>
@@ -855,7 +855,7 @@ export default function Juego({username, tablero, cartas}) {
             <Grid
                 className={tablero}
                 
-                bgGradient={(tablero === "clasico" ? "radial-gradient(purple.500, purple.900)" : "" )}
+                bgGradient={(tablero === "clasico" ? "radial-gradient(purple.500, purple.900)" : (tablero === "minimalista" ? "radial-gradient(#e66465, #9198e5)" : "" ) )}
         
                 templateColumns="repeat(11, 1fr)"
                 templateRows="repeat(1, 1fr)"

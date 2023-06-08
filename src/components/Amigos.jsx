@@ -20,7 +20,8 @@ import {
     Wrap,
     WrapItem,
     useToast,
-    Box
+    Box,
+    CircularProgress
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { FaPaperPlane } from "react-icons/fa";
@@ -154,6 +155,7 @@ export function Amigos() {
             .then(result => {
                 console.log(result);
                 setAmigo(result);
+                setLoadedAmigos(true);
             })
             .catch(() => {
                 toast({
@@ -189,6 +191,7 @@ export function Amigos() {
             })
             .then(result => {
                 console.log(result);
+                setLoadedInvitaciones(true);
                 setInvitacion(result);
             })
             .catch(() => {
@@ -325,6 +328,8 @@ export function Amigos() {
 
     const { isOpen, onOpen, onClose } = useDisclosure();
     const toast = useToast();
+    const [loadedAmigos, setLoadedAmigos] = useState(false);
+    const [loadedInvitaciones, setLoadedInvitaciones] = useState(false);
 
     const initialRef = React.useRef(null);
     const finalRef = React.useRef(null);
@@ -393,6 +398,7 @@ export function Amigos() {
                             Invitaciones recibidas
                         </FormLabel>
                         <VStack divider={<StackDivider/>}>
+                            {!loadedInvitaciones ? <CircularProgress isIndeterminate color='yellow.400' /> : ""}
                             {invitacion.map((i, key) => (
                                 <CartaInvitacion
                                     key={key}
@@ -424,6 +430,7 @@ export function Amigos() {
                     boxShadow="0 0 2rem gray"
                     bg={"white"}
                 >
+                    {!loadedAmigos ? <CircularProgress isIndeterminate color='yellow.400' /> : ""}
                     {amigo.map((a, key) => (
                         <CartaSocial 
                             key={key}
@@ -433,7 +440,7 @@ export function Amigos() {
                             handleEliminarAmigo={handleEliminarAmigo}
                         />
                     ))}
-                    {amigo.length===0 ? 
+                    {amigo.length===0 && loadedAmigos ? 
                         <Text py={10} fontSize={"2xl"}>Aún no tienes amigos</Text>
                         : ""}
                 </VStack>

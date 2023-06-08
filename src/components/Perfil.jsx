@@ -19,6 +19,7 @@ import {
     InputRightElement,
     useToast,
     FormErrorMessage,
+    Skeleton,
 } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
@@ -67,6 +68,7 @@ export function Perfil() {
             })
             .then(result => {
                 console.log(result);
+                setLoaded(true);
                 setNombreUsuario(result.username);
                 setEmail(result.correo);
                 console.log(nombre_usuario);
@@ -186,6 +188,8 @@ export function Perfil() {
         obtenerDatosPerfil();
     }, []);
 
+    const [loaded, setLoaded] = useState(false);
+
     return (
         <>
             <Modal
@@ -284,24 +288,28 @@ export function Perfil() {
                         <FormControl id="userName" />
                         <FormControl id="userName">
                             <FormLabel>Nombre de usuario</FormLabel>
-                            <Input
-                                disabled={true}
-                                placeholder={nombre_usuario}
-                                _placeholder={{ color: "gray.500" }}
-                                type="text"
-                            />
+                            <Skeleton isLoaded={loaded}>
+                                <Input
+                                    disabled={true}
+                                    placeholder={nombre_usuario}
+                                    _placeholder={{ color: "gray.500" }}
+                                    type="text"
+                                />
+                            </Skeleton>
                         </FormControl>
                         <FormControl id="email">
                             <FormLabel>Correo electrónico</FormLabel>
-                            <Input
-                                value={email}
-                                placeholder="Nuevo correo electronico"
-                                _placeholder={{ color: "gray.500" }}
-                                type="email"
-                                onChange={(e) => {
-                                    setEmail(e.target.value);
-                                }}
-                            />
+                            <Skeleton isLoaded={loaded}>
+                                <Input
+                                    value={email}
+                                    placeholder="Nuevo correo electronico"
+                                    _placeholder={{ color: "gray.500" }}
+                                    type="email"
+                                    onChange={(e) => {
+                                        setEmail(e.target.value);
+                                    }}
+                                />
+                            </Skeleton>
                         </FormControl>
                         <FormControl id="password">
                             <FormLabel>Contraseña</FormLabel>

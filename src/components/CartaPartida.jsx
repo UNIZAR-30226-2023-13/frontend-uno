@@ -33,7 +33,6 @@ export function CartaPartida({
 
     return (
         <Box
-            ml="3"
             px="20px"
             py="10px"
             borderRadius="5px"

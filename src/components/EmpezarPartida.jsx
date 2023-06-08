@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 
 import { useGlobalState } from "./GlobalState";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Juego from "./Juego";
 import Login from "./Login";
 
@@ -22,6 +22,7 @@ export function EmpezarPartida() {
 
     const [, setGlobalState] = useGlobalState();
     const [datos, setDatos] = useGlobalState();
+    const [loaded, setLoaded] = useState(false);
     const toast = useToast();
 
     const obtenerDatos = async () => {
@@ -45,6 +46,7 @@ export function EmpezarPartida() {
                 }
             })
             .then(result => {
+                setLoaded(true);
                 setDatos(result);
                 console.log(result);
             })
@@ -132,20 +134,18 @@ export function EmpezarPartida() {
                 <HStack width="100%" justifyContent="space-between" pt={"5em"}>
                     <Text fontWeight="bold">
                         {"Nivel "}
-                        {console.log(datos.puntos)}
-                        {Math.trunc((datos.puntos) / 100)}
+                        {loaded ? Math.trunc((datos.puntos) / 100) : ""}
                     </Text>
                     <Text fontWeight="bold">
                         {"Puntos: "}
-                        {console.log(datos.puntos)}
-                        {(datos.puntos % 100)}
+                        {loaded ? (datos.puntos % 100): ""}
                     </Text>
                     <Text fontWeight="bold">
                         {"Nivel "}
-                        {Math.trunc((datos.puntos) / 100) + 1}
+                        {loaded ? Math.trunc((datos.puntos) / 100) + 1 : ""}
                     </Text>
                 </HStack>
-                <Progress colorScheme={"green"} maxW={"99vw"} value={(datos.puntos) % 100}/>   
+                <Progress isIndeterminate={!loaded} colorScheme={"green"} maxW={"99vw"} value={(datos.puntos) % 100}/>   
             </Stack>
         </Container>
     );

@@ -6,6 +6,7 @@ import {
     Text,
     Box,
     useToast,
+    CircularProgress,
 } from "@chakra-ui/react";
 import { CartaPartida } from "./CartaPartida";
 import { useGlobalState } from "./GlobalState";
@@ -13,6 +14,7 @@ import Login from "./Login";
 
 export function Historial() {
     const [partidasPrueba, setPartidasPrueba] = useState([]);
+    const [loaded, setLoaded] = useState(false);
     
 
     const obtenerPartidas = async () => {
@@ -27,6 +29,7 @@ export function Historial() {
             .then(async response => 
                 response.json())
             .then(result => {
+                setLoaded(true);
                 setPartidasPrueba(result.partidas);
                 console.log("partidas: ");
                 console.log(result.partidas);
@@ -100,7 +103,6 @@ export function Historial() {
             >
                 <VStack
                     py={5}
-
                     divider={<StackDivider borderColor="gray.200" />}
                     spacing={4}
                     align="center"
@@ -111,13 +113,14 @@ export function Historial() {
                     boxShadow="0 0 2rem gray"
                     bg={"white"}
                 >
+                    {!loaded ? <CircularProgress isIndeterminate color='green.300' /> : ""}
                     {
                         partidasPrueba.map((partida, key) => <CartaPartida key={"jugador"+key} 
                             fecha={partida.fecha}
                             usuarioPropio={(partida.jugadores.filter((j) => j.nombre === nombre_usuario))[0]}
                             otrosUsuarios={partida.jugadores.filter((j) => j.nombre !== nombre_usuario)} />)
                     }
-                    {partidasPrueba.length===0 ? 
+                    {partidasPrueba.length===0 && loaded ? 
                         <Text py={10} fontSize={"2xl"}>Aún no tienes partidas</Text>
                         : ""}
                 </VStack>

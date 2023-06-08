@@ -13,7 +13,7 @@ import imagen_carta_mario from "../images/d8bfa319e67b51d35ad73aeb39fce320.png";
 import imagen_carta_luigi from "../images/Luigi-png.webp";
 import imagen_carta_peach from "../images/SuperMarioParty_Peach_2.webp";
 import imagen_carta_bowser from "../images/bowser-png-Transparent.png";
-import imagen_uno_pokemon from "../images/Poke_Ball_icon.svg.png";
+import imagen_uno_pokemon from "../images/Poké_Ball_icon.svg.png";
 import imagen_carta_pikachu from "../images/580b57fcd9996e24bc43c325.png";
 import imagen_carta_charmander from "../images/Pokemon-Charmander-PNG-Pic.png";
 import imagen_carta_bulbasaur from "../images/Bulbasaur.webp";

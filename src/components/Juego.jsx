@@ -59,6 +59,7 @@ export default function Juego({username, tablero, cartas}) {
     const finalRef2 = React.useRef(null);
 
     const [ganador, setGanador] = useState("");
+    const [puedoRobar, setPuedoRobar] = useState(true);
 
     const jugadorArriba = () => {
         switch (otrosJugadores.length) {
@@ -231,6 +232,9 @@ export default function Juego({username, tablero, cartas}) {
         // Actualizo el jugador con turno
         setJugadorConTurno(partida.jugadores[partida.turno].username);
         
+
+        // Actualizo el poderRobar
+        setPuedoRobar(partida.puedeRobar);
 
         console.log(JSON.stringify(partida, null, 2));
     };
@@ -619,11 +623,15 @@ export default function Juego({username, tablero, cartas}) {
                 <GridItem  pb={{base: 60, md: 0}} colStart="1" colEnd="3" w="100%" h="25vh">
                     <Center minH="100%">
                         <Button onClick={()=>{
-                            socket.emit("robarCarta"
-                            );
+                            if (puedoRobar){
+                                socket.emit("robarCarta");
+                            }
+                            else{
+                                socket.emit("pasarTurno");
+                            }
                             setUnoPulsado(false);
                         }} fontSize="3xl" position="relative" maxW="100%" width="5em" height="3em" size="lg">
-                            Robar
+                            {(!puedoRobar && jugadorConTurno===username) ? "Pasar" : "Robar"}
                         </Button>
                     </Center>
                 </GridItem>

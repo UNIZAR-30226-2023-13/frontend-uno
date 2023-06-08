@@ -44,6 +44,12 @@ export function Inicio() {
                     socket.emit("registro", nombre_usuario);
                 })
                 .catch(() => {
+                    toast({
+                        title: "No se puede conectar con el servidor",
+                        description: "Compruebe su conexión a Internet",
+                        status: "error",
+                        position: "top",
+                    });
                     setGlobalState(<Login/>);
                 });
         }

@@ -26,6 +26,8 @@ import React, { useEffect, useState } from "react";
 import { FaPaperPlane } from "react-icons/fa";
 import { CartaInvitacion } from "./CartaInvitacion";
 import { CartaSocial } from "./CartaSocial";
+import { useGlobalState } from "./GlobalState";
+import Login from "./Login";
 
 export function Amigos() {
     const handleAceptarSolicitud = async(nombre) => {
@@ -74,7 +76,15 @@ export function Amigos() {
                 await verAmigos();
                 await verInvitaciones();
                 console.log(result);})
-            .catch(error => console.log("error", error));
+            .catch(() => {
+                toast({
+                    title: "No se puede conectar con el servidor",
+                    description: "Compruebe su conexión a Internet",
+                    status: "error",
+                    position: "top",
+                });
+                setGlobalState(<Login/>);
+            });
     };
 
     const handleRechazarSolicitud = async(nombre) => {
@@ -108,7 +118,15 @@ export function Amigos() {
             .then(async result => {
                 await verInvitaciones();
                 console.log(result);})
-            .catch(error => console.log("error", error));
+            .catch(() => {
+                toast({
+                    title: "No se puede conectar con el servidor",
+                    description: "Compruebe su conexión a Internet",
+                    status: "error",
+                    position: "top",
+                });
+                setGlobalState(<Login/>);
+            });
     };
 
     const verAmigos = async () => {
@@ -137,7 +155,15 @@ export function Amigos() {
                 console.log(result);
                 setAmigo(result);
             })
-            .catch(error => console.log("error", error));
+            .catch(() => {
+                toast({
+                    title: "No se puede conectar con el servidor",
+                    description: "Compruebe su conexión a Internet",
+                    status: "error",
+                    position: "top",
+                });
+                setGlobalState(<Login/>);
+            });
     };
 
     const verInvitaciones = async () => {
@@ -165,7 +191,15 @@ export function Amigos() {
                 console.log(result);
                 setInvitacion(result);
             })
-            .catch(error => console.log("error", error));
+            .catch(() => {
+                toast({
+                    title: "No se puede conectar con el servidor",
+                    description: "Compruebe su conexión a Internet",
+                    status: "error",
+                    position: "top",
+                });
+                setGlobalState(<Login/>);
+            });
     };
 
     const handleEnviarInvitacion = async (e) => {
@@ -217,7 +251,15 @@ export function Amigos() {
                 await verInvitaciones();
                 console.log(result);
             })
-            .catch(error => console.log("error", error));
+            .catch(() => {
+                toast({
+                    title: "No se puede conectar con el servidor",
+                    description: "Compruebe su conexión a Internet",
+                    status: "error",
+                    position: "top",
+                });
+                setGlobalState(<Login/>);
+            });
     };
 
     const handleEliminarAmigo = async (nombre) => {
@@ -259,7 +301,15 @@ export function Amigos() {
                 response.text();
             })
             .then(result => console.log(result))
-            .catch(error => console.log("error", error));
+            .catch(() => {
+                toast({
+                    title: "No se puede conectar con el servidor",
+                    description: "Compruebe su conexión a Internet",
+                    status: "error",
+                    position: "top",
+                });
+                setGlobalState(<Login/>);
+            });
     };
 
     useEffect(()=>{
@@ -281,6 +331,7 @@ export function Amigos() {
     const [usuarioAInvitar,setUsuarioAInvitar] = useState("");
     const [amigo, setAmigo] = useState([]);
     const [invitacion, setInvitacion] = useState([]);
+    const [,setGlobalState] = useGlobalState();
 
     return (
         <Box>
@@ -321,7 +372,7 @@ export function Amigos() {
                                         pr="4.5rem"
                                         ref={initialRef}
                                         fontSize="xl"
-                                        placeholder="Username del usuario a invitar"
+                                        placeholder="Nombre de usuario"
                                         onChange={(e)=>setUsuarioAInvitar(e.target.value)}
                                     />
                                     <InputRightElement px="3rem" width="4.5rem">
@@ -341,15 +392,17 @@ export function Amigos() {
                         <FormLabel fontSize="2xl" pt="1em">
                             Invitaciones recibidas
                         </FormLabel>
-                        {invitacion.map((i, key) => (
-                            <CartaInvitacion
-                                key={key}
-                                nombre={i.username}
-                                nivel={Math.trunc((i.puntos)/100)}
-                                aceptarSolicitud={handleAceptarSolicitud}
-                                rechazarSolicitud={handleRechazarSolicitud}
-                            />
-                        ))}
+                        <VStack divider={<StackDivider/>}>
+                            {invitacion.map((i, key) => (
+                                <CartaInvitacion
+                                    key={key}
+                                    nombre={i.username}
+                                    nivel={Math.trunc((i.puntos)/100)}
+                                    aceptarSolicitud={handleAceptarSolicitud}
+                                    rechazarSolicitud={handleRechazarSolicitud}
+                                />
+                            ))}
+                        </VStack>
                     </ModalBody>
                 </ModalContent>
             </Modal>

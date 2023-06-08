@@ -46,8 +46,6 @@ export function Perfil() {
     const finalRef = useRef(null);
 
     const obtenerDatosPerfil = async () => {
-        //NO ME DEJA GESTIONAR EL ERROR
-
         var requestOptions = {
             method: "GET",
             redirect: "follow",
@@ -74,6 +72,12 @@ export function Perfil() {
                 console.log(nombre_usuario);
             })
             .catch(() => {
+                toast({
+                    title: "No se puede conectar con el servidor",
+                    description: "Compruebe su conexión a Internet",
+                    status: "error",
+                    position: "top",
+                });
                 setGlobalState(<Login/>);
             });
     };
@@ -127,7 +131,15 @@ export function Perfil() {
             .then(result => {
                 console.log(result);
             })
-            .catch(error => console.log("error", error));
+            .catch(() => {
+                toast({
+                    title: "No se puede conectar con el servidor",
+                    description: "Compruebe su conexión a Internet",
+                    status: "error",
+                    position: "top",
+                });
+                setGlobalState(<Login/>);
+            });
     };
 
     const handleBorrarCuenta = (e) => {
@@ -159,7 +171,15 @@ export function Perfil() {
                     setContrasenaIncorrecta(true);
                 }
             })
-            .catch(error => console.log("error", error));
+            .catch(() => {
+                toast({
+                    title: "No se puede conectar con el servidor",
+                    description: "Compruebe su conexión a Internet",
+                    status: "error",
+                    position: "top",
+                });
+                setGlobalState(<Login/>);
+            });
     };
 
     useEffect(()=>{

@@ -10,6 +10,7 @@ import {
     Link,
     chakra,
     useDisclosure,
+    useToast,
 } from "@chakra-ui/react";
 import {
     HiUser, HiUserGroup, HiShoppingCart, HiClipboard,
@@ -45,11 +46,20 @@ export function Barra({ setterPaginaActual, paginaActual }) {
                 return response.text();
             })  
             .then(result => console.log(result))
-            .catch(error => console.log("error", error));
+            .catch(() => {
+                toast({
+                    title: "No se puede conectar con el servidor",
+                    description: "Compruebe su conexión a Internet",
+                    status: "error",
+                    position: "top",
+                });
+                setGlobalState(<Login/>);
+            });
 
         
     };
 
+    const toast = useToast();
     const bg = useColorModeValue("white", "gray.800");
     const mobileNav = useDisclosure();
     return (
@@ -65,7 +75,7 @@ export function Barra({ setterPaginaActual, paginaActual }) {
             borderBottomWidth={"2px"}
             borderBottomColor={"gray.300"}
         >
-            <Flex alignItems="center" justifyContent="space-between" mx="auto">
+            <Flex maxW={"100vw"} alignItems="center" justifyContent="space-between" mx="auto">
 
                 <Link
                     _hover={{

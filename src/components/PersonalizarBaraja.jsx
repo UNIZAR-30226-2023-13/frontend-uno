@@ -8,9 +8,14 @@ import {
     Text,
     Button,
     Center,
+    useToast,
 } from "@chakra-ui/react";
+import { useGlobalState } from "./GlobalState";
+import Login from "./Login";
 
 export function PersonalizarBaraja() {
+    const toast = useToast();
+    const [, setGlobalState] = useGlobalState();
     //FALTA AÑADIR CODIGOS ERROR
     const [baraja,setBaraja] = useState([]);
 
@@ -28,7 +33,15 @@ export function PersonalizarBaraja() {
                 console.log(result);
                 setBaraja(result);
             })
-            .catch(error => console.log("error", error));
+            .catch(() => {
+                toast({
+                    title: "No se puede conectar con el servidor",
+                    description: "Compruebe su conexión a Internet",
+                    status: "error",
+                    position: "top",
+                });
+                setGlobalState(<Login/>);
+            });
     };
 
     const handleCambiarAspectoCarta = async() => {
@@ -48,7 +61,14 @@ export function PersonalizarBaraja() {
                 await verEstiloCarta();
                 console.log(result);
             })
-            .catch(error => console.log("error", error));
+            .catch(() => {
+                toast({
+                    title: "No se puede conectar con el servidor",
+                    description: "Compruebe su conexión a Internet",
+                    status: "error",
+                    position: "top",
+                });
+            });
     };
 
     useEffect(()=>{
@@ -100,10 +120,7 @@ export function PersonalizarBaraja() {
     return (
         <Flex
             w="full"
-            bg="#edf3f8"
-            _dark={{
-                bg: "#3e3e3e",
-            }}
+            h={"full"}
             p={10}
             alignItems="center"
             justifyContent="center"

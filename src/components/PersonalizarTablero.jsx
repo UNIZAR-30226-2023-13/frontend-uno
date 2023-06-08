@@ -8,11 +8,15 @@ import {
     Text,
     Button,
     Center,
+    useToast,
 } from "@chakra-ui/react";
+import { useGlobalState } from "./GlobalState";
+import Login from "./Login";
 
 
 export function PersonalizarTablero() {
-    //FALTA AÑADIR CODIGOS ERROR
+    const toast = useToast();
+    const [,setGlobalState] = useGlobalState();
     const [tablero,setTablero] = useState([]);
 
     const verEstiloTablero = async () => {
@@ -29,7 +33,15 @@ export function PersonalizarTablero() {
                 console.log(result);
                 setTablero(result);
             })
-            .catch(error => console.log("error", error));
+            .catch(() => {
+                toast({
+                    title: "No se puede conectar con el servidor",
+                    description: "Compruebe su conexión a Internet",
+                    status: "error",
+                    position: "top",
+                });
+                setGlobalState(<Login/>);
+            });
     };
 
     const handleCambiarAspectoTablero = async() => {
@@ -49,7 +61,14 @@ export function PersonalizarTablero() {
                 await verEstiloTablero();
                 console.log(result);
             })
-            .catch(error => console.log("error", error));
+            .catch(() => {
+                toast({
+                    title: "No se puede conectar con el servidor",
+                    description: "Compruebe su conexión a Internet",
+                    status: "error",
+                    position: "top",
+                });
+            });
     };
 
     useEffect(()=>{
@@ -97,10 +116,7 @@ export function PersonalizarTablero() {
     return (
         <Flex
             w="full"
-            bg="#edf3f8"
-            _dark={{
-                bg: "#3e3e3e",
-            }}
+            h={"full"}
             p={10}
             alignItems="center"
             justifyContent="center"

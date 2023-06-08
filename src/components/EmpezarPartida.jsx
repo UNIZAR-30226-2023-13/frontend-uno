@@ -49,6 +49,12 @@ export function EmpezarPartida() {
                 console.log(result);
             })
             .catch(() => {
+                toast({
+                    title: "No se puede conectar con el servidor",
+                    description: "Compruebe su conexión a Internet",
+                    status: "error",
+                    position: "top",
+                });
                 setGlobalState(<Login/>);
             });
     };
@@ -73,7 +79,7 @@ export function EmpezarPartida() {
                 >
                     ¿Estás listo para jugar al
                     {" "}
-                    <Text as="span" color="green.400">
+                    <Text as="span" color="green.500">
                         UNO
                     </Text>
                         ?
@@ -91,12 +97,12 @@ export function EmpezarPartida() {
                     <Button
                         onClick={() => setGlobalState(<Juego username={datos.username} tablero={datos.tablero} cartas={datos.cartas}/>)}
                         colorScheme="green"
-                        bg="green.400"
+                        bg="green.500"
                         rounded="full"
                         textColor={"white"}
                         px={6}
                         _hover={{
-                            bg: "green.500",
+                            bg: "green.600",
                         }}
                     >
                         Empezar partida
@@ -139,7 +145,7 @@ export function EmpezarPartida() {
                         {Math.trunc((datos.puntos) / 100) + 1}
                     </Text>
                 </HStack>
-                <Progress maxW={"100vw"} value={(datos.puntos) % 100}/>   
+                <Progress colorScheme={"green"} maxW={"99vw"} value={(datos.puntos) % 100}/>   
             </Stack>
         </Container>
     );

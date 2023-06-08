@@ -31,7 +31,15 @@ export function Historial() {
                 console.log("partidas: ");
                 console.log(result.partidas);
             })
-            .catch(error => console.log("error", error));
+            .catch(() => {
+                toast({
+                    title: "No se puede conectar con el servidor",
+                    description: "Compruebe su conexión a Internet",
+                    status: "error",
+                    position: "top",
+                });
+                setGlobalState(<Login/>);
+            });
     };
 
     const [nombre_usuario, setNombreUsuario] = useState("");
@@ -65,6 +73,12 @@ export function Historial() {
                 console.log(result.username);
             })
             .catch(() => {
+                toast({
+                    title: "No se puede conectar con el servidor",
+                    description: "Compruebe su conexión a Internet",
+                    status: "error",
+                    position: "top",
+                });
                 setGlobalState(<Login/>);
             });
     };

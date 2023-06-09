@@ -21,7 +21,7 @@ export function CartaPartida({
     const fechaDate = new Date (fecha);
     const agno = fechaDate.getFullYear();
     const mes = fechaDate.getMonth() + 1;
-    const dia = fechaDate.getUTCDate() + 1;
+    const dia = fechaDate.getUTCDate();
 
     let texto;
 

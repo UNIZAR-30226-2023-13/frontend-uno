@@ -1,8 +1,6 @@
 import {
     Button,
     Center,
-    Grid,
-    GridItem,
     HStack,
     VStack,
     Box,
@@ -322,7 +320,6 @@ export default function Juego({username, tablero, cartas}) {
     console.log("jugador de arriba: ");
     console.log(jugadorArriba());
 
-    const prueba = true;
 
     if (!tengoPartida){
         return (
@@ -332,479 +329,11 @@ export default function Juego({username, tablero, cartas}) {
         );
     }
 
-    else if (prueba){
-        return (
-            <>
-                {/* Pack de modals */}
-                {/* Modal de final de partida */}
-                <Modal
-                    initialFocusRef={initialRef}
-                    finalFocusRef={finalRef2}
-                    isOpen={modalTopController.isOpen}
-                    onClose={modalTopController.onClose}
-                    size="2xl"
-                    closeOnEsc={false}
-                    closeOnOverlayClick={false}
-                >
-                    <ModalOverlay />
-                    <ModalContent>
-                        <ModalHeader fontSize="3xl" textAlign={"center"}>Fin de partida</ModalHeader>
-                        <ModalBody pb={6}>
-                            <VStack>
-                                <Icon
-                                    fontSize="4xl"
-                                    fontWeight="bold"
-                                    textColor={
-                                        ganador === username ? "yellow.500" : "black"
-                                    }
-                                    mr="2"
-                                    as={
-                                        ganador === username
-                                            ? FaCrown
-                                            : FaSkullCrossbones
-                                    }
-                                />
-                                <Text
-                                    fontSize="4xl"
-                                    fontWeight="bold"
-                                    textColor={
-                                        ganador === username ? "yellow.500" : "black"
-                                    }
-                                >
-                                    {texto}
-                                </Text>
-                                <Divider></Divider>
-                                <VStack pt="10px">
-                                    {jugadores.map((jugador, key) => (
-                                        <Top
-                                            key={"jugador-"+key}
-                                            nombre={jugador.nombre}
-                                            nivel={jugador.nivel}
-                                            numCartas={jugador.numCartas}
-                                        />
-                                    ))}
-                                </VStack>
-                                <Button 
-                                    onClick={() => {
-                                        socket.emit("abandonarPartida");
-                                        setGlobalState(<Inicio />);
-                                    }}>
-                                    Volver a la pagina principal
-                                </Button>
-                            </VStack>
-                        </ModalBody>
-                    </ModalContent>
-                </Modal>
 
-                {/* Modal de cambio de color */}
-                <Modal finalFocusRef={finalRef} isOpen={modalCambioColorController.isOpen} onClose={modalCambioColorController.onClose} isCentered>
-                    <ModalOverlay />
-                    <ModalContent>
-                        <ModalHeader>Elige el color al que deseas cambiar</ModalHeader>
-                        <ModalCloseButton />
-
-                        <ModalBody>
-                            <HStack>
-                                <Button
-                                    fontSize="xl"
-                                    colorScheme="red"
-                                    onClick={()=>{
-                                        socket.emit("jugarCarta", 
-                                            {
-                                                accion: "cambio color",
-                                                colorCambio: "rojo"
-                                            },
-                                            unoPulsado);
-                                                
-                                        modalCambioColorController.onClose();
-                                        setUnoPulsado(false);
-                                    }
-                                    }
-                                >
-                                                Rojo
-                                </Button>
-                                <Button
-                                    fontSize="xl"
-                                    colorScheme="blue"
-                                    onClick={()=>{
-                                        socket.emit("jugarCarta", 
-                                            {
-                                                accion: "cambio color",
-                                                colorCambio: "azul"
-                                            },
-                                            unoPulsado);
-                                                
-                                        modalCambioColorController.onClose();
-                                        setUnoPulsado(false);
-                                    }
-                                    }
-                                >
-                                                Azul
-                                </Button>
-                                <Button
-                                    fontSize="xl"
-                                    colorScheme="green"
-                                    onClick={()=>{
-                                        socket.emit("jugarCarta", 
-                                            {
-                                                accion: "cambio color",
-                                                colorCambio: "verde"
-                                            },
-                                            unoPulsado);
-                                                
-                                        modalCambioColorController.onClose();
-                                        setUnoPulsado(false);
-                                    }
-                                    }
-                                >
-                                                Verde
-                                </Button>
-                                <Button
-                                    fontSize="xl"
-                                    colorScheme="yellow"
-                                    textColor="white"
-                                    onClick={()=>{
-                                        socket.emit("jugarCarta", 
-                                            {
-                                                accion: "cambio color",
-                                                colorCambio: "amarillo"
-                                            },
-                                            unoPulsado);
-                                                
-                                        modalCambioColorController.onClose();
-                                        setUnoPulsado(false);
-                                    }
-                                    }
-                                >
-                                                Amarillo
-                                </Button>
-                            </HStack>
-                        </ModalBody>
-
-                    </ModalContent>
-                </Modal>
-
-                {/* Modal de roba cuatro */}
-                <Modal finalFocusRef={finalRef} isOpen={modalRobaCuatroController.isOpen} onClose={modalRobaCuatroController.onClose} isCentered>
-                    <ModalOverlay />
-                    <ModalContent>
-                        <ModalHeader>Elige el color al que deseas cambiar</ModalHeader>
-                        <ModalCloseButton />
-
-                        <ModalBody>
-                            <HStack>
-                                <Button
-                                    fontSize="xl"
-                                    colorScheme="red"
-                                    onClick={()=>{
-                                        socket.emit("jugarCarta", 
-                                            {
-                                                accion: "roba 4",
-                                                colorCambio: "rojo"
-                                            },
-                                            unoPulsado);
-                                        modalRobaCuatroController.onClose();
-                                        setUnoPulsado(false);
-                                    }
-                                    }
-                                >
-                                                Rojo
-                                </Button>
-                                <Button
-                                    fontSize="xl"
-                                    colorScheme="blue"
-                                    onClick={()=>{
-                                        socket.emit("jugarCarta", 
-                                            {
-                                                accion: "roba 4",
-                                                colorCambio: "azul"
-                                            },
-                                            unoPulsado);
-                                        modalRobaCuatroController.onClose();
-                                        setUnoPulsado(false);
-                                    }
-                                    }
-                                >
-                                                Azul
-                                </Button>
-                                <Button
-                                    fontSize="xl"
-                                    colorScheme="green"
-                                    onClick={()=>{
-                                        socket.emit("jugarCarta", 
-                                            {
-                                                accion: "roba 4",
-                                                colorCambio: "verde"
-                                            },
-                                            unoPulsado);
-                                        modalRobaCuatroController.onClose();
-                                        setUnoPulsado(false);
-                                    }
-                                    }
-                                >
-                                                Verde
-                                </Button>
-                                <Button
-                                    fontSize="xl"
-                                    colorScheme="yellow"
-                                    textColor="white"
-                                    onClick={()=>{
-                                        socket.emit("jugarCarta", 
-                                            {
-                                                accion: "roba 4",
-                                                colorCambio: "amarillo"
-                                            },
-                                            unoPulsado);
-                                        modalRobaCuatroController.onClose();
-                                        setUnoPulsado(false);
-                                    }
-                                    }
-                                >
-                                                Amarillo
-                                </Button>
-                            </HStack>
-                        </ModalBody>
-
-                    </ModalContent>
-                </Modal>
-
-                {/* Flex global */}
-                <Flex flexDirection={"column"}
-                    position={"relative"}
-                    className={tablero}
-                    h={"100vh"}
-                    w={"100vw"}
-                    bgGradient={(tablero === "clasico" ? "radial-gradient(purple.500, purple.900)" : (tablero === "minimalista" ? "radial-gradient(#e66465, #9198e5)" : "" ) )}
-                >
-                    {/* Fila 1 */}
-                    <Flex position={"relative"} pt={10} flexDirection={"row"}>
-                        {/* Boton Abandonar */}
-                        <Center >
-                            <Button  fontSize={{ base: "xl", md: "2xl", lg: "3xl" }} overflow={"hidden"} textOverflow={"ellipsis"} position="relative" maxW={"90%"} height="3em" size="lg"
-                                onClick={() => {
-                                    socket.emit("abandonarPartida");
-                                    toast({
-                                        title: "Partida abandonada correctamente",
-                                        status: "success",
-                                        position: "top",
-                                        duration: 3000,
-                                    });
-                                    setGlobalState(<Inicio />);
-                                }}>
-                            Salir del juego
-                            </Button>
-                        </Center>
-
-                        <Spacer/>
-
-                        {/* Jugador arriba */}
-                        <HStack position={"absolute"} transform={"translate(-50%, -50%)"} left={"50%"} top={"50%"} alignContent={"center"} alignItems="center">
-                            {/* Hueco para el jugaor de arriba 
-                            <Carta color="black" accion="uno" numCartas={cartasJugador3.length} estilo="clasico"/>
-                        */}
-                        
-                            {jugadorArriba()}
-                        
-                        </HStack>
-
-                        <Spacer/>
-
-                        {/* Top */}
-                        <Box display={{base: "none", md: "block"}}>
-                            {jugadores.map((jugador, key) => (
-                                <Top
-                                    key={"jugador-"+key}
-                                    nombre={jugador.nombre}
-                                    nivel={jugador.nivel}
-                                    numCartas={jugador.numCartas}
-                                />
-                            ))}
-                        </Box>
-                    </Flex>
-                    <Spacer/>
-                    {/* Fila 2 */}
-                    <Flex px={5} flexDirection={"row"}>
-                        {/*Jugador de la izq */}
-                        <VStack alignItems="center" justifyContent="center">
-                            {jugadorIzq()}
-                        </VStack>
-                        <Spacer/>
-                        {/* Mazos Centrales */}
-                        <HStack position={"relative"} style={{ zIndex: 2 }} minH="100%" alignItems="center" justifyContent="center">
-                            <Carta color="black" accion="mazo" estilo={cartas}/>
-                            {/* La carta del mazo de descartes */}
-                            <Carta accion={cartaDescartes.accion} numero={cartaDescartes.numero} color={cartaDescartes.color} tipo="descarte" estilo={cartas} />
-                            {/* El sentido del juego */}
-                            <Center position={"absolute"} transform={"translate(-50%, -50%)"} left={"50%"} top={"50%"}>
-                                {sentidoJuego()}
-                            </Center>
-                        </HStack>
-                        
-                        <Spacer/>
-                        {/* Jugador de la derecha */}
-                        <VStack alignItems="center" justifyContent="center">
-                            {/* La carta del jugador de la derecha */}
-                            {jugadorDcha()}
-                        </VStack>
-                    </Flex>
-                    <Spacer/>
-                    {/* Fila 3 */}
-                    <Flex px={4} pb={5} flexDirection={"row"}>
-                        {/* Boton robar/pasar */}
-                        <Button onClick={()=>{
-                            if (puedoRobar){
-                                socket.emit("robarCarta");
-                            }
-                            else{
-                                socket.emit("pasarTurno");
-                            }
-                            setUnoPulsado(false);
-                        }} fontSize="3xl" position="relative" maxW="100%" width="5em" height="3em" size="lg">
-                            {(!puedoRobar && jugadorConTurno===username) ? "Pasar" : "Robar"}
-                        </Button>
-                        <Spacer/>
-                        {/* Mazo propio */}
-                        <HStack maxW={"100%"} w={"-webkit-fit-content"} className={username===jugadorConTurno ? "jugadorConTurno misCartas": "misCartas"} minH="100%" alignItems="center" justifyContent="center">
-                            {misCartas.map((carta) => {
-                                switch (carta.accion) {
-                                case "cambio color":
-                                    return (
-                                        <Carta onClick={modalCambioColorController.onOpen} numero={carta.numero} color={carta.color} accion={carta.accion} posible={jugadorConTurno===username}/>
-                                    );
-                                case "roba 4":
-                                    return (
-                                        <Carta onClick={modalRobaCuatroController.onOpen} numero={carta.numero} color={carta.color} accion={carta.accion} posible={jugadorConTurno===username}/>
-                                    );
-                                default:
-                                    return (
-                                        <Carta
-                                            onClick={() => {socket.emit("jugarCarta", 
-                                                {
-                                                    color: carta.color,
-                                                    numero: carta.numero,
-                                                    accion: carta.accion,
-                                                },
-                                                unoPulsado);
-                                            setUnoPulsado(false);
-                                            }}
-                                            className="jugadorConTurno"
-                                            estilo={cartas} numero={carta.numero} color={carta.color} accion={carta.accion} posible={jugadorConTurno===username && (carta.color===cartaDescartes.color || (carta.accion===cartaDescartes.accion && carta.accion!=undefined) || (carta.numero===cartaDescartes.numero && carta.numero!=undefined))}/>
-                                    );
-                                }
-                            })}
-                        </HStack>
-                        <Spacer/>
-                        {/* Boton UNO */}
-                        <Popover
-                            isOpen={((misCartas.length === 2 && !unoPulsado) && username===jugadorConTurno)}
-                            onOpen={modalTopController.onOpen}
-                            onClose={modalTopController.onClose}
-                            placement="top-start"
-                        >
-                            <PopoverTrigger>
-                                <Button onClick={()=>{{
-                                    setUnoPulsado(true);
-                                }}} 
-                                isDisabled={misCartas.length !== 2 || unoPulsado || username!==jugadorConTurno} fontSize="3xl" position="relative" maxW="100%" width="5em" height="3em" size="lg">
-                                    UNO!
-                                </Button>
-                            </PopoverTrigger>
-                            <PopoverContent>
-                                <PopoverHeader fontWeight="semibold">¡Solo te quedan 2 cartas!</PopoverHeader>  
-                                <PopoverArrow />
-                                <PopoverBody>
-                                    Pulsa el boton UNO! antes de lanzar tu próxima carta
-                                </PopoverBody>
-                            </PopoverContent>
-                        </Popover>
-                    </Flex>
-    
-        
-                    {/*}
-                    <GridItem  pb={{base: 60, md: 0}} colStart="1" colEnd="3" w="100%" h="25vh">
-                        <Center minH="100%">
-                            <Button onClick={()=>{
-                                if (puedoRobar){
-                                    socket.emit("robarCarta");
-                                }
-                                else{
-                                    socket.emit("pasarTurno");
-                                }
-                                setUnoPulsado(false);
-                            }} fontSize="3xl" position="relative" maxW="100%" width="5em" height="3em" size="lg">
-                                {(!puedoRobar && jugadorConTurno===username) ? "Pasar" : "Robar"}
-                            </Button>
-                        </Center>
-                    </GridItem>
-                    <GridItem pt={{base: 20, md: 0}} colStart="3" colEnd="10" w="100%">
-                        <Center w="inherit">
-                            <HStack maxW={"100%"} w={"-webkit-fit-content"} className={username===jugadorConTurno ? "jugadorConTurno misCartas": "misCartas"} minH="100%" alignItems="center" justifyContent="center">
-                                {misCartas.map((carta) => {
-                                    switch (carta.accion) {
-                                    case "cambio color":
-                                        return (
-                                            <Carta onClick={modalCambioColorController.onOpen} numero={carta.numero} color={carta.color} accion={carta.accion} posible={jugadorConTurno===username}/>
-                                        );
-                                    case "roba 4":
-                                        return (
-                                            <Carta onClick={modalRobaCuatroController.onOpen} numero={carta.numero} color={carta.color} accion={carta.accion} posible={jugadorConTurno===username}/>
-                                        );
-                                    default:
-                                        return (
-                                            <Carta
-                                                onClick={() => {socket.emit("jugarCarta", 
-                                                    {
-                                                        color: carta.color,
-                                                        numero: carta.numero,
-                                                        accion: carta.accion,
-                                                    },
-                                                    unoPulsado);
-                                                setUnoPulsado(false);
-                                                }}
-                                                className="jugadorConTurno"
-                                                estilo={cartas} numero={carta.numero} color={carta.color} accion={carta.accion} posible={jugadorConTurno===username && (carta.color===cartaDescartes.color || (carta.accion===cartaDescartes.accion && carta.accion!=undefined) || (carta.numero===cartaDescartes.numero && carta.numero!=undefined))}/>
-                                        );
-                                    }
-                                })}
-
-                            </HStack>
-                        </Center>
-                    </GridItem>
-                    <GridItem pb={{base: 60, md: 0}} colStart="10" colEnd="12" w="100%">
-                        <Center minH="100%">
-                            <Popover
-                                isOpen={((misCartas.length === 2 && !unoPulsado) && username===jugadorConTurno)}
-                                onOpen={modalTopController.onOpen}
-                                onClose={modalTopController.onClose}
-                                placement="top-start"
-                            >
-                                <PopoverTrigger>
-                                    <Button onClick={()=>{{
-                                        setUnoPulsado(true);
-                                    }}} 
-                                    isDisabled={misCartas.length !== 2 || unoPulsado || username!==jugadorConTurno} fontSize="3xl" position="relative" maxW="100%" width="5em" height="3em" size="lg">
-                                    UNO!
-                                    </Button>
-                                </PopoverTrigger>
-                                <PopoverContent>
-                                    <PopoverHeader fontWeight="semibold">¡Solo te quedan 2 cartas!</PopoverHeader>  
-                                    <PopoverArrow />
-                                    <PopoverBody>
-                                    Pulsa el boton UNO! antes de lanzar tu próxima carta
-                                    </PopoverBody>
-                                </PopoverContent>
-                            </Popover>
-                        </Center>
-                    </GridItem>
-                                {*/}
-                </Flex>
-            </>
-        );
-        
-    }
-    
-    else return (
+    return (
         <>
+            {/* Pack de modals */}
+            {/* Modal de final de partida */}
             <Modal
                 initialFocusRef={initialRef}
                 finalFocusRef={finalRef2}
@@ -863,18 +392,191 @@ export default function Juego({username, tablero, cartas}) {
                     </ModalBody>
                 </ModalContent>
             </Modal>
-            <Grid
+
+            {/* Modal de cambio de color */}
+            <Modal finalFocusRef={finalRef} isOpen={modalCambioColorController.isOpen} onClose={modalCambioColorController.onClose} isCentered>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Elige el color al que deseas cambiar</ModalHeader>
+                    <ModalCloseButton />
+
+                    <ModalBody>
+                        <HStack>
+                            <Button
+                                fontSize="xl"
+                                colorScheme="red"
+                                onClick={()=>{
+                                    socket.emit("jugarCarta", 
+                                        {
+                                            accion: "cambio color",
+                                            colorCambio: "rojo"
+                                        },
+                                        unoPulsado);
+                                                
+                                    modalCambioColorController.onClose();
+                                    setUnoPulsado(false);
+                                }
+                                }
+                            >
+                                                Rojo
+                            </Button>
+                            <Button
+                                fontSize="xl"
+                                colorScheme="blue"
+                                onClick={()=>{
+                                    socket.emit("jugarCarta", 
+                                        {
+                                            accion: "cambio color",
+                                            colorCambio: "azul"
+                                        },
+                                        unoPulsado);
+                                                
+                                    modalCambioColorController.onClose();
+                                    setUnoPulsado(false);
+                                }
+                                }
+                            >
+                                                Azul
+                            </Button>
+                            <Button
+                                fontSize="xl"
+                                colorScheme="green"
+                                onClick={()=>{
+                                    socket.emit("jugarCarta", 
+                                        {
+                                            accion: "cambio color",
+                                            colorCambio: "verde"
+                                        },
+                                        unoPulsado);
+                                                
+                                    modalCambioColorController.onClose();
+                                    setUnoPulsado(false);
+                                }
+                                }
+                            >
+                                                Verde
+                            </Button>
+                            <Button
+                                fontSize="xl"
+                                colorScheme="yellow"
+                                textColor="white"
+                                onClick={()=>{
+                                    socket.emit("jugarCarta", 
+                                        {
+                                            accion: "cambio color",
+                                            colorCambio: "amarillo"
+                                        },
+                                        unoPulsado);
+                                                
+                                    modalCambioColorController.onClose();
+                                    setUnoPulsado(false);
+                                }
+                                }
+                            >
+                                                Amarillo
+                            </Button>
+                        </HStack>
+                    </ModalBody>
+
+                </ModalContent>
+            </Modal>
+
+            {/* Modal de roba cuatro */}
+            <Modal finalFocusRef={finalRef} isOpen={modalRobaCuatroController.isOpen} onClose={modalRobaCuatroController.onClose} isCentered>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Elige el color al que deseas cambiar</ModalHeader>
+                    <ModalCloseButton />
+
+                    <ModalBody>
+                        <HStack>
+                            <Button
+                                fontSize="xl"
+                                colorScheme="red"
+                                onClick={()=>{
+                                    socket.emit("jugarCarta", 
+                                        {
+                                            accion: "roba 4",
+                                            colorCambio: "rojo"
+                                        },
+                                        unoPulsado);
+                                    modalRobaCuatroController.onClose();
+                                    setUnoPulsado(false);
+                                }
+                                }
+                            >
+                                                Rojo
+                            </Button>
+                            <Button
+                                fontSize="xl"
+                                colorScheme="blue"
+                                onClick={()=>{
+                                    socket.emit("jugarCarta", 
+                                        {
+                                            accion: "roba 4",
+                                            colorCambio: "azul"
+                                        },
+                                        unoPulsado);
+                                    modalRobaCuatroController.onClose();
+                                    setUnoPulsado(false);
+                                }
+                                }
+                            >
+                                                Azul
+                            </Button>
+                            <Button
+                                fontSize="xl"
+                                colorScheme="green"
+                                onClick={()=>{
+                                    socket.emit("jugarCarta", 
+                                        {
+                                            accion: "roba 4",
+                                            colorCambio: "verde"
+                                        },
+                                        unoPulsado);
+                                    modalRobaCuatroController.onClose();
+                                    setUnoPulsado(false);
+                                }
+                                }
+                            >
+                                                Verde
+                            </Button>
+                            <Button
+                                fontSize="xl"
+                                colorScheme="yellow"
+                                textColor="white"
+                                onClick={()=>{
+                                    socket.emit("jugarCarta", 
+                                        {
+                                            accion: "roba 4",
+                                            colorCambio: "amarillo"
+                                        },
+                                        unoPulsado);
+                                    modalRobaCuatroController.onClose();
+                                    setUnoPulsado(false);
+                                }
+                                }
+                            >
+                                                Amarillo
+                            </Button>
+                        </HStack>
+                    </ModalBody>
+
+                </ModalContent>
+            </Modal>
+
+            {/* Flex global */}
+            <Flex flexDirection={"column"}
+                position={"relative"}
                 className={tablero}
-                
+                h={"100vh"}
+                w={"100vw"}
                 bgGradient={(tablero === "clasico" ? "radial-gradient(purple.500, purple.900)" : (tablero === "minimalista" ? "radial-gradient(#e66465, #9198e5)" : "" ) )}
-        
-                templateColumns="repeat(11, 1fr)"
-                templateRows="repeat(1, 1fr)"
-                columnGap={0}
-                rowGap={0}
             >
-                <GridItem colStart="1" colEnd="3" w="100%" h="30vh">
-                    <Center minH="100%" pb={10}>
+                {/* Fila 1 */}
+                <Flex position={"relative"} pt={10} flexDirection={"row"}>
+                    {/* Boton Abandonar */}
+                    <Center >
                         <Button  fontSize={{ base: "xl", md: "2xl", lg: "3xl" }} overflow={"hidden"} textOverflow={"ellipsis"} position="relative" maxW={"90%"} height="3em" size="lg"
                             onClick={() => {
                                 socket.emit("abandonarPartida");
@@ -889,10 +591,11 @@ export default function Juego({username, tablero, cartas}) {
                             Salir del juego
                         </Button>
                     </Center>
-                </GridItem>
-                <GridItem colStart="3" colEnd="8" w="100%">
-                    
-                    <HStack minH="100%" alignContent={"center"} pt={5} alignItems="center" ml={"65%"}>
+
+                    <Spacer/>
+
+                    {/* Jugador arriba */}
+                    <HStack position={"absolute"} transform={"translate(-50%, -50%)"} left={"50%"} top={"50%"} alignContent={"center"} alignItems="center">
                         {/* Hueco para el jugaor de arriba 
                             <Carta color="black" accion="uno" numCartas={cartasJugador3.length} estilo="clasico"/>
                         */}
@@ -900,9 +603,10 @@ export default function Juego({username, tablero, cartas}) {
                         {jugadorArriba()}
                         
                     </HStack>
-                    
-                </GridItem>
-                <GridItem colStart="8" colEnd="12" pt={10} w="100%">
+
+                    <Spacer/>
+
+                    {/* Top */}
                     <Box display={{base: "none", md: "block"}}>
                         {jugadores.map((jugador, key) => (
                             <Top
@@ -913,278 +617,114 @@ export default function Juego({username, tablero, cartas}) {
                             />
                         ))}
                     </Box>
-                </GridItem>
-                <GridItem colStart="1" colEnd="3" w="100%" h="45vh" >
-                    <VStack minH="100%" pt={"3.5em"} alignItems="center" justifyContent="center">
-                        {/* La carta del jugador de la izquierda */}
+                </Flex>
+                <Spacer/>
+                {/* Fila 2 */}
+                <Flex px={5} flexDirection={"row"}>
+                    {/*Jugador de la izq */}
+                    <VStack alignItems="center" justifyContent="center">
                         {jugadorIzq()}
-
                     </VStack>
-                </GridItem>
-                <GridItem colStart="3" colEnd="10" w="100%">
-                    <Center position={"fixed"} left={"50%"} right={"50%"} top={"27%"} minH={"50%"}>
-                        {sentidoJuego()}
-                    </Center>
-                    <HStack style={{ zIndex: 2 }} minH="100%" alignItems="center" justifyContent="center">
+                    <Spacer/>
+                    {/* Mazos Centrales */}
+                    <HStack position={"relative"} style={{ zIndex: 2 }} minH="100%" alignItems="center" justifyContent="center">
                         <Carta color="black" accion="mazo" estilo={cartas}/>
                         {/* La carta del mazo de descartes */}
                         <Carta accion={cartaDescartes.accion} numero={cartaDescartes.numero} color={cartaDescartes.color} tipo="descarte" estilo={cartas} />
-                        <>
-                            <Modal finalFocusRef={finalRef} isOpen={modalCambioColorController.isOpen} onClose={modalCambioColorController.onClose} isCentered>
-                                <ModalOverlay />
-                                <ModalContent>
-                                    <ModalHeader>Elige el color al que deseas cambiar</ModalHeader>
-                                    <ModalCloseButton />
-
-                                    <ModalBody>
-                                        <HStack>
-                                            <Button
-                                                fontSize="xl"
-                                                colorScheme="red"
-                                                onClick={()=>{
-                                                    socket.emit("jugarCarta", 
-                                                        {
-                                                            accion: "cambio color",
-                                                            colorCambio: "rojo"
-                                                        },
-                                                        unoPulsado);
-                                                
-                                                    modalCambioColorController.onClose();
-                                                    setUnoPulsado(false);
-                                                }
-                                                }
-                                            >
-                                                Rojo
-                                            </Button>
-                                            <Button
-                                                fontSize="xl"
-                                                colorScheme="blue"
-                                                onClick={()=>{
-                                                    socket.emit("jugarCarta", 
-                                                        {
-                                                            accion: "cambio color",
-                                                            colorCambio: "azul"
-                                                        },
-                                                        unoPulsado);
-                                                
-                                                    modalCambioColorController.onClose();
-                                                    setUnoPulsado(false);
-                                                }
-                                                }
-                                            >
-                                                Azul
-                                            </Button>
-                                            <Button
-                                                fontSize="xl"
-                                                colorScheme="green"
-                                                onClick={()=>{
-                                                    socket.emit("jugarCarta", 
-                                                        {
-                                                            accion: "cambio color",
-                                                            colorCambio: "verde"
-                                                        },
-                                                        unoPulsado);
-                                                
-                                                    modalCambioColorController.onClose();
-                                                    setUnoPulsado(false);
-                                                }
-                                                }
-                                            >
-                                                Verde
-                                            </Button>
-                                            <Button
-                                                fontSize="xl"
-                                                colorScheme="yellow"
-                                                textColor="white"
-                                                onClick={()=>{
-                                                    socket.emit("jugarCarta", 
-                                                        {
-                                                            accion: "cambio color",
-                                                            colorCambio: "amarillo"
-                                                        },
-                                                        unoPulsado);
-                                                
-                                                    modalCambioColorController.onClose();
-                                                    setUnoPulsado(false);
-                                                }
-                                                }
-                                            >
-                                                Amarillo
-                                            </Button>
-                                        </HStack>
-                                    </ModalBody>
-
-                                </ModalContent>
-                            </Modal>
-                        </>
-                        <>
-                            <Modal finalFocusRef={finalRef} isOpen={modalRobaCuatroController.isOpen} onClose={modalRobaCuatroController.onClose} isCentered>
-                                <ModalOverlay />
-                                <ModalContent>
-                                    <ModalHeader>Elige el color al que deseas cambiar</ModalHeader>
-                                    <ModalCloseButton />
-
-                                    <ModalBody>
-                                        <HStack>
-                                            <Button
-                                                fontSize="xl"
-                                                colorScheme="red"
-                                                onClick={()=>{
-                                                    socket.emit("jugarCarta", 
-                                                        {
-                                                            accion: "roba 4",
-                                                            colorCambio: "rojo"
-                                                        },
-                                                        unoPulsado);
-                                                    modalRobaCuatroController.onClose();
-                                                    setUnoPulsado(false);
-                                                }
-                                                }
-                                            >
-                                                Rojo
-                                            </Button>
-                                            <Button
-                                                fontSize="xl"
-                                                colorScheme="blue"
-                                                onClick={()=>{
-                                                    socket.emit("jugarCarta", 
-                                                        {
-                                                            accion: "roba 4",
-                                                            colorCambio: "azul"
-                                                        },
-                                                        unoPulsado);
-                                                    modalRobaCuatroController.onClose();
-                                                    setUnoPulsado(false);
-                                                }
-                                                }
-                                            >
-                                                Azul
-                                            </Button>
-                                            <Button
-                                                fontSize="xl"
-                                                colorScheme="green"
-                                                onClick={()=>{
-                                                    socket.emit("jugarCarta", 
-                                                        {
-                                                            accion: "roba 4",
-                                                            colorCambio: "verde"
-                                                        },
-                                                        unoPulsado);
-                                                    modalRobaCuatroController.onClose();
-                                                    setUnoPulsado(false);
-                                                }
-                                                }
-                                            >
-                                                Verde
-                                            </Button>
-                                            <Button
-                                                fontSize="xl"
-                                                colorScheme="yellow"
-                                                textColor="white"
-                                                onClick={()=>{
-                                                    socket.emit("jugarCarta", 
-                                                        {
-                                                            accion: "roba 4",
-                                                            colorCambio: "amarillo"
-                                                        },
-                                                        unoPulsado);
-                                                    modalRobaCuatroController.onClose();
-                                                    setUnoPulsado(false);
-                                                }
-                                                }
-                                            >
-                                                Amarillo
-                                            </Button>
-                                        </HStack>
-                                    </ModalBody>
-
-                                </ModalContent>
-                            </Modal>
-                        </>
+                        {/* El sentido del juego */}
+                        <Center position={"absolute"} transform={"translate(-50%, -50%)"} left={"50%"} top={"50%"}>
+                            {sentidoJuego()}
+                        </Center>
                     </HStack>
-                </GridItem>
-                <GridItem colStart="10" colEnd="12" w="100%">
-                    <VStack minH="100%" pt={"3.5em"} alignItems="center" justifyContent="center">
+                        
+                    <Spacer/>
+                    {/* Jugador de la derecha */}
+                    <VStack alignItems="center" justifyContent="center">
                         {/* La carta del jugador de la derecha */}
                         {jugadorDcha()}
                     </VStack>
-                </GridItem>
-                <GridItem  pb={{base: 60, md: 0}} colStart="1" colEnd="3" w="100%" h="25vh">
-                    <Center minH="100%">
-                        <Button onClick={()=>{
-                            if (puedoRobar){
-                                socket.emit("robarCarta");
+                </Flex>
+                <Spacer/>
+                {/* Fila 3 */}
+                <Flex px={4} pb={5} flexDirection={"row"}>
+                    {/* Boton robar/pasar */}
+                    <Button onClick={()=>{
+                        if (puedoRobar){
+                            socket.emit("robarCarta");
+                        }
+                        else{
+                            socket.emit("pasarTurno");
+                        }
+                        setUnoPulsado(false);
+                    }} fontSize="3xl" position="relative" maxW="100%" width="5em" height="3em" size="lg">
+                        {(!puedoRobar && jugadorConTurno===username) ? "Pasar" : "Robar"}
+                    </Button>
+                    <Spacer/>
+                    {/* Mazo propio */}
+                    <HStack maxW={"100%"} w={"-webkit-fit-content"} className={username===jugadorConTurno ? "jugadorConTurno misCartas": "misCartas"} minH="100%" alignItems="center" justifyContent="center">
+                        {misCartas.map((carta) => {
+                            switch (carta.accion) {
+                            case "cambio color":
+                                return (
+                                    <Carta onClick={() => {
+                                        if (jugadorConTurno === username){
+                                            modalCambioColorController.onOpen();
+                                        }
+                                    }} numero={carta.numero} color={carta.color} accion={carta.accion} posible={jugadorConTurno===username}/>
+                                );
+                            case "roba 4":
+                                return (
+                                    <Carta onClick={() => {
+                                        if (jugadorConTurno === username){
+                                            modalRobaCuatroController.onOpen();
+                                        }
+                                    }} numero={carta.numero} color={carta.color} accion={carta.accion} posible={jugadorConTurno===username}/>
+                                );
+                            default:
+                                return (
+                                    <Carta
+                                        onClick={() => {socket.emit("jugarCarta", 
+                                            {
+                                                color: carta.color,
+                                                numero: carta.numero,
+                                                accion: carta.accion,
+                                            },
+                                            unoPulsado);
+                                        setUnoPulsado(false);
+                                        }}
+                                        className="jugadorConTurno"
+                                        estilo={cartas} numero={carta.numero} color={carta.color} accion={carta.accion} posible={jugadorConTurno===username && (carta.color===cartaDescartes.color || (carta.accion===cartaDescartes.accion && carta.accion!=undefined) || (carta.numero===cartaDescartes.numero && carta.numero!=undefined))}/>
+                                );
                             }
-                            else{
-                                socket.emit("pasarTurno");
-                            }
-                            setUnoPulsado(false);
-                        }} fontSize="3xl" position="relative" maxW="100%" width="5em" height="3em" size="lg">
-                            {(!puedoRobar && jugadorConTurno===username) ? "Pasar" : "Robar"}
-                        </Button>
-                    </Center>
-                </GridItem>
-                <GridItem pt={{base: 20, md: 0}} colStart="3" colEnd="10" w="100%">
-                    <Center w="inherit">
-                        <HStack maxW={"100%"} w={"-webkit-fit-content"} className={username===jugadorConTurno ? "jugadorConTurno misCartas": "misCartas"} minH="100%" alignItems="center" justifyContent="center">
-                            {misCartas.map((carta) => {
-                                switch (carta.accion) {
-                                case "cambio color":
-                                    return (
-                                        <Carta onClick={modalCambioColorController.onOpen} numero={carta.numero} color={carta.color} accion={carta.accion} posible={jugadorConTurno===username}/>
-                                    );
-                                case "roba 4":
-                                    return (
-                                        <Carta onClick={modalRobaCuatroController.onOpen} numero={carta.numero} color={carta.color} accion={carta.accion} posible={jugadorConTurno===username}/>
-                                    );
-                                default:
-                                    return (
-                                        <Carta
-                                            onClick={() => {socket.emit("jugarCarta", 
-                                                {
-                                                    color: carta.color,
-                                                    numero: carta.numero,
-                                                    accion: carta.accion,
-                                                },
-                                                unoPulsado);
-                                            setUnoPulsado(false);
-                                            }}
-                                            className="jugadorConTurno"
-                                            estilo={cartas} numero={carta.numero} color={carta.color} accion={carta.accion} posible={jugadorConTurno===username && (carta.color===cartaDescartes.color || (carta.accion===cartaDescartes.accion && carta.accion!=undefined) || (carta.numero===cartaDescartes.numero && carta.numero!=undefined))}/>
-                                    );
-                                }
-                            })}
-
-                        </HStack>
-                    </Center>
-                </GridItem>
-                <GridItem pb={{base: 60, md: 0}} colStart="10" colEnd="12" w="100%">
-                    <Center minH="100%">
-                        <Popover
-                            isOpen={((misCartas.length === 2 && !unoPulsado) && username===jugadorConTurno)}
-                            onOpen={modalTopController.onOpen}
-                            onClose={modalTopController.onClose}
-                            placement="top-start"
-                        >
-                            <PopoverTrigger>
-                                <Button onClick={()=>{{
-                                    setUnoPulsado(true);
-                                }}} 
-                                isDisabled={misCartas.length !== 2 || unoPulsado || username!==jugadorConTurno} fontSize="3xl" position="relative" maxW="100%" width="5em" height="3em" size="lg">
+                        })}
+                    </HStack>
+                    <Spacer/>
+                    {/* Boton UNO */}
+                    <Popover
+                        isOpen={((misCartas.length === 2 && !unoPulsado) && username===jugadorConTurno)}
+                        onOpen={modalTopController.onOpen}
+                        onClose={modalTopController.onClose}
+                        placement="top-start"
+                    >
+                        <PopoverTrigger>
+                            <Button onClick={()=>{{
+                                setUnoPulsado(true);
+                            }}} 
+                            isDisabled={misCartas.length !== 2 || unoPulsado || username!==jugadorConTurno} fontSize="3xl" position="relative" maxW="100%" width="5em" height="3em" size="lg">
                                     UNO!
-                                </Button>
-                            </PopoverTrigger>
-                            <PopoverContent>
-                                <PopoverHeader fontWeight="semibold">¡Solo te quedan 2 cartas!</PopoverHeader>  
-                                <PopoverArrow />
-                                <PopoverBody>
+                            </Button>
+                        </PopoverTrigger>
+                        <PopoverContent>
+                            <PopoverHeader fontWeight="semibold">¡Solo te quedan 2 cartas!</PopoverHeader>  
+                            <PopoverArrow />
+                            <PopoverBody>
                                     Pulsa el boton UNO! antes de lanzar tu próxima carta
-                                </PopoverBody>
-                            </PopoverContent>
-                        </Popover>
-                    </Center>
-                </GridItem>
-            </Grid>
+                            </PopoverBody>
+                        </PopoverContent>
+                    </Popover>
+                </Flex>
+            </Flex>
         </>
     );
+        
 }
